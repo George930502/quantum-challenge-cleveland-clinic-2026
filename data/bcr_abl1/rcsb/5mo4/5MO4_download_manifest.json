@@ -7,7 +7,7 @@
     "status": 200,
     "ok": true,
     "bytes": 355833,
-    "elapsed_sec": 1.115
+    "elapsed_sec": 0.217
   },
   {
     "name": "mmcif",
@@ -17,7 +17,7 @@
     "status": 200,
     "ok": true,
     "bytes": 460182,
-    "elapsed_sec": 0.514
+    "elapsed_sec": 0.293
   },
   {
     "name": "fasta",
@@ -27,7 +27,7 @@
     "status": 200,
     "ok": true,
     "bytes": 561,
-    "elapsed_sec": 0.623
+    "elapsed_sec": 0.952
   },
   {
     "name": "entry_json",
@@ -37,7 +37,7 @@
     "status": 200,
     "ok": true,
     "bytes": 13069,
-    "elapsed_sec": 0.634
+    "elapsed_sec": 1.131
   },
   {
     "name": "validation_xml",
@@ -47,7 +47,7 @@
     "status": 200,
     "ok": true,
     "bytes": 206196,
-    "elapsed_sec": 0.758
+    "elapsed_sec": 0.158
   },
   {
     "name": "full_validation_pdf_gz",
@@ -57,7 +57,7 @@
     "status": 200,
     "ok": true,
     "bytes": 944649,
-    "elapsed_sec": 1.117
+    "elapsed_sec": 0.325
   },
   {
     "name": "assembly_1_json",
@@ -67,7 +67,7 @@
     "status": 200,
     "ok": true,
     "bytes": 2463,
-    "elapsed_sec": 0.632
+    "elapsed_sec": 0.971
   },
   {
     "name": "polymer_entity_1_json",
@@ -77,7 +77,7 @@
     "status": 200,
     "ok": true,
     "bytes": 226410,
-    "elapsed_sec": 1.243
+    "elapsed_sec": 1.221
   },
   {
     "name": "nonpolymer_entity_2_json",
@@ -87,7 +87,7 @@
     "status": 200,
     "ok": true,
     "bytes": 396,
-    "elapsed_sec": 0.612
+    "elapsed_sec": 0.956
   },
   {
     "name": "nonpolymer_entity_3_json",
@@ -97,6 +97,6 @@
     "status": 200,
     "ok": true,
     "bytes": 396,
-    "elapsed_sec": 0.972
+    "elapsed_sec": 0.629
   }
 ]

@@ -13,6 +13,11 @@
     "AY7"
   ],
   "target_validation_contact_row_count_8A": 46,
+  "target_validation_contact_threshold_counts": {
+    "within_5A": 23,
+    "within_6A": 27,
+    "within_8A": 46
+  },
   "exploratory_ligand_contact_row_count_8A": 46,
   "risk_note": "The validation structure also contains an ATP-site inhibitor, so allosteric-vs-orthosteric ligand labels must be kept separate.",
   "entries": {
@@ -63,7 +68,7 @@
         },
         "manifest": {
           "path": "data/bcr_abl1/rcsb/1opl/1OPL_download_manifest.json",
-          "bytes": 3839,
+          "bytes": 3841,
           "lines": 122
         }
       },

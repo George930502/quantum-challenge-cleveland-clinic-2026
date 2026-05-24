@@ -1,5 +1,21 @@
 [
   {
+    "dataset": "kras_g12c",
+    "pdb_id": "4OBE",
+    "directory": "data/kras_g12c/rcsb/4obe",
+    "ok": 11,
+    "failed": 0,
+    "manifest": "data/kras_g12c/rcsb/4obe/4OBE_download_manifest.json"
+  },
+  {
+    "dataset": "kras_g12c",
+    "pdb_id": "6OIM",
+    "directory": "data/kras_g12c/rcsb/6oim",
+    "ok": 11,
+    "failed": 0,
+    "manifest": "data/kras_g12c/rcsb/6oim/6OIM_download_manifest.json"
+  },
+  {
     "dataset": "bcr_abl1",
     "pdb_id": "1OPL",
     "directory": "data/bcr_abl1/rcsb/1opl",

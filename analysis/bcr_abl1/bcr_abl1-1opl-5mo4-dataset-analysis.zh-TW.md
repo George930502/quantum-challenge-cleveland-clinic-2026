@@ -26,13 +26,20 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 | 1OPL | fasta | `data/bcr_abl1/rcsb/1opl/1OPL.fasta` | 617 | 2 |
 | 1OPL | entry_json | `data/bcr_abl1/rcsb/1opl/1OPL_entry.json` | 14738 | 1 |
 | 1OPL | validation_xml | `data/bcr_abl1/rcsb/1opl/1OPL_validation.xml` | 279190 | 1394 |
-| 1OPL | manifest | `data/bcr_abl1/rcsb/1opl/1OPL_download_manifest.json` | 3839 | 122 |
+| 1OPL | manifest | `data/bcr_abl1/rcsb/1opl/1OPL_download_manifest.json` | 3841 | 122 |
 | 5MO4 | pdb | `data/bcr_abl1/rcsb/5mo4/5MO4.pdb` | 355833 | 4393 |
 | 5MO4 | cif | `data/bcr_abl1/rcsb/5mo4/5MO4.cif` | 460182 | 3770 |
 | 5MO4 | fasta | `data/bcr_abl1/rcsb/5mo4/5MO4.fasta` | 561 | 2 |
 | 5MO4 | entry_json | `data/bcr_abl1/rcsb/5mo4/5MO4_entry.json` | 13069 | 1 |
 | 5MO4 | validation_xml | `data/bcr_abl1/rcsb/5mo4/5MO4_validation.xml` | 206196 | 844 |
 | 5MO4 | manifest | `data/bcr_abl1/rcsb/5mo4/5MO4_download_manifest.json` | 3211 | 102 |
+
+## FASTA 與 mmCIF 維度
+
+| PDB | FASTA records | FASTA lengths | mmCIF categories | mmCIF loops | atom_site rows |
+| --- | ---: | --- | ---: | ---: | ---: |
+| 1OPL | 1 | 537 | 71 | 41 | 6655 |
+| 5MO4 | 1 | 495 | 68 | 31 | 3770 |
 
 ## 鏈、殘基與 B-factor 維度
 
@@ -61,6 +68,12 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 | A | A | 429 | 0.98 | 1 |
 
 ## Validation ligand contact residues
+
+| Threshold | Target validation contact residues |
+| --- | ---: |
+| <= 5 A | 23 |
+| <= 6 A | 27 |
+| <= 8 A | 46 |
 
 | Ligand | Chain | Residue | Resname | Distance (A) |
 | --- | --- | ---: | --- | ---: |

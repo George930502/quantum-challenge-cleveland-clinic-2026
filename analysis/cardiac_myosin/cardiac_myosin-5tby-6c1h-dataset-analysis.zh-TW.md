@@ -26,13 +26,20 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 | 5TBY | fasta | `data/cardiac_myosin/rcsb/5tby/5TBY.fasta` | 2517 | 6 |
 | 5TBY | entry_json | `data/cardiac_myosin/rcsb/5tby/5TBY_entry.json` | 24357 | 1 |
 | 5TBY | validation_xml | `data/cardiac_myosin/rcsb/5tby/5TBY_validation.xml` | 906984 | 8877 |
-| 5TBY | manifest | `data/cardiac_myosin/rcsb/5tby/5TBY_download_manifest.json` | 3253 | 102 |
+| 5TBY | manifest | `data/cardiac_myosin/rcsb/5tby/5TBY_download_manifest.json` | 3254 | 102 |
 | 6C1H | pdb | `data/cardiac_myosin/rcsb/6c1h/6C1H.pdb` | 1799172 | 22212 |
 | 6C1H | cif | `data/cardiac_myosin/rcsb/6c1h/6C1H.cif` | 2259872 | 20966 |
 | 6C1H | fasta | `data/cardiac_myosin/rcsb/6c1h/6C1H.fasta` | 1473 | 6 |
 | 6C1H | entry_json | `data/cardiac_myosin/rcsb/6c1h/6C1H_entry.json` | 13535 | 1 |
 | 6C1H | validation_xml | `data/cardiac_myosin/rcsb/6c1h/6C1H_validation.xml` | 784444 | 6226 |
 | 6C1H | manifest | `data/cardiac_myosin/rcsb/6c1h/6C1H_download_manifest.json` | 3964 | 122 |
+
+## FASTA 與 mmCIF 維度
+
+| PDB | FASTA records | FASTA lengths | mmCIF categories | mmCIF loops | atom_site rows |
+| --- | ---: | --- | ---: | ---: | ---: |
+| 5TBY | 3 | 166, 195, 1935 | 78 | 44 | 20357 |
+| 6C1H | 3 | 375, 729, 148 | 77 | 41 | 20966 |
 
 ## 鏈、殘基與 B-factor 維度
 
@@ -56,7 +63,7 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 
 | PDB | Component | Description | Instances | Heavy atoms | Chains | Likely signal ligand |
 | --- | --- | --- | ---: | ---: | --- | --- |
-| 6C1H | ADP | ADENOSINE-5'-DIPHOSPHATE | 5 | 135 | A, B, C, D, E | yes |
+| 6C1H | ADP | ADENOSINE-5'-DIPHOSPHATE | 5 | 135 | A, B, C, D, E |  |
 | 6C1H | MG | MAGNESIUM ION | 5 | 5 | A, B, C, D, E |  |
 
 ## Pair alignment 檢查
@@ -69,12 +76,15 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 
 ## Validation ligand contact residues
 
-| Ligand | Chain | Residue | Resname | Distance (A) |
-| --- | --- | ---: | --- | ---: |
-| ADP | P | 334 | GLU | 6.663 |
-| ADP | P | 333 | GLN | 7.687 |
+| Threshold | Target validation contact residues |
+| --- | ---: |
+| <= 5 A | 0 |
+| <= 6 A | 0 |
+| <= 8 A | 0 |
 
-完整 contact CSV：`analysis/cardiac_myosin/cardiac_myosin-validation-ligand-contact-residues-8a.csv`
+未偵測到指定 challenge validation ligand 的 8 A contact residue；詳見資料風險說明。
+
+完整 contact CSV：`not generated`
 
 ## Residue contact graph 維度
 

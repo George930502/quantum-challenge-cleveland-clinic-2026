@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download RCSB artifacts for the non-KRAS allosteric challenge datasets."""
+"""Download RCSB artifacts for all allosteric challenge datasets."""
 
 from __future__ import annotations
 
@@ -17,6 +17,10 @@ from typing import Iterable
 ROOT = Path(__file__).resolve().parents[1]
 
 DATASETS = {
+    "kras_g12c": {
+        "label": "KRAS G12C Oncology",
+        "pdb_ids": ("4OBE", "6OIM"),
+    },
     "bcr_abl1": {
         "label": "BCR-ABL1 Oncology",
         "pdb_ids": ("1OPL", "5MO4"),

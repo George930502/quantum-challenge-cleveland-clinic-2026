@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Analyze BCR-ABL1 and Cardiac Myosin allosteric challenge datasets.
-
-The script also reads the committed KRAS G12C summary and emits a cross-dataset
-feature audit for all three benchmark families.
-"""
+"""Analyze all Cleveland Clinic allosteric challenge datasets."""
 
 from __future__ import annotations
 
@@ -22,11 +18,25 @@ ROOT = Path(__file__).resolve().parents[1]
 ANALYSIS_ROOT = ROOT / "analysis"
 
 DATASETS = {
+    "kras_g12c": {
+        "label": "KRAS G12C Oncology",
+        "domain": "Oncology",
+        "input_pdb": "4OBE",
+        "validation_pdb": "6OIM",
+        "input_chain": "A",
+        "validation_chain": "A",
+        "challenge_objective": "Identify the cryptic Switch-II pocket locked by Sotorasib / AMG 510.",
+        "target_ligands": ["MOV"],
+        "target_ligand_label": "AMG 510 / Sotorasib bound-form component MOV",
+        "risk_note": "Low; 6OIM contains the MOV validation ligand, but MOV coordinates must only be used as validation labels, not blind input features.",
+    },
     "bcr_abl1": {
         "label": "BCR-ABL1 Oncology",
         "domain": "Oncology",
         "input_pdb": "1OPL",
         "validation_pdb": "5MO4",
+        "input_chain": "A",
+        "validation_chain": "A",
         "challenge_objective": "Identify the distal myristoyl pocket used by Asciminib.",
         "target_ligands": ["AY7"],
         "target_ligand_label": "Asciminib / ABL001 candidate component AY7",
@@ -37,6 +47,8 @@ DATASETS = {
         "domain": "Cardiology",
         "input_pdb": "5TBY",
         "validation_pdb": "6C1H",
+        "input_chain": "A",
+        "validation_chain": "P",
         "challenge_objective": "Identify the mechanical site where Mavacamten stabilizes the super-relaxed state.",
         "target_ligands": [],
         "target_ligand_label": "No Mavacamten-like validation ligand detected in 6C1H by PDB component ID/name.",
@@ -66,7 +78,7 @@ AA3 = {
     "TYR",
     "VAL",
 }
-COMMON_NON_TARGETS = {"HOH", "WAT", "DOD", "NA", "CL", "K", "CA", "MG", "ZN", "MN"}
+COMMON_NON_TARGETS = {"HOH", "WAT", "DOD", "NA", "CL", "K", "CA", "MG", "ZN", "MN", "GDP", "GTP", "ADP", "ATP"}
 
 
 def rel(path: Path) -> str:
@@ -404,7 +416,7 @@ def entry_metadata(entry: dict) -> dict:
     }
 
 
-def analyze_entry(dataset_slug: str, pdb_id: str) -> dict:
+def analyze_entry(dataset_slug: str, pdb_id: str, preferred_chain: str | None = None) -> dict:
     pid = pdb_id.upper()
     base = ROOT / "data" / dataset_slug / "rcsb" / pid.lower()
     files = {
@@ -420,7 +432,11 @@ def analyze_entry(dataset_slug: str, pdb_id: str) -> dict:
     entry = load_json(files["entry_json"])
     file_stats = {name: file_dimensions(path) for name, path in files.items() if path.exists()}
     chains = chain_summary(atoms)
-    selected_chain = max(chains, key=lambda key: chains[key]["residue_count"]) if chains else None
+    selected_chain = None
+    if preferred_chain and preferred_chain in chains:
+        selected_chain = preferred_chain
+    elif chains:
+        selected_chain = max(chains, key=lambda key: chains[key]["residue_count"])
     res_atoms, _names = atoms_by_residue(atoms, selected_chain) if selected_chain else ({}, {})
     _centers, edges, graph = contact_graph(res_atoms)
     return {
@@ -508,25 +524,37 @@ def ligand_contacts(validation_entry: dict, target_ligands: list[str], out_dir: 
                         "min_distance_to_ligand_A": round(distance, 3),
                     }
                 )
+    path = out_dir / f"{dataset_slug}-validation-ligand-contact-residues-8a.csv"
     if rows:
-        path = out_dir / f"{dataset_slug}-validation-ligand-contact-residues-8a.csv"
         with path.open("w", newline="", encoding="utf-8") as handle:
             writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
             writer.writeheader()
             writer.writerows(rows)
+    elif path.exists():
+        path.unlink()
     return rows
 
 
 def analyze_dataset(dataset_slug: str, spec: dict) -> dict:
     out_dir = ANALYSIS_ROOT / dataset_slug
     out_dir.mkdir(parents=True, exist_ok=True)
-    input_entry = analyze_entry(dataset_slug, spec["input_pdb"])
-    validation_entry = analyze_entry(dataset_slug, spec["validation_pdb"])
+    input_entry = analyze_entry(dataset_slug, spec["input_pdb"], spec.get("input_chain"))
+    validation_entry = analyze_entry(dataset_slug, spec["validation_pdb"], spec.get("validation_chain"))
+    input_alignment_chains = (
+        {spec["input_chain"]: input_entry["chains"][spec["input_chain"]]}
+        if spec.get("input_chain") in input_entry["chains"]
+        else input_entry["chains"]
+    )
+    validation_alignment_chains = (
+        {spec["validation_chain"]: validation_entry["chains"][spec["validation_chain"]]}
+        if spec.get("validation_chain") in validation_entry["chains"]
+        else validation_entry["chains"]
+    )
     alignment = best_pair_alignment(
         input_entry["_atoms"],
         validation_entry["_atoms"],
-        input_entry["chains"],
-        validation_entry["chains"],
+        input_alignment_chains,
+        validation_alignment_chains,
     )
 
     for entry in (input_entry, validation_entry):
@@ -541,6 +569,23 @@ def analyze_dataset(dataset_slug: str, spec: dict) -> dict:
         if spec["target_ligands"]
         else 0
     )
+    target_contact_thresholds = {
+        "within_5A": sum(
+            1
+            for row in contacts
+            if row["ligand"] in set(spec["target_ligands"]) and row["min_distance_to_ligand_A"] <= 5.0
+        )
+        if spec["target_ligands"]
+        else 0,
+        "within_6A": sum(
+            1
+            for row in contacts
+            if row["ligand"] in set(spec["target_ligands"]) and row["min_distance_to_ligand_A"] <= 6.0
+        )
+        if spec["target_ligands"]
+        else 0,
+        "within_8A": target_contact_count,
+    }
     input_entry.pop("_atoms")
     validation_entry.pop("_atoms")
     dataset_summary = {
@@ -554,6 +599,7 @@ def analyze_dataset(dataset_slug: str, spec: dict) -> dict:
         "target_ligands_requested": spec["target_ligands"],
         "target_ligands_found": sorted({row["ligand"] for row in contacts}),
         "target_validation_contact_row_count_8A": target_contact_count,
+        "target_validation_contact_threshold_counts": target_contact_thresholds,
         "exploratory_ligand_contact_row_count_8A": len(contacts),
         "risk_note": spec["risk_note"],
         "entries": {
@@ -604,6 +650,22 @@ def files_table(summary: dict) -> str:
             if artifact == "cif":
                 line_value = entry["mmcif"].get("atom_site_rows")
             rows.append(f"| {pdb_id} | {artifact} | `{stats['path']}` | {stats['bytes']} | {line_value or ''} |")
+    return "\n".join(rows)
+
+
+def sequence_mmcif_table(summary: dict) -> str:
+    rows = [
+        "| PDB | FASTA records | FASTA lengths | mmCIF categories | mmCIF loops | atom_site rows |",
+        "| --- | ---: | --- | ---: | ---: | ---: |",
+    ]
+    for pdb_id, entry in summary["entries"].items():
+        fasta = entry["fasta"]
+        lengths = ", ".join(str(record["length"]) for record in fasta.get("records", []))
+        mmcif = entry["mmcif"]
+        rows.append(
+            f"| {pdb_id} | {fasta.get('record_count', 0)} | {lengths} | "
+            f"{mmcif.get('category_count', '')} | {mmcif.get('loop_count', '')} | {mmcif.get('atom_site_rows', '')} |"
+        )
     return "\n".join(rows)
 
 
@@ -667,6 +729,19 @@ def contacts_table(contacts: list[dict], limit: int = 30) -> str:
     return "\n".join(rows)
 
 
+def contact_threshold_table(summary: dict) -> str:
+    counts = summary["target_validation_contact_threshold_counts"]
+    return "\n".join(
+        [
+            "| Threshold | Target validation contact residues |",
+            "| --- | ---: |",
+            f"| <= 5 A | {counts['within_5A']} |",
+            f"| <= 6 A | {counts['within_6A']} |",
+            f"| <= 8 A | {counts['within_8A']} |",
+        ]
+    )
+
+
 def render_dataset_report(summary: dict, contacts: list[dict]) -> str:
     align = summary["pair_alignment_by_pdb_residue_number"]
     return f"""# {summary['label']} {summary['input_pdb']}/{summary['validation_pdb']} 資料集分析報告
@@ -689,6 +764,10 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 
 {files_table(summary)}
 
+## FASTA 與 mmCIF 維度
+
+{sequence_mmcif_table(summary)}
+
 ## 鏈、殘基與 B-factor 維度
 
 {chain_table(summary)}
@@ -707,6 +786,8 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 
 ## Validation ligand contact residues
 
+{contact_threshold_table(summary)}
+
 {contacts_table(contacts)}
 
 完整 contact CSV：`{summary['outputs']['contact_csv'] or 'not generated'}`
@@ -719,29 +800,9 @@ Browser 自動化已核對 RCSB structure page 與 `Download Files` 選單；下
 """
 
 
-def kr_summary() -> dict:
-    path = ANALYSIS_ROOT / "kras_g12c" / "kras-g12c-4obe-6oim-dataset-summary.json"
-    return load_json(path)
-
-
-def cross_rows(kras: dict, others: list[dict]) -> list[dict]:
+def cross_rows(summaries: list[dict]) -> list[dict]:
     rows = []
-    if kras:
-        comp = kras["comparison"]
-        rows.append(
-            {
-                "dataset": "KRAS G12C Oncology",
-                "input": "4OBE",
-                "validation": "6OIM",
-                "input_nodes": comp["contact_graph_cutoff_8A"]["4OBE"]["nodes"],
-                "validation_nodes": comp["contact_graph_cutoff_8A"]["6OIM"]["nodes"],
-                "target_ligand": "MOV / AMG 510 bound form",
-                "target_contacts": len(comp["MOV_contact_residues"]["within_5A"]),
-                "alignment": f"{comp['common_ca_residues']} CA, RMSD {comp['rmsd_A']['global']} A",
-                "risk": "low; holo ligand marker present",
-            }
-        )
-    for summary in others:
+    for summary in summaries:
         input_entry = summary["entries"][summary["input_pdb"]]
         validation_entry = summary["entries"][summary["validation_pdb"]]
         align = summary["pair_alignment_by_pdb_residue_number"]
@@ -762,8 +823,8 @@ def cross_rows(kras: dict, others: list[dict]) -> list[dict]:
     return rows
 
 
-def render_cross_report(kras: dict, others: list[dict]) -> str:
-    rows = cross_rows(kras, others)
+def render_cross_report(summaries: list[dict]) -> str:
+    rows = cross_rows(summaries)
     table = [
         "| Dataset | Input | Validation | Input graph nodes | Validation graph nodes | Target / marker | Target contacts | Exploratory contacts | Pair check | Risk note |",
         "| --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- | --- |",
@@ -820,16 +881,15 @@ def render_cross_report(kras: dict, others: list[dict]) -> str:
 
 def main() -> None:
     summaries = [analyze_dataset(slug, spec) for slug, spec in DATASETS.items()]
-    kras = kr_summary()
     cross_dir = ANALYSIS_ROOT / "cross_dataset"
     cross_dir.mkdir(parents=True, exist_ok=True)
-    cross_summary = {"kras_g12c": kras, "additional_datasets": summaries}
+    cross_summary = {"datasets": summaries}
     (cross_dir / "allosteric-challenge-three-dataset-cross-summary.json").write_text(
         json.dumps(cross_summary, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
     (cross_dir / "allosteric-challenge-three-dataset-cross-analysis.zh-TW.md").write_text(
-        render_cross_report(kras, summaries),
+        render_cross_report(summaries),
         encoding="utf-8",
     )
     print(

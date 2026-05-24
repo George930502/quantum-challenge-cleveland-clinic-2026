@@ -7,7 +7,7 @@
     "status": 200,
     "ok": true,
     "bytes": 173016,
-    "elapsed_sec": 0.695
+    "elapsed_sec": 0.249
   },
   {
     "name": "mmcif",
@@ -17,7 +17,7 @@
     "status": 200,
     "ok": true,
     "bytes": 255266,
-    "elapsed_sec": 0.963
+    "elapsed_sec": 0.281
   },
   {
     "name": "fasta",
@@ -27,7 +27,7 @@
     "status": 200,
     "ok": true,
     "bytes": 232,
-    "elapsed_sec": 0.64
+    "elapsed_sec": 1.041
   },
   {
     "name": "entry_json",
@@ -37,7 +37,7 @@
     "status": 200,
     "ok": true,
     "bytes": 20220,
-    "elapsed_sec": 1.127
+    "elapsed_sec": 0.935
   },
   {
     "name": "validation_xml",
@@ -47,17 +47,17 @@
     "status": 200,
     "ok": true,
     "bytes": 103935,
-    "elapsed_sec": 0.364
+    "elapsed_sec": 0.12
   },
   {
     "name": "full_validation_pdf_gz",
-    "url": "https://files.rcsb.org/validation/view/6oim_full_validation.pdf.gz",
-    "final_url": "https://files.rcsb.org/validation/view/6oim_full_validation.pdf.gz",
+    "url": "https://files.rcsb.org/validation/download/6oim_full_validation.pdf.gz",
+    "final_url": "https://files.rcsb.org/validation/download/6oim_full_validation.pdf.gz",
     "path": "data/kras_g12c/rcsb/6oim/6OIM_full_validation.pdf.gz",
     "status": 200,
     "ok": true,
     "bytes": 1061270,
-    "elapsed_sec": 1.128
+    "elapsed_sec": 1.305
   },
   {
     "name": "assembly_1_json",
@@ -67,7 +67,7 @@
     "status": 200,
     "ok": true,
     "bytes": 2565,
-    "elapsed_sec": 0.981
+    "elapsed_sec": 1.004
   },
   {
     "name": "polymer_entity_1_json",
@@ -77,7 +77,7 @@
     "status": 200,
     "ok": true,
     "bytes": 58645,
-    "elapsed_sec": 0.985
+    "elapsed_sec": 1.764
   },
   {
     "name": "nonpolymer_entity_2_json",
@@ -87,7 +87,7 @@
     "status": 200,
     "ok": true,
     "bytes": 402,
-    "elapsed_sec": 0.956
+    "elapsed_sec": 0.634
   },
   {
     "name": "nonpolymer_entity_3_json",
@@ -97,7 +97,7 @@
     "status": 200,
     "ok": true,
     "bytes": 427,
-    "elapsed_sec": 0.975
+    "elapsed_sec": 0.771
   },
   {
     "name": "nonpolymer_entity_4_json",
@@ -107,6 +107,6 @@
     "status": 200,
     "ok": true,
     "bytes": 419,
-    "elapsed_sec": 0.992
+    "elapsed_sec": 1.023
   }
 ]

@@ -14,9 +14,9 @@
 
 | Dataset | Input | Validation | Input graph nodes | Validation graph nodes | Target / marker | Target contacts | Exploratory contacts | Pair check | Risk note |
 | --- | --- | --- | ---: | ---: | --- | ---: | ---: | --- | --- |
-| KRAS G12C Oncology | 4OBE | 6OIM | 169 | 167 | MOV / AMG 510 bound form | 22 | 22 | 166 CA, RMSD 1.362 A | low; holo ligand marker present |
+| KRAS G12C Oncology | 4OBE | 6OIM | 169 | 167 | AMG 510 / Sotorasib bound-form component MOV | 49 | 49 | 166 CA, RMSD 1.362 A | Low; 6OIM contains the MOV validation ligand, but MOV coordinates must only be used as validation labels, not blind input features. |
 | BCR-ABL1 Oncology | 1OPL | 5MO4 | 451 | 429 | Asciminib / ABL001 candidate component AY7 | 46 | 46 | 429 CA, RMSD 0.98 A | The validation structure also contains an ATP-site inhibitor, so allosteric-vs-orthosteric ligand labels must be kept separate. |
-| Cardiac Myosin Cardiology | 5TBY | 6C1H | 954 | 729 | No Mavacamten-like validation ligand detected in 6C1H by PDB component ID/name. | 0 | 2 | 729 CA, RMSD 34.002 A | RCSB describes 6C1H as actin-bound myosin-IB cryo-EM, not a cardiac myosin Mavacamten holo complex; treat it as a structural validation proxy only after challenge-organizer confirmation. |
+| Cardiac Myosin Cardiology | 5TBY | 6C1H | 954 | 729 | No Mavacamten-like validation ligand detected in 6C1H by PDB component ID/name. | 0 | 0 | 729 CA, RMSD 34.002 A | RCSB describes 6C1H as actin-bound myosin-IB cryo-EM, not a cardiac myosin Mavacamten holo complex; treat it as a structural validation proxy only after challenge-organizer confirmation. |
 
 ## 特徵維度覆蓋檢查
 
