@@ -1,0 +1,50 @@
+residue,resname_6OIM,resname_4OBE,min_distance_to_MOV_A,min_distance_to_GDP_6OIM_A,region,challenge_reference_residue
+7,VAL,VAL,6.25,11.066,distal/core/surface,False
+8,VAL,VAL,6.169,6.814,distal/core/surface,False
+9,VAL,VAL,3.447,7.024,distal/core/surface,False
+10,GLY,GLY,3.497,5.491,P-loop / nucleotide active site,False
+11,ALA,ALA,4.282,3.878,P-loop / nucleotide active site,False
+12,CYS,GLY,1.805,3.961,P-loop / nucleotide active site,True
+13,GLY,GLY,4.323,2.893,P-loop / nucleotide active site,False
+14,VAL,VAL,6.318,3.423,P-loop / nucleotide active site,False
+15,GLY,GLY,7.406,3.07,P-loop / nucleotide active site,False
+16,LYS,LYS,2.765,2.789,P-loop / nucleotide active site,False
+17,SER,SER,6.854,2.985,P-loop / nucleotide active site,False
+32,TYR,TYR,7.423,3.894,Switch-I,False
+33,ASP,ASP,6.744,5.755,Switch-I,False
+34,PRO,PRO,3.482,4.975,Switch-I,False
+35,THR,THR,5.339,6.901,Switch-I,False
+36,ILE,ILE,7.221,6.577,Switch-I,False
+37,GLU,GLU,5.622,8.686,Switch-I,False
+56,LEU,LEU,6.948,9.532,distal/core/surface,False
+57,ASP,ASP,6.713,4.532,active-site neighborhood,False
+58,THR,THR,3.941,5.212,active-site neighborhood,True
+59,ALA,ALA,3.155,6.268,active-site neighborhood,False
+60,GLY,GLY,3.16,8.768,Switch-II / SII-P,False
+61,GLN,GLN,3.516,9.995,Switch-II / SII-P,False
+62,GLU,GLU,3.628,13.239,Switch-II / SII-P,False
+63,GLU,GLU,3.223,16.124,Switch-II / SII-P,False
+64,TYR,TYR,5.14,17.892,Switch-II / SII-P,True
+65,SER,SER,6.343,15.662,Switch-II / SII-P,False
+68,ARG,ARG,3.156,12.801,Switch-II / SII-P,True
+69,ASP,ASP,4.28,16.74,Switch-II / SII-P,False
+72,MET,MET,3.277,13.544,Switch-II / SII-P,False
+73,ARG,ARG,7.525,19.17,Switch-II / SII-P,False
+78,PHE,PHE,5.745,13.275,distal/core/surface,False
+79,LEU,LEU,7.771,9.78,distal/core/surface,False
+80,LEU,CYS,7.199,9.747,distal/core/surface,True
+88,LYS,LYS,6.966,11.992,distal/core/surface,False
+91,GLU,GLU,7.468,13.934,distal/core/surface,False
+92,ASP,ASP,4.708,10.532,distal/core/surface,False
+93,ILE,ILE,6.384,10.691,distal/core/surface,False
+94,HIS,HIS,6.416,15.092,distal/core/surface,False
+95,HIS,HIS,3.551,14.902,distal/core/surface,True
+96,TYR,TYR,3.27,8.636,distal/core/surface,True
+97,ARG,ARG,5.904,14.794,distal/core/surface,False
+98,GLU,GLU,6.649,17.381,distal/core/surface,False
+99,GLN,GLN,3.507,15.756,distal/core/surface,True
+100,ILE,ILE,4.138,13.95,distal/core/surface,False
+101,LYS,LYS,6.591,18.967,distal/core/surface,False
+102,ARG,ARG,6.336,20.679,distal/core/surface,False
+103,VAL,VAL,3.36,18.312,distal/core/surface,True
+104,LYS,LYS,7.268,20.09,distal/core/surface,False
