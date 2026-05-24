@@ -1,0 +1,3 @@
+ligand,residue,resname,chain,min_distance_to_ligand_A
+ADP,333,GLN,P,7.687
+ADP,334,GLU,P,6.663

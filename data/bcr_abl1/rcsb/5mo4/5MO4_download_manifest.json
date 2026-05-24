@@ -1,0 +1,102 @@
+[
+  {
+    "name": "legacy_pdb",
+    "url": "https://files.rcsb.org/download/5MO4.pdb",
+    "final_url": "https://files.rcsb.org/download/5MO4.pdb",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4.pdb",
+    "status": 200,
+    "ok": true,
+    "bytes": 355833,
+    "elapsed_sec": 1.115
+  },
+  {
+    "name": "mmcif",
+    "url": "https://files.rcsb.org/download/5MO4.cif",
+    "final_url": "https://files.rcsb.org/download/5MO4.cif",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4.cif",
+    "status": 200,
+    "ok": true,
+    "bytes": 460182,
+    "elapsed_sec": 0.514
+  },
+  {
+    "name": "fasta",
+    "url": "https://www.rcsb.org/fasta/entry/5MO4/download",
+    "final_url": "https://www.rcsb.org/fasta/entry/5MO4/download",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4.fasta",
+    "status": 200,
+    "ok": true,
+    "bytes": 561,
+    "elapsed_sec": 0.623
+  },
+  {
+    "name": "entry_json",
+    "url": "https://data.rcsb.org/rest/v1/core/entry/5MO4",
+    "final_url": "https://data.rcsb.org/rest/v1/core/entry/5MO4",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4_entry.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 13069,
+    "elapsed_sec": 0.634
+  },
+  {
+    "name": "validation_xml",
+    "url": "https://files.rcsb.org/validation/download/5mo4_validation.xml.gz",
+    "final_url": "https://files.rcsb.org/validation/download/5mo4_validation.xml.gz",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4_validation.xml",
+    "status": 200,
+    "ok": true,
+    "bytes": 206196,
+    "elapsed_sec": 0.758
+  },
+  {
+    "name": "full_validation_pdf_gz",
+    "url": "https://files.rcsb.org/validation/download/5mo4_full_validation.pdf.gz",
+    "final_url": "https://files.rcsb.org/validation/download/5mo4_full_validation.pdf.gz",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4_full_validation.pdf.gz",
+    "status": 200,
+    "ok": true,
+    "bytes": 944649,
+    "elapsed_sec": 1.117
+  },
+  {
+    "name": "assembly_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/assembly/5MO4/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/assembly/5MO4/1",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4_assembly_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 2463,
+    "elapsed_sec": 0.632
+  },
+  {
+    "name": "polymer_entity_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5MO4/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5MO4/1",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4_polymer_entity_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 226410,
+    "elapsed_sec": 1.243
+  },
+  {
+    "name": "nonpolymer_entity_2_json",
+    "url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/5MO4/2",
+    "final_url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/5MO4/2",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4_nonpolymer_entity_2.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 396,
+    "elapsed_sec": 0.612
+  },
+  {
+    "name": "nonpolymer_entity_3_json",
+    "url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/5MO4/3",
+    "final_url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/5MO4/3",
+    "path": "data/bcr_abl1/rcsb/5mo4/5MO4_nonpolymer_entity_3.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 396,
+    "elapsed_sec": 0.972
+  }
+]

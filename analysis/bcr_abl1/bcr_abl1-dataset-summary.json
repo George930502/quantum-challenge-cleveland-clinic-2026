@@ -1,0 +1,824 @@
+{
+  "dataset_slug": "bcr_abl1",
+  "label": "BCR-ABL1 Oncology",
+  "domain": "Oncology",
+  "challenge_objective": "Identify the distal myristoyl pocket used by Asciminib.",
+  "input_pdb": "1OPL",
+  "validation_pdb": "5MO4",
+  "target_ligand_label": "Asciminib / ABL001 candidate component AY7",
+  "target_ligands_requested": [
+    "AY7"
+  ],
+  "target_ligands_found": [
+    "AY7"
+  ],
+  "target_validation_contact_row_count_8A": 46,
+  "exploratory_ligand_contact_row_count_8A": 46,
+  "risk_note": "The validation structure also contains an ATP-site inhibitor, so allosteric-vs-orthosteric ligand labels must be kept separate.",
+  "entries": {
+    "1OPL": {
+      "pdb_id": "1OPL",
+      "source_page": "https://www.rcsb.org/structure/1OPL",
+      "download_directory": "data/bcr_abl1/rcsb/1opl",
+      "metadata": {
+        "title": "Structural basis for the auto-inhibition of c-Abl tyrosine kinase",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 3.42,
+        "r_work": 0.306,
+        "r_free": 0.315,
+        "deposited_atom_count": 6655,
+        "deposited_polymer_monomer_count": 1074,
+        "deposited_unmodeled_polymer_monomer_count": 258,
+        "molecular_weight_kDa": 123.12,
+        "deposit_date": "2003-03-06T00:00:00.000+00:00",
+        "release_date": "2003-04-08T00:00:00.000+00:00",
+        "doi": "10.1016/S0092-8674(03)00194-6",
+        "pubmed_id": 12654251
+      },
+      "files": {
+        "pdb": {
+          "path": "data/bcr_abl1/rcsb/1opl/1OPL.pdb",
+          "bytes": 616248,
+          "lines": 7608
+        },
+        "cif": {
+          "path": "data/bcr_abl1/rcsb/1opl/1OPL.cif",
+          "bytes": 730696,
+          "lines": 10688
+        },
+        "fasta": {
+          "path": "data/bcr_abl1/rcsb/1opl/1OPL.fasta",
+          "bytes": 617,
+          "lines": 2
+        },
+        "entry_json": {
+          "path": "data/bcr_abl1/rcsb/1opl/1OPL_entry.json",
+          "bytes": 14738,
+          "lines": 1
+        },
+        "validation_xml": {
+          "path": "data/bcr_abl1/rcsb/1opl/1OPL_validation.xml",
+          "bytes": 279190,
+          "lines": 1394
+        },
+        "manifest": {
+          "path": "data/bcr_abl1/rcsb/1opl/1OPL_download_manifest.json",
+          "bytes": 3839,
+          "lines": 122
+        }
+      },
+      "pdb_records": {
+        "record_counts": {
+          "HEADER": 1,
+          "TITLE": 1,
+          "COMPND": 7,
+          "SOURCE": 10,
+          "KEYWDS": 1,
+          "EXPDTA": 1,
+          "AUTHOR": 2,
+          "REVDAT": 4,
+          "JRNL": 8,
+          "REMARK": 629,
+          "DBREF": 2,
+          "SEQADV": 18,
+          "SEQRES": 84,
+          "HET": 3,
+          "HETNAM": 3,
+          "HETSYN": 1,
+          "FORMUL": 2,
+          "HELIX": 38,
+          "SHEET": 44,
+          "CISPEP": 2,
+          "SITE": 8,
+          "CRYST1": 1,
+          "ORIGX1": 1,
+          "ORIGX2": 1,
+          "ORIGX3": 1,
+          "SCALE1": 1,
+          "SCALE2": 1,
+          "SCALE3": 1,
+          "ATOM": 6582,
+          "TER": 2,
+          "HETATM": 73,
+          "CONECT": 73,
+          "MASTER": 1,
+          "END": 1
+        },
+        "model_count": 1
+      },
+      "fasta": {
+        "record_count": 1,
+        "records": [
+          {
+            "header": "1OPL_1|Chains A, B|proto-oncogene tyrosine-protein kinase|Homo sapiens (9606)",
+            "length": 537
+          }
+        ]
+      },
+      "mmcif": {
+        "category_count": 71,
+        "loop_count": 41,
+        "atom_site_rows": 6655,
+        "top_categories": [
+          [
+            "refine",
+            62
+          ],
+          [
+            "entity_src_gen",
+            48
+          ],
+          [
+            "pdbx_validate_rmsd_angle",
+            25
+          ],
+          [
+            "reflns",
+            24
+          ],
+          [
+            "pdbx_struct_sheet_hbond",
+            21
+          ],
+          [
+            "atom_site",
+            21
+          ],
+          [
+            "struct_conf",
+            20
+          ],
+          [
+            "struct_mon_prot_cis",
+            18
+          ],
+          [
+            "struct_sheet_range",
+            16
+          ],
+          [
+            "pdbx_struct_oper_list",
+            16
+          ],
+          [
+            "struct_ref_seq",
+            15
+          ],
+          [
+            "refine_ls_shell",
+            15
+          ]
+        ]
+      },
+      "chains": {
+        "A": {
+          "atom_count": 3628,
+          "residue_count": 451,
+          "ca_count": 451,
+          "residue_min": 81,
+          "residue_max": 531,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 84.964,
+          "std_bfactor": 39.764
+        },
+        "B": {
+          "atom_count": 2954,
+          "residue_count": 365,
+          "ca_count": 365,
+          "residue_min": 140,
+          "residue_max": 518,
+          "missing_numbers_inside_span": [
+            238,
+            239,
+            240,
+            241,
+            242,
+            243,
+            244,
+            245,
+            246,
+            247,
+            248,
+            249,
+            250,
+            251
+          ],
+          "mean_bfactor": 170.717,
+          "std_bfactor": 16.364
+        }
+      },
+      "selected_analysis_chain": "A",
+      "selected_chain_contact_graph_8A": {
+        "nodes": 451,
+        "edges": 2166,
+        "adjacency_matrix_shape": [
+          451,
+          451
+        ],
+        "average_degree": 9.605,
+        "max_degree": 17,
+        "density": 0.02135,
+        "component_count": 1,
+        "largest_component_nodes": 451
+      },
+      "ligands_and_heterogens": {
+        "MYR": {
+          "description": "MYRISTIC ACID",
+          "formula_weight": null,
+          "instances": 1,
+          "heavy_atoms": 15,
+          "chains": [
+            "A"
+          ],
+          "residue_numbers": [
+            538
+          ],
+          "is_likely_signal_ligand": true
+        },
+        "P16": {
+          "description": "6-(2,6-DICHLOROPHENYL)-2-{[3-(HYDROXYMETHYL)PHENYL]AMINO}-8-METHYLPYRIDO[2,3-D]PYRIMIDIN-7(8H)-ONE",
+          "formula_weight": null,
+          "instances": 2,
+          "heavy_atoms": 58,
+          "chains": [
+            "A",
+            "B"
+          ],
+          "residue_numbers": [
+            538,
+            539
+          ],
+          "is_likely_signal_ligand": true
+        }
+      }
+    },
+    "5MO4": {
+      "pdb_id": "5MO4",
+      "source_page": "https://www.rcsb.org/structure/5MO4",
+      "download_directory": "data/bcr_abl1/rcsb/5mo4",
+      "metadata": {
+        "title": "ABL1 kinase (T334I_D382N) in complex with asciminib and nilotinib",
+        "method": "X-RAY DIFFRACTION",
+        "resolution_A": 2.17,
+        "r_work": 0.1818,
+        "r_free": 0.217,
+        "deposited_atom_count": 3770,
+        "deposited_polymer_monomer_count": 495,
+        "deposited_unmodeled_polymer_monomer_count": 66,
+        "molecular_weight_kDa": 57.16,
+        "deposit_date": "2016-12-13T00:00:00.000+00:00",
+        "release_date": "2017-04-05T00:00:00.000+00:00",
+        "doi": "10.1038/nature21702",
+        "pubmed_id": 28329763
+      },
+      "files": {
+        "pdb": {
+          "path": "data/bcr_abl1/rcsb/5mo4/5MO4.pdb",
+          "bytes": 355833,
+          "lines": 4393
+        },
+        "cif": {
+          "path": "data/bcr_abl1/rcsb/5mo4/5MO4.cif",
+          "bytes": 460182,
+          "lines": 7500
+        },
+        "fasta": {
+          "path": "data/bcr_abl1/rcsb/5mo4/5MO4.fasta",
+          "bytes": 561,
+          "lines": 2
+        },
+        "entry_json": {
+          "path": "data/bcr_abl1/rcsb/5mo4/5MO4_entry.json",
+          "bytes": 13069,
+          "lines": 1
+        },
+        "validation_xml": {
+          "path": "data/bcr_abl1/rcsb/5mo4/5MO4_validation.xml",
+          "bytes": 206196,
+          "lines": 844
+        },
+        "manifest": {
+          "path": "data/bcr_abl1/rcsb/5mo4/5MO4_download_manifest.json",
+          "bytes": 3211,
+          "lines": 102
+        }
+      },
+      "pdb_records": {
+        "record_counts": {
+          "HEADER": 1,
+          "TITLE": 1,
+          "COMPND": 8,
+          "SOURCE": 10,
+          "KEYWDS": 1,
+          "EXPDTA": 1,
+          "AUTHOR": 1,
+          "REVDAT": 3,
+          "JRNL": 12,
+          "REMARK": 396,
+          "DBREF": 1,
+          "SEQADV": 8,
+          "SEQRES": 39,
+          "HET": 2,
+          "HETNAM": 2,
+          "HETSYN": 3,
+          "FORMUL": 3,
+          "HELIX": 19,
+          "SHEET": 21,
+          "CISPEP": 1,
+          "SITE": 10,
+          "CRYST1": 1,
+          "ORIGX1": 1,
+          "ORIGX2": 1,
+          "ORIGX3": 1,
+          "SCALE1": 1,
+          "SCALE2": 1,
+          "SCALE3": 1,
+          "ATOM": 3393,
+          "TER": 1,
+          "HETATM": 377,
+          "CONECT": 70,
+          "MASTER": 1,
+          "END": 1
+        },
+        "model_count": 1
+      },
+      "fasta": {
+        "record_count": 1,
+        "records": [
+          {
+            "header": "5MO4_1|Chain A|Tyrosine-protein kinase ABL1|Homo sapiens (9606)",
+            "length": 495
+          }
+        ]
+      },
+      "mmcif": {
+        "category_count": 68,
+        "loop_count": 31,
+        "atom_site_rows": 3770,
+        "top_categories": [
+          [
+            "refine",
+            122
+          ],
+          [
+            "reflns",
+            51
+          ],
+          [
+            "entity_src_gen",
+            48
+          ],
+          [
+            "reflns_shell",
+            35
+          ],
+          [
+            "cell",
+            31
+          ],
+          [
+            "exptl_crystal",
+            28
+          ],
+          [
+            "citation",
+            27
+          ],
+          [
+            "refine_ls_shell",
+            24
+          ],
+          [
+            "pdbx_struct_sheet_hbond",
+            21
+          ],
+          [
+            "atom_site",
+            21
+          ],
+          [
+            "struct_conf",
+            20
+          ],
+          [
+            "software",
+            19
+          ]
+        ]
+      },
+      "chains": {
+        "A": {
+          "atom_count": 3385,
+          "residue_count": 429,
+          "ca_count": 429,
+          "residue_min": 83,
+          "residue_max": 531,
+          "missing_numbers_inside_span": [
+            296,
+            297,
+            402,
+            403,
+            404,
+            405,
+            406,
+            407,
+            408,
+            409,
+            410,
+            411,
+            412,
+            413,
+            414,
+            415,
+            416,
+            417,
+            418,
+            419
+          ],
+          "mean_bfactor": 36.056,
+          "std_bfactor": 14.87
+        }
+      },
+      "selected_analysis_chain": "A",
+      "selected_chain_contact_graph_8A": {
+        "nodes": 429,
+        "edges": 2062,
+        "adjacency_matrix_shape": [
+          429,
+          429
+        ],
+        "average_degree": 9.613,
+        "max_degree": 17,
+        "density": 0.02246,
+        "component_count": 1,
+        "largest_component_nodes": 429
+      },
+      "ligands_and_heterogens": {
+        "AY7": {
+          "description": "asciminib",
+          "formula_weight": null,
+          "instances": 1,
+          "heavy_atoms": 31,
+          "chains": [
+            "A"
+          ],
+          "residue_numbers": [
+            602
+          ],
+          "is_likely_signal_ligand": true
+        },
+        "HOH": {
+          "description": null,
+          "formula_weight": null,
+          "instances": 307,
+          "heavy_atoms": 307,
+          "chains": [
+            "A"
+          ],
+          "residue_numbers": [
+            701,
+            702,
+            703,
+            704,
+            705,
+            706,
+            707,
+            708,
+            709,
+            710,
+            711,
+            712,
+            713,
+            714,
+            715,
+            716,
+            717,
+            718,
+            719,
+            720,
+            721,
+            722,
+            723,
+            724,
+            725,
+            726,
+            727,
+            728,
+            729,
+            730,
+            731,
+            732,
+            733,
+            734,
+            735,
+            736,
+            737,
+            738,
+            739,
+            740,
+            741,
+            742,
+            743,
+            744,
+            745,
+            746,
+            747,
+            748,
+            749,
+            750,
+            751,
+            752,
+            753,
+            754,
+            755,
+            756,
+            757,
+            758,
+            759,
+            760,
+            761,
+            762,
+            763,
+            764,
+            765,
+            766,
+            767,
+            768,
+            769,
+            770,
+            771,
+            772,
+            773,
+            774,
+            775,
+            776,
+            777,
+            778,
+            779,
+            780,
+            781,
+            782,
+            783,
+            784,
+            785,
+            786,
+            787,
+            788,
+            789,
+            790,
+            791,
+            792,
+            793,
+            794,
+            795,
+            796,
+            797,
+            798,
+            799,
+            800,
+            801,
+            802,
+            803,
+            804,
+            805,
+            806,
+            807,
+            808,
+            809,
+            810,
+            811,
+            812,
+            813,
+            814,
+            815,
+            816,
+            817,
+            818,
+            819,
+            820,
+            821,
+            822,
+            823,
+            824,
+            825,
+            826,
+            827,
+            828,
+            829,
+            830,
+            831,
+            832,
+            833,
+            834,
+            835,
+            836,
+            837,
+            838,
+            839,
+            840,
+            841,
+            842,
+            843,
+            844,
+            845,
+            846,
+            847,
+            848,
+            849,
+            850,
+            851,
+            852,
+            853,
+            854,
+            855,
+            856,
+            857,
+            858,
+            859,
+            860,
+            861,
+            862,
+            863,
+            864,
+            865,
+            866,
+            867,
+            868,
+            869,
+            870,
+            871,
+            872,
+            873,
+            874,
+            875,
+            876,
+            877,
+            878,
+            879,
+            880,
+            881,
+            882,
+            883,
+            884,
+            885,
+            886,
+            887,
+            888,
+            889,
+            890,
+            891,
+            892,
+            893,
+            894,
+            895,
+            896,
+            897,
+            898,
+            899,
+            900,
+            901,
+            902,
+            903,
+            904,
+            905,
+            906,
+            907,
+            908,
+            909,
+            910,
+            911,
+            912,
+            913,
+            914,
+            915,
+            916,
+            917,
+            918,
+            919,
+            920,
+            921,
+            922,
+            923,
+            924,
+            925,
+            926,
+            927,
+            928,
+            929,
+            930,
+            931,
+            932,
+            933,
+            934,
+            935,
+            936,
+            937,
+            938,
+            939,
+            940,
+            941,
+            942,
+            943,
+            944,
+            945,
+            946,
+            947,
+            948,
+            949,
+            950,
+            951,
+            952,
+            953,
+            954,
+            955,
+            956,
+            957,
+            958,
+            959,
+            960,
+            961,
+            962,
+            963,
+            964,
+            965,
+            966,
+            967,
+            968,
+            969,
+            970,
+            971,
+            972,
+            973,
+            974,
+            975,
+            976,
+            977,
+            978,
+            979,
+            980,
+            981,
+            982,
+            983,
+            984,
+            985,
+            986,
+            987,
+            988,
+            989,
+            990,
+            991,
+            992,
+            993,
+            994,
+            995,
+            996,
+            997,
+            998,
+            999,
+            1000,
+            1001,
+            1002,
+            1003,
+            1004,
+            1005,
+            1006,
+            1007
+          ],
+          "is_likely_signal_ligand": false
+        },
+        "NIL": {
+          "description": "Nilotinib",
+          "formula_weight": null,
+          "instances": 1,
+          "heavy_atoms": 39,
+          "chains": [
+            "A"
+          ],
+          "residue_numbers": [
+            601
+          ],
+          "is_likely_signal_ligand": true
+        }
+      }
+    }
+  },
+  "pair_alignment_by_pdb_residue_number": {
+    "input_chain": "A",
+    "validation_chain": "A",
+    "common_ca_residues_by_pdb_number": 429,
+    "pdb_number_ca_rmsd_A": 0.98,
+    "sequence_name_mismatches_by_pdb_number": [
+      {
+        "residue": 334,
+        "input": "THR",
+        "validation": "ILE"
+      }
+    ],
+    "all_sequence_name_mismatch_count": 1
+  },
+  "outputs": {
+    "summary_json": "analysis/bcr_abl1/bcr_abl1-dataset-summary.json",
+    "report": "analysis/bcr_abl1/bcr_abl1-1opl-5mo4-dataset-analysis.zh-TW.md",
+    "contact_csv": "analysis/bcr_abl1/bcr_abl1-validation-ligand-contact-residues-8a.csv"
+  }
+}

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "legacy_pdb",
+    "url": "https://files.rcsb.org/download/1OPL.pdb",
+    "final_url": "https://files.rcsb.org/download/1OPL.pdb",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL.pdb",
+    "status": 200,
+    "ok": true,
+    "bytes": 616248,
+    "elapsed_sec": 1.13
+  },
+  {
+    "name": "mmcif",
+    "url": "https://files.rcsb.org/download/1OPL.cif",
+    "final_url": "https://files.rcsb.org/download/1OPL.cif",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL.cif",
+    "status": 200,
+    "ok": true,
+    "bytes": 730696,
+    "elapsed_sec": 1.477
+  },
+  {
+    "name": "fasta",
+    "url": "https://www.rcsb.org/fasta/entry/1OPL/download",
+    "final_url": "https://www.rcsb.org/fasta/entry/1OPL/download",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL.fasta",
+    "status": 200,
+    "ok": true,
+    "bytes": 617,
+    "elapsed_sec": 0.664
+  },
+  {
+    "name": "entry_json",
+    "url": "https://data.rcsb.org/rest/v1/core/entry/1OPL",
+    "final_url": "https://data.rcsb.org/rest/v1/core/entry/1OPL",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_entry.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 14738,
+    "elapsed_sec": 0.674
+  },
+  {
+    "name": "validation_xml",
+    "url": "https://files.rcsb.org/validation/download/1opl_validation.xml.gz",
+    "final_url": "https://files.rcsb.org/validation/download/1opl_validation.xml.gz",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_validation.xml",
+    "status": 200,
+    "ok": true,
+    "bytes": 279190,
+    "elapsed_sec": 0.493
+  },
+  {
+    "name": "full_validation_pdf_gz",
+    "url": "https://files.rcsb.org/validation/download/1opl_full_validation.pdf.gz",
+    "final_url": "https://files.rcsb.org/validation/download/1opl_full_validation.pdf.gz",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_full_validation.pdf.gz",
+    "status": 200,
+    "ok": true,
+    "bytes": 928495,
+    "elapsed_sec": 0.938
+  },
+  {
+    "name": "assembly_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/assembly/1OPL/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/assembly/1OPL/1",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_assembly_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 2712,
+    "elapsed_sec": 0.637
+  },
+  {
+    "name": "assembly_2_json",
+    "url": "https://data.rcsb.org/rest/v1/core/assembly/1OPL/2",
+    "final_url": "https://data.rcsb.org/rest/v1/core/assembly/1OPL/2",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_assembly_2.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 2759,
+    "elapsed_sec": 0.634
+  },
+  {
+    "name": "assembly_3_json",
+    "url": "https://data.rcsb.org/rest/v1/core/assembly/1OPL/3",
+    "final_url": "https://data.rcsb.org/rest/v1/core/assembly/1OPL/3",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_assembly_3.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 3387,
+    "elapsed_sec": 0.953
+  },
+  {
+    "name": "polymer_entity_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/1OPL/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/1OPL/1",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_polymer_entity_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 229173,
+    "elapsed_sec": 1.211
+  },
+  {
+    "name": "nonpolymer_entity_2_json",
+    "url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/1OPL/2",
+    "final_url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/1OPL/2",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_nonpolymer_entity_2.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 405,
+    "elapsed_sec": 0.974
+  },
+  {
+    "name": "nonpolymer_entity_3_json",
+    "url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/1OPL/3",
+    "final_url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/1OPL/3",
+    "path": "data/bcr_abl1/rcsb/1opl/1OPL_nonpolymer_entity_3.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 583,
+    "elapsed_sec": 0.95
+  }
+]

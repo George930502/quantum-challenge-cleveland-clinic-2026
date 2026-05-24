@@ -1,0 +1,34 @@
+[
+  {
+    "dataset": "bcr_abl1",
+    "pdb_id": "1OPL",
+    "directory": "data/bcr_abl1/rcsb/1opl",
+    "ok": 12,
+    "failed": 0,
+    "manifest": "data/bcr_abl1/rcsb/1opl/1OPL_download_manifest.json"
+  },
+  {
+    "dataset": "bcr_abl1",
+    "pdb_id": "5MO4",
+    "directory": "data/bcr_abl1/rcsb/5mo4",
+    "ok": 10,
+    "failed": 0,
+    "manifest": "data/bcr_abl1/rcsb/5mo4/5MO4_download_manifest.json"
+  },
+  {
+    "dataset": "cardiac_myosin",
+    "pdb_id": "5TBY",
+    "directory": "data/cardiac_myosin/rcsb/5tby",
+    "ok": 10,
+    "failed": 0,
+    "manifest": "data/cardiac_myosin/rcsb/5tby/5TBY_download_manifest.json"
+  },
+  {
+    "dataset": "cardiac_myosin",
+    "pdb_id": "6C1H",
+    "directory": "data/cardiac_myosin/rcsb/6c1h",
+    "ok": 12,
+    "failed": 0,
+    "manifest": "data/cardiac_myosin/rcsb/6c1h/6C1H_download_manifest.json"
+  }
+]

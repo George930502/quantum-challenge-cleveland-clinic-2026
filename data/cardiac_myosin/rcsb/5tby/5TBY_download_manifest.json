@@ -1,0 +1,102 @@
+[
+  {
+    "name": "legacy_pdb",
+    "url": "https://files.rcsb.org/download/5TBY.pdb",
+    "final_url": "https://files.rcsb.org/download/5TBY.pdb",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY.pdb",
+    "status": 200,
+    "ok": true,
+    "bytes": 1919052,
+    "elapsed_sec": 1.461
+  },
+  {
+    "name": "mmcif",
+    "url": "https://files.rcsb.org/download/5TBY.cif",
+    "final_url": "https://files.rcsb.org/download/5TBY.cif",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY.cif",
+    "status": 200,
+    "ok": true,
+    "bytes": 2201773,
+    "elapsed_sec": 1.446
+  },
+  {
+    "name": "fasta",
+    "url": "https://www.rcsb.org/fasta/entry/5TBY/download",
+    "final_url": "https://www.rcsb.org/fasta/entry/5TBY/download",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY.fasta",
+    "status": 200,
+    "ok": true,
+    "bytes": 2517,
+    "elapsed_sec": 0.626
+  },
+  {
+    "name": "entry_json",
+    "url": "https://data.rcsb.org/rest/v1/core/entry/5TBY",
+    "final_url": "https://data.rcsb.org/rest/v1/core/entry/5TBY",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY_entry.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 24357,
+    "elapsed_sec": 1.248
+  },
+  {
+    "name": "validation_xml",
+    "url": "https://files.rcsb.org/validation/download/5tby_validation.xml.gz",
+    "final_url": "https://files.rcsb.org/validation/download/5tby_validation.xml.gz",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY_validation.xml",
+    "status": 200,
+    "ok": true,
+    "bytes": 906984,
+    "elapsed_sec": 0.685
+  },
+  {
+    "name": "full_validation_pdf_gz",
+    "url": "https://files.rcsb.org/validation/download/5tby_full_validation.pdf.gz",
+    "final_url": "https://files.rcsb.org/validation/download/5tby_full_validation.pdf.gz",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY_full_validation.pdf.gz",
+    "status": 200,
+    "ok": true,
+    "bytes": 1080091,
+    "elapsed_sec": 1.003
+  },
+  {
+    "name": "assembly_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/assembly/5TBY/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/assembly/5TBY/1",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY_assembly_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 4068,
+    "elapsed_sec": 0.616
+  },
+  {
+    "name": "polymer_entity_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5TBY/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5TBY/1",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY_polymer_entity_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 78526,
+    "elapsed_sec": 1.839
+  },
+  {
+    "name": "polymer_entity_2_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5TBY/2",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5TBY/2",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY_polymer_entity_2.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 26245,
+    "elapsed_sec": 1.252
+  },
+  {
+    "name": "polymer_entity_3_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5TBY/3",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/5TBY/3",
+    "path": "data/cardiac_myosin/rcsb/5tby/5TBY_polymer_entity_3.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 32217,
+    "elapsed_sec": 1.27
+  }
+]

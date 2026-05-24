@@ -1,0 +1,122 @@
+[
+  {
+    "name": "legacy_pdb",
+    "url": "https://files.rcsb.org/download/6C1H.pdb",
+    "final_url": "https://files.rcsb.org/download/6C1H.pdb",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H.pdb",
+    "status": 200,
+    "ok": true,
+    "bytes": 1799172,
+    "elapsed_sec": 1.158
+  },
+  {
+    "name": "mmcif",
+    "url": "https://files.rcsb.org/download/6C1H.cif",
+    "final_url": "https://files.rcsb.org/download/6C1H.cif",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H.cif",
+    "status": 200,
+    "ok": true,
+    "bytes": 2259872,
+    "elapsed_sec": 1.318
+  },
+  {
+    "name": "fasta",
+    "url": "https://www.rcsb.org/fasta/entry/6C1H/download",
+    "final_url": "https://www.rcsb.org/fasta/entry/6C1H/download",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H.fasta",
+    "status": 200,
+    "ok": true,
+    "bytes": 1473,
+    "elapsed_sec": 0.773
+  },
+  {
+    "name": "entry_json",
+    "url": "https://data.rcsb.org/rest/v1/core/entry/6C1H",
+    "final_url": "https://data.rcsb.org/rest/v1/core/entry/6C1H",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_entry.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 13535,
+    "elapsed_sec": 1.226
+  },
+  {
+    "name": "validation_xml",
+    "url": "https://files.rcsb.org/validation/download/6c1h_validation.xml.gz",
+    "final_url": "https://files.rcsb.org/validation/download/6c1h_validation.xml.gz",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_validation.xml",
+    "status": 200,
+    "ok": true,
+    "bytes": 784444,
+    "elapsed_sec": 0.76
+  },
+  {
+    "name": "full_validation_pdf_gz",
+    "url": "https://files.rcsb.org/validation/download/6c1h_full_validation.pdf.gz",
+    "final_url": "https://files.rcsb.org/validation/download/6c1h_full_validation.pdf.gz",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_full_validation.pdf.gz",
+    "status": 200,
+    "ok": true,
+    "bytes": 1727433,
+    "elapsed_sec": 1.041
+  },
+  {
+    "name": "assembly_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/assembly/6C1H/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/assembly/6C1H/1",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_assembly_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 4202,
+    "elapsed_sec": 0.645
+  },
+  {
+    "name": "polymer_entity_1_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/6C1H/1",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/6C1H/1",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_polymer_entity_1.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 45614,
+    "elapsed_sec": 1.563
+  },
+  {
+    "name": "polymer_entity_2_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/6C1H/2",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/6C1H/2",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_polymer_entity_2.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 41948,
+    "elapsed_sec": 0.9
+  },
+  {
+    "name": "polymer_entity_3_json",
+    "url": "https://data.rcsb.org/rest/v1/core/polymer_entity/6C1H/3",
+    "final_url": "https://data.rcsb.org/rest/v1/core/polymer_entity/6C1H/3",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_polymer_entity_3.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 117166,
+    "elapsed_sec": 2.427
+  },
+  {
+    "name": "nonpolymer_entity_4_json",
+    "url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/6C1H/4",
+    "final_url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/6C1H/4",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_nonpolymer_entity_4.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 459,
+    "elapsed_sec": 0.718
+  },
+  {
+    "name": "nonpolymer_entity_5_json",
+    "url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/6C1H/5",
+    "final_url": "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/6C1H/5",
+    "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_nonpolymer_entity_5.json",
+    "status": 200,
+    "ok": true,
+    "bytes": 434,
+    "elapsed_sec": 0.689
+  }
+]

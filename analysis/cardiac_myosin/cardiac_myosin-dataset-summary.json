@@ -1,0 +1,759 @@
+{
+  "dataset_slug": "cardiac_myosin",
+  "label": "Cardiac Myosin Cardiology",
+  "domain": "Cardiology",
+  "challenge_objective": "Identify the mechanical site where Mavacamten stabilizes the super-relaxed state.",
+  "input_pdb": "5TBY",
+  "validation_pdb": "6C1H",
+  "target_ligand_label": "No Mavacamten-like validation ligand detected in 6C1H by PDB component ID/name.",
+  "target_ligands_requested": [],
+  "target_ligands_found": [
+    "ADP"
+  ],
+  "target_validation_contact_row_count_8A": 0,
+  "exploratory_ligand_contact_row_count_8A": 2,
+  "risk_note": "RCSB describes 6C1H as actin-bound myosin-IB cryo-EM, not a cardiac myosin Mavacamten holo complex; treat it as a structural validation proxy only after challenge-organizer confirmation.",
+  "entries": {
+    "5TBY": {
+      "pdb_id": "5TBY",
+      "source_page": "https://www.rcsb.org/structure/5TBY",
+      "download_directory": "data/cardiac_myosin/rcsb/5tby",
+      "metadata": {
+        "title": "HUMAN BETA CARDIAC HEAVY MEROMYOSIN INTERACTING-HEADS MOTIF OBTAINED BY HOMOLOGY MODELING (USING SWISS-MODEL) OF HUMAN SEQUENCE FROM APHONOPELMA HOMOLOGY MODEL (PDB-3JBH), RIGIDLY FITTED TO HUMAN BETA-CARDIAC NEGATIVELY STAINED THICK FILAMENT 3D-RECONSTRUCTION (EMD-2240)",
+        "method": "ELECTRON MICROSCOPY",
+        "resolution_A": 20.0,
+        "r_work": null,
+        "r_free": null,
+        "deposited_atom_count": 20357,
+        "deposited_polymer_monomer_count": 4592,
+        "deposited_unmodeled_polymer_monomer_count": 2064,
+        "molecular_weight_kDa": 528.44,
+        "deposit_date": "2016-09-13T00:00:00.000+00:00",
+        "release_date": "2017-06-07T00:00:00.000+00:00",
+        "doi": "10.7554/eLife.24634",
+        "pubmed_id": 28606303
+      },
+      "files": {
+        "pdb": {
+          "path": "data/cardiac_myosin/rcsb/5tby/5TBY.pdb",
+          "bytes": 1919052,
+          "lines": 23692
+        },
+        "cif": {
+          "path": "data/cardiac_myosin/rcsb/5tby/5TBY.cif",
+          "bytes": 2201773,
+          "lines": 32380
+        },
+        "fasta": {
+          "path": "data/cardiac_myosin/rcsb/5tby/5TBY.fasta",
+          "bytes": 2517,
+          "lines": 6
+        },
+        "entry_json": {
+          "path": "data/cardiac_myosin/rcsb/5tby/5TBY_entry.json",
+          "bytes": 24357,
+          "lines": 1
+        },
+        "validation_xml": {
+          "path": "data/cardiac_myosin/rcsb/5tby/5TBY_validation.xml",
+          "bytes": 906984,
+          "lines": 8877
+        },
+        "manifest": {
+          "path": "data/cardiac_myosin/rcsb/5tby/5TBY_download_manifest.json",
+          "bytes": 3253,
+          "lines": 102
+        }
+      },
+      "pdb_records": {
+        "record_counts": {
+          "HEADER": 1,
+          "TITLE": 5,
+          "COMPND": 29,
+          "SOURCE": 12,
+          "KEYWDS": 3,
+          "EXPDTA": 1,
+          "AUTHOR": 2,
+          "REVDAT": 10,
+          "JRNL": 9,
+          "REMARK": 2589,
+          "DBREF": 6,
+          "SEQRES": 354,
+          "HELIX": 111,
+          "SHEET": 60,
+          "LINK": 41,
+          "CISPEP": 22,
+          "CRYST1": 1,
+          "ORIGX1": 1,
+          "ORIGX2": 1,
+          "ORIGX3": 1,
+          "SCALE1": 1,
+          "SCALE2": 1,
+          "SCALE3": 1,
+          "ATOM": 20357,
+          "TER": 6,
+          "CONECT": 65,
+          "MASTER": 1,
+          "END": 1
+        },
+        "model_count": 1
+      },
+      "fasta": {
+        "record_count": 3,
+        "records": [
+          {
+            "header": "5TBY_1|Chains A, B|Myosin-7|Homo sapiens (9606)",
+            "length": 1935
+          },
+          {
+            "header": "5TBY_2|Chains C, D|Myosin light chain 3|Homo sapiens (9606)",
+            "length": 195
+          },
+          {
+            "header": "5TBY_3|Chains E, F|Myosin regulatory light chain 2, ventricular/cardiac muscle isoform|Homo sapiens (9606)",
+            "length": 166
+          }
+        ]
+      },
+      "mmcif": {
+        "category_count": 78,
+        "loop_count": 44,
+        "atom_site_rows": 20357,
+        "top_categories": [
+          [
+            "refine",
+            122
+          ],
+          [
+            "struct_conn",
+            35
+          ],
+          [
+            "em_imaging",
+            32
+          ],
+          [
+            "citation",
+            27
+          ],
+          [
+            "pdbx_modification_feature",
+            26
+          ],
+          [
+            "entity_src_nat",
+            25
+          ],
+          [
+            "pdbx_validate_rmsd_angle",
+            25
+          ],
+          [
+            "pdbx_struct_sheet_hbond",
+            21
+          ],
+          [
+            "atom_site",
+            21
+          ],
+          [
+            "struct_conf",
+            20
+          ],
+          [
+            "pdbx_validate_rmsd_bond",
+            19
+          ],
+          [
+            "struct_mon_prot_cis",
+            18
+          ]
+        ]
+      },
+      "chains": {
+        "A": {
+          "atom_count": 7704,
+          "residue_count": 954,
+          "ca_count": 954,
+          "residue_min": 6,
+          "residue_max": 959,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 2.33,
+          "std_bfactor": 1.107
+        },
+        "B": {
+          "atom_count": 7673,
+          "residue_count": 950,
+          "ca_count": 950,
+          "residue_min": 10,
+          "residue_max": 959,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 2.248,
+          "std_bfactor": 1.15
+        },
+        "C": {
+          "atom_count": 1212,
+          "residue_count": 152,
+          "ca_count": 152,
+          "residue_min": 44,
+          "residue_max": 195,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 2.662,
+          "std_bfactor": 0.951
+        },
+        "D": {
+          "atom_count": 1212,
+          "residue_count": 152,
+          "ca_count": 152,
+          "residue_min": 44,
+          "residue_max": 195,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 2.818,
+          "std_bfactor": 0.811
+        },
+        "E": {
+          "atom_count": 1278,
+          "residue_count": 160,
+          "ca_count": 160,
+          "residue_min": 7,
+          "residue_max": 166,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 3.031,
+          "std_bfactor": 1.016
+        },
+        "F": {
+          "atom_count": 1278,
+          "residue_count": 160,
+          "ca_count": 160,
+          "residue_min": 7,
+          "residue_max": 166,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 3.19,
+          "std_bfactor": 0.825
+        }
+      },
+      "selected_analysis_chain": "A",
+      "selected_chain_contact_graph_8A": {
+        "nodes": 954,
+        "edges": 4126,
+        "adjacency_matrix_shape": [
+          954,
+          954
+        ],
+        "average_degree": 8.65,
+        "max_degree": 16,
+        "density": 0.00908,
+        "component_count": 1,
+        "largest_component_nodes": 954
+      },
+      "ligands_and_heterogens": {}
+    },
+    "6C1H": {
+      "pdb_id": "6C1H",
+      "source_page": "https://www.rcsb.org/structure/6C1H",
+      "download_directory": "data/cardiac_myosin/rcsb/6c1h",
+      "metadata": {
+        "title": "High-Resolution Cryo-EM Structures of Actin-bound Myosin States Reveal the Mechanism of Myosin Force Sensing",
+        "method": "ELECTRON MICROSCOPY",
+        "resolution_A": 3.9,
+        "r_work": null,
+        "r_free": null,
+        "deposited_atom_count": 20966,
+        "deposited_polymer_monomer_count": 2752,
+        "deposited_unmodeled_polymer_monomer_count": 0,
+        "molecular_weight_kDa": 312.44,
+        "deposit_date": "2018-01-04T00:00:00.000+00:00",
+        "release_date": "2018-01-31T00:00:00.000+00:00",
+        "doi": "10.1073/pnas.1718316115",
+        "pubmed_id": 29358376
+      },
+      "files": {
+        "pdb": {
+          "path": "data/cardiac_myosin/rcsb/6c1h/6C1H.pdb",
+          "bytes": 1799172,
+          "lines": 22212
+        },
+        "cif": {
+          "path": "data/cardiac_myosin/rcsb/6c1h/6C1H.cif",
+          "bytes": 2259872,
+          "lines": 28596
+        },
+        "fasta": {
+          "path": "data/cardiac_myosin/rcsb/6c1h/6C1H.fasta",
+          "bytes": 1473,
+          "lines": 6
+        },
+        "entry_json": {
+          "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_entry.json",
+          "bytes": 13535,
+          "lines": 1
+        },
+        "validation_xml": {
+          "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_validation.xml",
+          "bytes": 784444,
+          "lines": 6226
+        },
+        "manifest": {
+          "path": "data/cardiac_myosin/rcsb/6c1h/6C1H_download_manifest.json",
+          "bytes": 3964,
+          "lines": 122
+        }
+      },
+      "pdb_records": {
+        "record_counts": {
+          "HEADER": 1,
+          "TITLE": 2,
+          "COMPND": 11,
+          "SOURCE": 11,
+          "KEYWDS": 2,
+          "EXPDTA": 1,
+          "AUTHOR": 2,
+          "REVDAT": 6,
+          "JRNL": 9,
+          "REMARK": 502,
+          "DBREF": 7,
+          "SEQADV": 6,
+          "SEQRES": 214,
+          "HET": 10,
+          "HETNAM": 2,
+          "FORMUL": 2,
+          "HELIX": 142,
+          "SHEET": 106,
+          "LINK": 15,
+          "CISPEP": 12,
+          "SITE": 27,
+          "CRYST1": 1,
+          "ORIGX1": 1,
+          "ORIGX2": 1,
+          "ORIGX3": 1,
+          "SCALE1": 1,
+          "SCALE2": 1,
+          "SCALE3": 1,
+          "ATOM": 20826,
+          "TER": 7,
+          "HETATM": 140,
+          "CONECT": 140,
+          "MASTER": 1,
+          "END": 1
+        },
+        "model_count": 1
+      },
+      "fasta": {
+        "record_count": 3,
+        "records": [
+          {
+            "header": "6C1H_1|Chains A, B, C, D, E|Actin, alpha skeletal muscle|Oryctolagus cuniculus (9986)",
+            "length": 375
+          },
+          {
+            "header": "6C1H_2|Chain F[auth P]|Unconventional myosin-Ib|Rattus norvegicus (10116)",
+            "length": 729
+          },
+          {
+            "header": "6C1H_3|Chain G[auth R]|Calmodulin|unidentified (32644)",
+            "length": 148
+          }
+        ]
+      },
+      "mmcif": {
+        "category_count": 77,
+        "loop_count": 41,
+        "atom_site_rows": 20966,
+        "top_categories": [
+          [
+            "refine",
+            58
+          ],
+          [
+            "pdbx_struct_conn_angle",
+            36
+          ],
+          [
+            "struct_conn",
+            35
+          ],
+          [
+            "em_imaging",
+            32
+          ],
+          [
+            "cell",
+            31
+          ],
+          [
+            "citation",
+            27
+          ],
+          [
+            "entity_src_nat",
+            25
+          ],
+          [
+            "pdbx_struct_sheet_hbond",
+            21
+          ],
+          [
+            "atom_site",
+            21
+          ],
+          [
+            "struct_conf",
+            20
+          ],
+          [
+            "software",
+            19
+          ],
+          [
+            "struct_mon_prot_cis",
+            18
+          ]
+        ]
+      },
+      "chains": {
+        "A": {
+          "atom_count": 2933,
+          "residue_count": 375,
+          "ca_count": 375,
+          "residue_min": 1,
+          "residue_max": 375,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 84.05,
+          "std_bfactor": 11.397
+        },
+        "B": {
+          "atom_count": 2933,
+          "residue_count": 375,
+          "ca_count": 375,
+          "residue_min": 1,
+          "residue_max": 375,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 70.569,
+          "std_bfactor": 9.135
+        },
+        "C": {
+          "atom_count": 2933,
+          "residue_count": 375,
+          "ca_count": 375,
+          "residue_min": 1,
+          "residue_max": 375,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 78.273,
+          "std_bfactor": 10.299
+        },
+        "D": {
+          "atom_count": 2933,
+          "residue_count": 375,
+          "ca_count": 375,
+          "residue_min": 1,
+          "residue_max": 375,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 99.227,
+          "std_bfactor": 22.139
+        },
+        "E": {
+          "atom_count": 2933,
+          "residue_count": 375,
+          "ca_count": 375,
+          "residue_min": 1,
+          "residue_max": 375,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 121.024,
+          "std_bfactor": 29.033
+        },
+        "P": {
+          "atom_count": 5570,
+          "residue_count": 729,
+          "ca_count": 729,
+          "residue_min": 6,
+          "residue_max": 734,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 120.877,
+          "std_bfactor": 34.716
+        },
+        "R": {
+          "atom_count": 591,
+          "residue_count": 148,
+          "ca_count": 148,
+          "residue_min": 1,
+          "residue_max": 148,
+          "missing_numbers_inside_span": [],
+          "mean_bfactor": 150.239,
+          "std_bfactor": 77.101
+        }
+      },
+      "selected_analysis_chain": "P",
+      "selected_chain_contact_graph_8A": {
+        "nodes": 729,
+        "edges": 3532,
+        "adjacency_matrix_shape": [
+          729,
+          729
+        ],
+        "average_degree": 9.69,
+        "max_degree": 16,
+        "density": 0.01331,
+        "component_count": 1,
+        "largest_component_nodes": 729
+      },
+      "ligands_and_heterogens": {
+        "ADP": {
+          "description": "ADENOSINE-5'-DIPHOSPHATE",
+          "formula_weight": null,
+          "instances": 5,
+          "heavy_atoms": 135,
+          "chains": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ],
+          "residue_numbers": [
+            401,
+            401,
+            401,
+            401,
+            401
+          ],
+          "is_likely_signal_ligand": true
+        },
+        "MG": {
+          "description": "MAGNESIUM ION",
+          "formula_weight": null,
+          "instances": 5,
+          "heavy_atoms": 5,
+          "chains": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E"
+          ],
+          "residue_numbers": [
+            402,
+            402,
+            402,
+            402,
+            402
+          ],
+          "is_likely_signal_ligand": false
+        }
+      }
+    }
+  },
+  "pair_alignment_by_pdb_residue_number": {
+    "input_chain": "A",
+    "validation_chain": "P",
+    "common_ca_residues_by_pdb_number": 729,
+    "pdb_number_ca_rmsd_A": 34.002,
+    "sequence_name_mismatches_by_pdb_number": [
+      {
+        "residue": 6,
+        "input": "MET",
+        "validation": "VAL"
+      },
+      {
+        "residue": 7,
+        "input": "ALA",
+        "validation": "LYS"
+      },
+      {
+        "residue": 8,
+        "input": "VAL",
+        "validation": "SER"
+      },
+      {
+        "residue": 9,
+        "input": "PHE",
+        "validation": "SER"
+      },
+      {
+        "residue": 10,
+        "input": "GLY",
+        "validation": "LEU"
+      },
+      {
+        "residue": 11,
+        "input": "ALA",
+        "validation": "LEU"
+      },
+      {
+        "residue": 12,
+        "input": "ALA",
+        "validation": "ASP"
+      },
+      {
+        "residue": 13,
+        "input": "ALA",
+        "validation": "ASN"
+      },
+      {
+        "residue": 14,
+        "input": "PRO",
+        "validation": "MET"
+      },
+      {
+        "residue": 15,
+        "input": "TYR",
+        "validation": "ILE"
+      },
+      {
+        "residue": 16,
+        "input": "LEU",
+        "validation": "GLY"
+      },
+      {
+        "residue": 17,
+        "input": "ARG",
+        "validation": "VAL"
+      },
+      {
+        "residue": 18,
+        "input": "LYS",
+        "validation": "GLY"
+      },
+      {
+        "residue": 19,
+        "input": "SER",
+        "validation": "ASP"
+      },
+      {
+        "residue": 20,
+        "input": "GLU",
+        "validation": "THR"
+      },
+      {
+        "residue": 21,
+        "input": "LYS",
+        "validation": "VAL"
+      },
+      {
+        "residue": 22,
+        "input": "GLU",
+        "validation": "LEU"
+      },
+      {
+        "residue": 23,
+        "input": "ARG",
+        "validation": "LEU"
+      },
+      {
+        "residue": 24,
+        "input": "LEU",
+        "validation": "GLU"
+      },
+      {
+        "residue": 25,
+        "input": "GLU",
+        "validation": "PRO"
+      },
+      {
+        "residue": 26,
+        "input": "ALA",
+        "validation": "LEU"
+      },
+      {
+        "residue": 27,
+        "input": "GLN",
+        "validation": "ASN"
+      },
+      {
+        "residue": 28,
+        "input": "THR",
+        "validation": "GLU"
+      },
+      {
+        "residue": 29,
+        "input": "ARG",
+        "validation": "GLU"
+      },
+      {
+        "residue": 30,
+        "input": "PRO",
+        "validation": "THR"
+      },
+      {
+        "residue": 32,
+        "input": "ASP",
+        "validation": "ILE"
+      },
+      {
+        "residue": 33,
+        "input": "LEU",
+        "validation": "ASP"
+      },
+      {
+        "residue": 34,
+        "input": "LYS",
+        "validation": "ASN"
+      },
+      {
+        "residue": 35,
+        "input": "LYS",
+        "validation": "LEU"
+      },
+      {
+        "residue": 36,
+        "input": "ASP",
+        "validation": "LYS"
+      },
+      {
+        "residue": 37,
+        "input": "VAL",
+        "validation": "LYS"
+      },
+      {
+        "residue": 38,
+        "input": "PHE",
+        "validation": "ARG"
+      },
+      {
+        "residue": 39,
+        "input": "VAL",
+        "validation": "PHE"
+      },
+      {
+        "residue": 40,
+        "input": "PRO",
+        "validation": "ASP"
+      },
+      {
+        "residue": 41,
+        "input": "ASP",
+        "validation": "HIS"
+      },
+      {
+        "residue": 42,
+        "input": "ASP",
+        "validation": "ASN"
+      },
+      {
+        "residue": 43,
+        "input": "LYS",
+        "validation": "GLU"
+      },
+      {
+        "residue": 44,
+        "input": "GLN",
+        "validation": "ILE"
+      },
+      {
+        "residue": 45,
+        "input": "GLU",
+        "validation": "TYR"
+      },
+      {
+        "residue": 46,
+        "input": "PHE",
+        "validation": "THR"
+      }
+    ],
+    "all_sequence_name_mismatch_count": 682
+  },
+  "outputs": {
+    "summary_json": "analysis/cardiac_myosin/cardiac_myosin-dataset-summary.json",
+    "report": "analysis/cardiac_myosin/cardiac_myosin-5tby-6c1h-dataset-analysis.zh-TW.md",
+    "contact_csv": "analysis/cardiac_myosin/cardiac_myosin-validation-ligand-contact-residues-8a.csv"
+  }
+}
