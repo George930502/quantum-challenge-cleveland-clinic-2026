@@ -16,6 +16,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 ANALYSIS_ROOT = ROOT / "analysis"
+DOCS_ROOT = ROOT / "docs"
 
 DATASETS = {
     "kras_g12c": {
@@ -823,6 +824,51 @@ def cross_rows(summaries: list[dict]) -> list[dict]:
     return rows
 
 
+def dataset_detail_section(summary: dict) -> str:
+    contact_csv = summary["outputs"]["contact_csv"] or "not generated"
+    return f"""## {summary['label']} 詳細分析
+
+### 任務定位
+
+- Input: `{summary['input_pdb']}` (<https://www.rcsb.org/structure/{summary['input_pdb']}>)
+- Validation: `{summary['validation_pdb']}` (<https://www.rcsb.org/structure/{summary['validation_pdb']}>)
+- Challenge objective: {summary['challenge_objective']}
+- Validation marker: {summary['target_ligand_label']}
+- Risk note: {summary['risk_note']}
+
+### RCSB Metadata
+
+{metadata_table(summary)}
+
+### File Dimensions
+
+{files_table(summary)}
+
+### FASTA And mmCIF Dimensions
+
+{sequence_mmcif_table(summary)}
+
+### Chain, Residue, And B-Factor Dimensions
+
+{chain_table(summary)}
+
+### Ligands And Heterogens
+
+{ligand_table(summary)}
+
+### Validation Contact Counts
+
+{contact_threshold_table(summary)}
+
+Contact CSV: `{contact_csv}`
+
+### Residue Contact Graph Dimensions
+
+{graph_table(summary)}
+
+"""
+
+
 def render_cross_report(summaries: list[dict]) -> str:
     rows = cross_rows(summaries)
     table = [
@@ -844,9 +890,16 @@ def render_cross_report(summaries: list[dict]) -> str:
         checklist.append(
             f"| {row['dataset']} | yes | yes | yes | yes | {validation_ok} | yes | yes |"
         )
-    return f"""# Allosteric Challenge 三資料集交叉分析報告
+    detail_sections = "\n".join(dataset_detail_section(summary) for summary in summaries)
+    return f"""# Allosteric Challenge 三資料集特徵分析總覽
 
-## 檢查範圍
+## 文件目的
+
+這份文件是 repo 的資料集入口文件。它整合三個 challenge dataset 的下載來源、檔案維度、結構維度、配體標記、validation contact、residue contact graph，以及資料集之間的比較。
+
+資料由 `scripts/download_allosteric_challenge_rcsb.py` 下載，並由 `scripts/analyze_allosteric_challenge_datasets.py` 產生分析輸出。
+
+## Dataset Scope
 
 本報告交叉檢查 Cleveland Clinic challenge 中三個 minimum target families：
 
@@ -856,26 +909,36 @@ def render_cross_report(summaries: list[dict]) -> str:
 
 所有新增資料均由 RCSB 官方頁面與 API 下載，並由本 repo 的 scripts 產生可重跑分析。
 
-## 跨資料集維度總覽
+## Cross-Dataset Dimension Overview
 
 {chr(10).join(table)}
 
-## 特徵維度覆蓋檢查
+## Feature Coverage Checklist
 
 {chr(10).join(checklist)}
 
-## 主要交叉觀察
+{detail_sections}
+
+## Cross-Dataset Interpretation
 
 1. KRAS G12C 是三者中最乾淨的 apo/holo validation pair：`6OIM` 明確包含 AMG 510 bound-form ligand `MOV`，可直接形成 residue-level ground truth。
 2. BCR-ABL1 的 `5MO4` 包含 Asciminib candidate ligand marker `AY7`，但同時也有其他 kinase inhibitor/heterogen；後續模型必須把 myristoyl-pocket allosteric marker 與 ATP-site inhibitor 分開。
 3. Cardiac Myosin 的 PDF challenge label 與 `6C1H` RCSB metadata 存在明顯語義落差：`6C1H` 是 actin-bound myosin-IB cryo-EM structure，且未偵測到 Mavacamten-like ligand。這一組可以先做 structural/mechanical proxy 分析，但提交前應向 challenge organizer 確認 validation label。
 4. Contact graph node counts 差異很大，代表 coarse-graining 策略不能一體套用：KRAS 是百級 residue graph，BCR-ABL1 是 kinase/regulatory domain 中型 graph，Myosin 是大型 multi-chain motor/actin complex。
 
-## 後續建模建議
+## Modeling Notes
 
 - 先為每組資料明確定義「可用於 blind input 的 features」與「只能用於 validation 的 labels」。
 - 對 BCR-ABL1 與 Myosin 這類多 domain 或跨蛋白資料，優先建立 domain-level chain selection 與 residue numbering 對應表。
 - 對 Cardiac Myosin，先不要把 `6C1H` 當作 Mavacamten holo ground truth；可暫時作為 mechanical state comparison target。
+
+## Summary
+
+- `data/` 內的三組資料集目前都由同一支下載腳本產生；統一 manifest 是 `data/allosteric_challenge_rcsb_download_summary.json`。
+- `analysis/` 內的 dataset summaries、contact graph CSV、contact residue CSV 都由同一支分析腳本產生。
+- KRAS G12C 和 BCR-ABL1 具有明確 small-molecule validation marker，可直接用於 residue-level label 檢查。
+- Cardiac Myosin 目前有完整結構維度與 graph 維度，但缺少 Mavacamten-like ligand marker；這是資料集使用前最重要的風險。
+- 後續量子模型若要跨三組資料比較，應先統一 coarse-graining policy，再分別處理各資料集的 target-label 定義。
 """
 
 
@@ -883,12 +946,17 @@ def main() -> None:
     summaries = [analyze_dataset(slug, spec) for slug, spec in DATASETS.items()]
     cross_dir = ANALYSIS_ROOT / "cross_dataset"
     cross_dir.mkdir(parents=True, exist_ok=True)
+    DOCS_ROOT.mkdir(parents=True, exist_ok=True)
     cross_summary = {"datasets": summaries}
     (cross_dir / "allosteric-challenge-three-dataset-cross-summary.json").write_text(
         json.dumps(cross_summary, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
-    (cross_dir / "allosteric-challenge-three-dataset-cross-analysis.zh-TW.md").write_text(
+    stale_cross_markdown = cross_dir / "allosteric-challenge-three-dataset-cross-analysis.zh-TW.md"
+    if stale_cross_markdown.exists():
+        stale_cross_markdown.unlink()
+    docs_report = DOCS_ROOT / "allosteric-challenge-three-dataset-feature-analysis.zh-TW.md"
+    docs_report.write_text(
         render_cross_report(summaries),
         encoding="utf-8",
     )
@@ -898,7 +966,7 @@ def main() -> None:
                 "reports": [
                     summary["outputs"]["report"] for summary in summaries
                 ]
-                + [rel(cross_dir / "allosteric-challenge-three-dataset-cross-analysis.zh-TW.md")],
+                + [rel(docs_report)],
                 "summaries": [
                     summary["outputs"]["summary_json"] for summary in summaries
                 ]
