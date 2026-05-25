@@ -7,7 +7,7 @@ This repository supports the Cleveland Clinic 2026 quantum AI challenge research
 ## Start Here
 
 - Read `README.md` for the human-facing workflow.
-- Read `docs/CODEBASE_MAP.md` before broad exploration.
+- Read `docs/agent-harness/CODEBASE_MAP.md` before broad exploration.
 - Use the nearest nested `AGENTS.md` when working under `data/`, `analysis/`, `docs/`, or `scripts/`.
 - Prefer `rg` and targeted file reads over scanning large structural files.
 
@@ -20,14 +20,18 @@ This repository supports the Cleveland Clinic 2026 quantum AI challenge research
 
 ## Environment
 
-- Python 3.10+ is expected.
+- Python 3.9+ is expected.
 - Install dependencies with `python3 -m pip install -r requirements.txt`.
 - The offline analysis dependency is `numpy`.
+- Install local LSP/type-check tooling with `make lsp`.
+- Python language-server support uses project-local Pyright (`node_modules/.bin/pyright-langserver`).
 - Network is only required for `scripts/download_allosteric_challenge_rcsb.py`.
 
 ## Commands
 
 - Setup: `make setup`
+- LSP tooling: `make lsp`
+- Type check: `make typecheck`
 - Offline validation: `make validate`
 - Regenerate analysis only: `make analyze`
 - Refresh RCSB data: `python3 scripts/download_allosteric_challenge_rcsb.py`
@@ -46,4 +50,4 @@ This repository supports the Cleveland Clinic 2026 quantum AI challenge research
 - Before committing, run `make validate`.
 - If changing downloader behavior, run the downloader only when network access is available and then run `make validate`.
 - For documentation-only edits, at minimum run `git diff --check`.
-- Review against `docs/code_review.md` before publishing.
+- Review against `docs/agent-harness/code_review.md` before publishing.

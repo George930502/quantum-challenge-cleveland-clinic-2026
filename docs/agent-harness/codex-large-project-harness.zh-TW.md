@@ -35,7 +35,7 @@ OpenAI Codex 文件給出的對應實踐是：
 
 ### 2. Codebase Map
 
-`docs/CODEBASE_MAP.md` 是 agent 的目錄地圖。大型專案常見問題不是資料不存在，而是 agent 一開始不知道該讀哪裡。這份 map 讓 Codex 可以先判斷：
+`docs/agent-harness/CODEBASE_MAP.md` 是 agent 的目錄地圖。大型專案常見問題不是資料不存在，而是 agent 一開始不知道該讀哪裡。這份 map 讓 Codex 可以先判斷：
 
 - 哪些資料夾是 source input、generated output、docs、pipeline。
 - 三個 dataset slug 對應的 PDB ID、domain、primary question。
@@ -49,7 +49,7 @@ OpenAI Codex 文件給出的對應實踐是：
 - `make analyze`
 - `make validate`
 
-`docs/code_review.md` 把 review 標準拆成 scientific correctness、reproducibility、agent harness、git hygiene。Codex 文件建議把 review guidance 放在 repo 中並由 `AGENTS.md` 引用，這樣 review 行為才能跨 session 一致。
+`docs/agent-harness/code_review.md` 把 review 標準拆成 scientific correctness、reproducibility、agent harness、git hygiene。Codex 文件建議把 review guidance 放在 repo 中並由 `AGENTS.md` 引用，這樣 review 行為才能跨 session 一致。
 
 ### 4. Harness Environment
 
@@ -66,7 +66,7 @@ sh .codex/setup.sh
 這個 repo 有大量結構資料。對 agent 而言，最佳預設不是「讀完整 data/」，而是：
 
 1. 讀 `AGENTS.md`。
-2. 讀 `docs/CODEBASE_MAP.md`。
+2. 讀 `docs/agent-harness/CODEBASE_MAP.md`。
 3. 針對任務讀最近的 nested `AGENTS.md`。
 4. 先看 manifests、summary JSON、CSV header 或 targeted `rg`。
 5. 只有需要精確座標或 metadata 時才讀大型 PDB/mmCIF/XML。

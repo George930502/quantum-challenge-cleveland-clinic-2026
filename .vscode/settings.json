@@ -1,0 +1,15 @@
+{
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.include": [
+    "scripts"
+  ],
+  "python.analysis.exclude": [
+    "data",
+    "analysis",
+    "docs",
+    "node_modules",
+    "**/__pycache__"
+  ],
+  "python.defaultInterpreterPath": "/usr/bin/python3"
+}

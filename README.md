@@ -6,19 +6,30 @@ Research workspace for the Cleveland Clinic 2026 quantum AI challenge around all
 
 - `data/` contains checked-in RCSB artifacts grouped by challenge dataset and PDB ID.
 - `analysis/` contains generated per-dataset summaries, residue contact graphs, ligand-contact CSVs, and cross-dataset summaries.
-- `docs/` contains challenge notes, synthesis documents, agent harness guidance, and review checklists.
+- `docs/` contains grouped challenge notes, research synthesis documents, agent harness guidance, and review checklists.
 - `scripts/` contains the downloader and offline analysis pipeline.
 
-For a more detailed table of contents, see [docs/CODEBASE_MAP.md](docs/CODEBASE_MAP.md).
+For a more detailed table of contents, see [docs/agent-harness/CODEBASE_MAP.md](docs/agent-harness/CODEBASE_MAP.md).
 
 ## Quick Start
 
 ```sh
 python3 -m pip install -r requirements.txt
+make lsp
 make validate
 ```
 
 `make validate` reruns the offline analysis from the checked-in `data/` directory and checks whitespace with `git diff --check`.
+
+## Language Server
+
+The project uses Pyright as the Python LSP and type checker. Install the local language-server tooling with:
+
+```sh
+make lsp
+```
+
+Editors can use `node_modules/.bin/pyright-langserver --stdio`. VS Code users can open the workspace with the checked-in `.vscode/settings.json`.
 
 ## Data Workflow
 
@@ -40,8 +51,9 @@ make validate
 
 Codex and other coding agents should start with [AGENTS.md](AGENTS.md), then read the nearest subdirectory `AGENTS.md` for scoped rules. The intended pattern is narrow context first, explicit verification, and small diffs that preserve scientific provenance.
 
-Relevant harness docs:
+Relevant docs:
 
-- [docs/CODEBASE_MAP.md](docs/CODEBASE_MAP.md)
-- [docs/codex-large-project-harness.zh-TW.md](docs/codex-large-project-harness.zh-TW.md)
-- [docs/code_review.md](docs/code_review.md)
+- [docs/README.md](docs/README.md)
+- [docs/agent-harness/CODEBASE_MAP.md](docs/agent-harness/CODEBASE_MAP.md)
+- [docs/agent-harness/codex-large-project-harness.zh-TW.md](docs/agent-harness/codex-large-project-harness.zh-TW.md)
+- [docs/agent-harness/code_review.md](docs/agent-harness/code_review.md)

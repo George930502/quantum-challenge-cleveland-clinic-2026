@@ -9,7 +9,7 @@ import math
 from collections import Counter, defaultdict, deque
 from pathlib import Path
 from statistics import mean, pstdev
-from typing import Iterable
+from typing import TypedDict, Iterable
 
 import numpy as np
 
@@ -80,6 +80,13 @@ AA3 = {
     "VAL",
 }
 COMMON_NON_TARGETS = {"HOH", "WAT", "DOD", "NA", "CL", "K", "CA", "MG", "ZN", "MN", "GDP", "GTP", "ADP", "ATP"}
+
+
+class LigandAccumulator(TypedDict):
+    instances: int
+    heavy_atoms: int
+    chains: set[str]
+    residue_numbers: list[int]
 
 
 def rel(path: Path) -> str:
@@ -235,7 +242,11 @@ def ligand_summary(atoms: list[dict], nonpolymer_metadata: dict[str, dict]) -> d
         if atom["record"] != "HETATM":
             continue
         groups[(atom["resn"], atom["chain"], atom["resi"], atom["icode"])].append(atom)
-    ligands = defaultdict(lambda: {"instances": 0, "heavy_atoms": 0, "chains": set(), "residue_numbers": []})
+
+    def ligand_accumulator() -> LigandAccumulator:
+        return {"instances": 0, "heavy_atoms": 0, "chains": set(), "residue_numbers": []}
+
+    ligands: defaultdict[str, LigandAccumulator] = defaultdict(ligand_accumulator)
     for (resn, chain, resi, _icode), group_atoms in groups.items():
         ligands[resn]["instances"] += 1
         ligands[resn]["heavy_atoms"] += len(group_atoms)
@@ -946,7 +957,8 @@ def main() -> None:
     summaries = [analyze_dataset(slug, spec) for slug, spec in DATASETS.items()]
     cross_dir = ANALYSIS_ROOT / "cross_dataset"
     cross_dir.mkdir(parents=True, exist_ok=True)
-    DOCS_ROOT.mkdir(parents=True, exist_ok=True)
+    docs_research_dir = DOCS_ROOT / "research"
+    docs_research_dir.mkdir(parents=True, exist_ok=True)
     cross_summary = {"datasets": summaries}
     (cross_dir / "allosteric-challenge-three-dataset-cross-summary.json").write_text(
         json.dumps(cross_summary, indent=2, ensure_ascii=False),
@@ -955,7 +967,7 @@ def main() -> None:
     stale_cross_markdown = cross_dir / "allosteric-challenge-three-dataset-cross-analysis.zh-TW.md"
     if stale_cross_markdown.exists():
         stale_cross_markdown.unlink()
-    docs_report = DOCS_ROOT / "allosteric-challenge-three-dataset-feature-analysis.zh-TW.md"
+    docs_report = docs_research_dir / "allosteric-challenge-three-dataset-feature-analysis.zh-TW.md"
     docs_report.write_text(
         render_cross_report(summaries),
         encoding="utf-8",

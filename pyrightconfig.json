@@ -1,0 +1,19 @@
+{
+  "include": [
+    "scripts"
+  ],
+  "exclude": [
+    "**/__pycache__",
+    ".venv",
+    "venv",
+    "node_modules",
+    "data",
+    "analysis",
+    "docs"
+  ],
+  "pythonVersion": "3.9",
+  "pythonPlatform": "All",
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": false
+}

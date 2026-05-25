@@ -1,0 +1,13 @@
+{
+  "name": "quantum-challenge-cleveland-clinic-2026",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Language-server tooling for the Cleveland Clinic quantum challenge research workspace.",
+  "scripts": {
+    "typecheck": "pyright",
+    "lsp": "pyright-langserver --stdio"
+  },
+  "devDependencies": {
+    "pyright": "1.1.409"
+  }
+}

@@ -13,6 +13,8 @@ Recommended Codex app actions:
 | Action | Command |
 | --- | --- |
 | Setup | `make setup` |
+| LSP | `make lsp` |
+| Typecheck | `make typecheck` |
 | Validate | `make validate` |
 | Analyze | `make analyze` |
 
