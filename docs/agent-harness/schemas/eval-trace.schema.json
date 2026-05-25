@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Quantum challenge harness eval trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "created_at",
+    "dataset_slug",
+    "input",
+    "method",
+    "outputs",
+    "metrics",
+    "verification"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "description": "Stable identifier for this method run."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "git_commit": {
+      "type": "string"
+    },
+    "dataset_slug": {
+      "type": "string",
+      "enum": ["kras_g12c", "bcr_abl1", "cardiac_myosin"]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pdb_id", "chain_id", "graph_path", "validation_paths_excluded_from_features"],
+      "properties": {
+        "pdb_id": {
+          "type": "string"
+        },
+        "chain_id": {
+          "type": "string"
+        },
+        "graph_path": {
+          "type": "string"
+        },
+        "metadata_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "validation_paths_excluded_from_features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "method": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "parameters"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "random_seed": {
+          "type": ["integer", "null"]
+        },
+        "parameters": {
+          "type": "object"
+        },
+        "coarse_graining": {
+          "type": "string"
+        },
+        "hardware_assumption": {
+          "type": "string"
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["connectivity_matrix_path", "hit_list_path"],
+      "properties": {
+        "connectivity_matrix_path": {
+          "type": "string"
+        },
+        "hit_list_path": {
+          "type": "string"
+        },
+        "report_path": {
+          "type": "string"
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "top_5_validation_contact_hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "top_10_validation_contact_hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "random_baseline_mean": {
+          "type": "number"
+        },
+        "baseline_name": {
+          "type": "string"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["command", "exit_code"],
+      "properties": {
+        "command": {
+          "type": "string"
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

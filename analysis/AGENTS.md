@@ -2,7 +2,7 @@
 
 ## Scope
 
-`analysis/` contains generated outputs from `scripts/analyze_allosteric_challenge_datasets.py` plus dataset-specific interpretation notes.
+`analysis/` contains generated outputs from `scripts/pipeline/analyze_allosteric_challenge_datasets.py` plus dataset-specific interpretation notes.
 
 ## Rules
 

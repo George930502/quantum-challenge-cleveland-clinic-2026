@@ -35,7 +35,7 @@ OpenAI Codex 文件給出的對應實踐是：
 
 ### 2. Codebase Map
 
-`docs/agent-harness/CODEBASE_MAP.md` 是 agent 的目錄地圖。大型專案常見問題不是資料不存在，而是 agent 一開始不知道該讀哪裡。這份 map 讓 Codex 可以先判斷：
+`docs/agent-harness/navigation/codebase-map.md` 是 agent 的目錄地圖。大型專案常見問題不是資料不存在，而是 agent 一開始不知道該讀哪裡。這份 map 讓 Codex 可以先判斷：
 
 - 哪些資料夾是 source input、generated output、docs、pipeline。
 - 三個 dataset slug 對應的 PDB ID、domain、primary question。
@@ -49,7 +49,7 @@ OpenAI Codex 文件給出的對應實踐是：
 - `make analyze`
 - `make validate`
 
-`docs/agent-harness/code_review.md` 把 review 標準拆成 scientific correctness、reproducibility、agent harness、git hygiene。Codex 文件建議把 review guidance 放在 repo 中並由 `AGENTS.md` 引用，這樣 review 行為才能跨 session 一致。
+`docs/agent-harness/reviews/code-review-checklist.md` 把 review 標準拆成 scientific correctness、reproducibility、agent harness、git hygiene。Codex 文件建議把 review guidance 放在 repo 中並由 `AGENTS.md` 引用，這樣 review 行為才能跨 session 一致。
 
 ### 4. Harness Environment
 
@@ -66,7 +66,7 @@ sh .codex/setup.sh
 這個 repo 有大量結構資料。對 agent 而言，最佳預設不是「讀完整 data/」，而是：
 
 1. 讀 `AGENTS.md`。
-2. 讀 `docs/agent-harness/CODEBASE_MAP.md`。
+2. 讀 `docs/agent-harness/navigation/codebase-map.md`。
 3. 針對任務讀最近的 nested `AGENTS.md`。
 4. 先看 manifests、summary JSON、CSV header 或 targeted `rg`。
 5. 只有需要精確座標或 metadata 時才讀大型 PDB/mmCIF/XML。
@@ -78,6 +78,18 @@ sh .codex/setup.sh
 - 若要讓 Codex 查 challenge portal、GitHub issue、internal notes，應用 MCP，而不是把外部狀態複製到文件。
 - 若 Python pipeline 擴大，可加入 `ruff`、`pytest` 與型別檢查，並把命令寫回 `AGENTS.md`。
 
+### 7. Challenge-Specific Harness
+
+本 repo 另有 `docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md`，把 `walkinglabs/awesome-harness-engineering` 中的 context management、safe autonomy、spec workflow、eval/observability、runtime harness 原則，落地成此量子挑戰賽專用配置。外部資源稽核與採納矩陣見 `docs/agent-harness/research/external-harness-resource-synthesis.zh-TW.md`。
+
+新增的 durable state 與評估入口是：
+
+- `docs/agent-harness/state/challenge-harness-state.md`：長任務交接、工作包狀態、已知風險與下一步。
+- `docs/agent-harness/schemas/eval-trace.schema.json`：未來 method run / scoring trace 的最小 JSON schema。
+- `scripts/harness/check_harness_docs.py` 與 `make harness-check`：把必要 harness artifacts、schema 形狀與內部連結轉成 deterministic check。
+
+這讓後續 quantum-inspired method、baseline、scoring harness 可以在不污染 blind input feature 的前提下，留下可重跑、可審查的輸入輸出與驗證紀錄。
+
 ## 參考來源
 
 - Anthropic: <https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start>
@@ -87,3 +99,4 @@ sh .codex/setup.sh
 - OpenAI Codex Local Environments: <https://developers.openai.com/codex/app/local-environments>
 - OpenAI Codex Permissions: <https://developers.openai.com/codex/permissions>
 - OpenAI Codex Subagents: <https://developers.openai.com/codex/concepts/subagents>
+- WalkingLabs Awesome Harness Engineering: <https://github.com/walkinglabs/awesome-harness-engineering>

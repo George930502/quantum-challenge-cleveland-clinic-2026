@@ -8,7 +8,7 @@
 
 - `challenge/`: original challenge statement and competition-specific notes.
 - `research/`: cross-dataset synthesis and research-facing reports.
-- `agent-harness/`: Codex guidance, codebase maps, and review checklists.
+- `agent-harness/`: Codex guidance grouped into navigation, workflows, state, schemas, reviews, and research synthesis.
 
 ## Rules
 
@@ -17,6 +17,8 @@
 - Use relative links when referencing repository files.
 - Keep new documents in the most specific subdirectory instead of adding more files directly under `docs/`.
 - Do not paste long copyrighted source excerpts. Summarize and cite URLs.
+- Keep `agent-harness/state/challenge-harness-state.md` concise; it is working memory, not a full lab notebook.
+- Keep `agent-harness/` root as an index only; place details in the most specific nested folder.
 
 ## Verification
 

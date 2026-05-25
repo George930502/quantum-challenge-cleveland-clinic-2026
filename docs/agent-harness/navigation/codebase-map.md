@@ -8,8 +8,8 @@ This map gives Codex and human reviewers a compact table of contents before open
 | --- | --- | --- |
 | `data/` | Checked-in RCSB source artifacts grouped by dataset and PDB ID. | `data/AGENTS.md`, download manifests, entry JSON files. |
 | `analysis/` | Generated summaries, residue contact graphs, ligand contacts, and dataset interpretation notes. | `analysis/AGENTS.md`, `analysis/cross_dataset/allosteric-challenge-three-dataset-cross-summary.json`. |
-| `docs/` | Grouped challenge notes, cross-dataset synthesis, Codex harness guidance, and review checklist. | `docs/AGENTS.md`, `docs/research/allosteric-challenge-three-dataset-feature-analysis.zh-TW.md`. |
-| `scripts/` | Python downloader and offline analyzer. | `scripts/AGENTS.md`, `scripts/analyze_allosteric_challenge_datasets.py`. |
+| `docs/` | Grouped challenge notes, cross-dataset synthesis, Codex harness guidance, task state, and review checklist. | `docs/AGENTS.md`, `docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md`, `docs/research/allosteric-challenge-three-dataset-feature-analysis.zh-TW.md`. |
+| `scripts/` | Python downloader and offline analyzer. | `scripts/AGENTS.md`, `scripts/pipeline/analyze_allosteric_challenge_datasets.py`. |
 
 ## Dataset Slugs
 
@@ -33,7 +33,19 @@ This map gives Codex and human reviewers a compact table of contents before open
 | --- | --- |
 | `docs/challenge/` | Original challenge statement and competition-detail notes. |
 | `docs/research/` | Research synthesis and generated cross-dataset reports. |
-| `docs/agent-harness/` | Agent guidance, codebase map, and review checklist. |
+| `docs/agent-harness/` | Agent guidance, codebase map, challenge harness blueprint, durable task state, eval trace schema, and review checklist. |
+
+## Harness Entrypoints
+
+| Path | Use |
+| --- | --- |
+| `docs/agent-harness/README.md` | Index and placement rules for harness documentation. |
+| `docs/agent-harness/navigation/repository-structure-placement-guide.zh-TW.md` | File placement and naming rules for future repo changes. |
+| `docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md` | Challenge-specific harness architecture and work packages. |
+| `docs/agent-harness/research/external-harness-resource-synthesis.zh-TW.md` | Synthesis of the external resources linked by `walkinglabs/awesome-harness-engineering`. |
+| `docs/agent-harness/state/challenge-harness-state.md` | Durable working memory for long-running research tasks and handoffs. |
+| `docs/agent-harness/schemas/eval-trace.schema.json` | Minimal schema for future method-run records and scoring traces. |
+| `.codex/README.md` | Recommended Codex local environment actions. |
 
 ## Large Files
 

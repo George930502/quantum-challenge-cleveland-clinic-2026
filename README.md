@@ -7,9 +7,9 @@ Research workspace for the Cleveland Clinic 2026 quantum AI challenge around all
 - `data/` contains checked-in RCSB artifacts grouped by challenge dataset and PDB ID.
 - `analysis/` contains generated per-dataset summaries, residue contact graphs, ligand-contact CSVs, and cross-dataset summaries.
 - `docs/` contains grouped challenge notes, research synthesis documents, agent harness guidance, and review checklists.
-- `scripts/` contains the downloader and offline analysis pipeline.
+- `scripts/` contains grouped executable scripts: `scripts/pipeline/` for scientific data workflows and `scripts/harness/` for repository-harness checks.
 
-For a more detailed table of contents, see [docs/agent-harness/CODEBASE_MAP.md](docs/agent-harness/CODEBASE_MAP.md).
+For a more detailed table of contents, see [docs/agent-harness/navigation/codebase-map.md](docs/agent-harness/navigation/codebase-map.md).
 
 ## Quick Start
 
@@ -20,6 +20,7 @@ make validate
 ```
 
 `make validate` reruns the offline analysis from the checked-in `data/` directory and checks whitespace with `git diff --check`.
+It also runs the harness documentation invariant check in `scripts/harness/check_harness_docs.py`.
 
 ## Language Server
 
@@ -36,13 +37,13 @@ Editors can use `node_modules/.bin/pyright-langserver --stdio`. VS Code users ca
 1. Download or refresh RCSB artifacts:
 
    ```sh
-   python3 scripts/download_allosteric_challenge_rcsb.py
+   python3 scripts/pipeline/download_allosteric_challenge_rcsb.py
    ```
 
 2. Regenerate the derived analysis:
 
    ```sh
-   python3 scripts/analyze_allosteric_challenge_datasets.py
+   python3 scripts/pipeline/analyze_allosteric_challenge_datasets.py
    ```
 
 3. Review changes in `analysis/` and `docs/` before committing. Treat validation structures and ligands as labels or sanity checks, not blind-feature inputs.
@@ -54,6 +55,10 @@ Codex and other coding agents should start with [AGENTS.md](AGENTS.md), then rea
 Relevant docs:
 
 - [docs/README.md](docs/README.md)
-- [docs/agent-harness/CODEBASE_MAP.md](docs/agent-harness/CODEBASE_MAP.md)
-- [docs/agent-harness/codex-large-project-harness.zh-TW.md](docs/agent-harness/codex-large-project-harness.zh-TW.md)
-- [docs/agent-harness/code_review.md](docs/agent-harness/code_review.md)
+- [docs/agent-harness/navigation/codebase-map.md](docs/agent-harness/navigation/codebase-map.md)
+- [docs/agent-harness/navigation/repository-structure-placement-guide.zh-TW.md](docs/agent-harness/navigation/repository-structure-placement-guide.zh-TW.md)
+- [docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md](docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md)
+- [docs/agent-harness/research/external-harness-resource-synthesis.zh-TW.md](docs/agent-harness/research/external-harness-resource-synthesis.zh-TW.md)
+- [docs/agent-harness/state/challenge-harness-state.md](docs/agent-harness/state/challenge-harness-state.md)
+- [docs/agent-harness/workflows/codex-large-project-harness.zh-TW.md](docs/agent-harness/workflows/codex-large-project-harness.zh-TW.md)
+- [docs/agent-harness/reviews/code-review-checklist.md](docs/agent-harness/reviews/code-review-checklist.md)
