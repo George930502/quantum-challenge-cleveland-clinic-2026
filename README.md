@@ -46,7 +46,13 @@ Editors can use `node_modules/.bin/pyright-langserver --stdio`. VS Code users ca
    python3 scripts/pipeline/analyze_allosteric_challenge_datasets.py
    ```
 
-3. Review changes in `analysis/` and `docs/` before committing. Treat validation structures and ligands as labels or sanity checks, not blind-feature inputs.
+3. Score current method runs against validation labels after prediction artifacts exist:
+
+   ```sh
+   make eval
+   ```
+
+4. Review changes in `analysis/` and `docs/` before committing. Treat validation structures and ligands as labels or sanity checks, not blind-feature inputs.
 
 ## Agent Workflow
 

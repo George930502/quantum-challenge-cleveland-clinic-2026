@@ -24,3 +24,10 @@ This directory contains agent-harness guidance for the challenge workspace. Keep
 - Literature or web-source synthesis goes in `research/`.
 
 Run `make harness-check` after changing this directory.
+
+## Current Workflow Additions
+
+- `workflows/ohm-like-baseline-reproduction-plan.zh-TW.md` records the paper-aligned implementation plan for the first Ohm-like allosteric propagation baseline.
+- `workflows/harness-operations-loop.zh-TW.md` records the Ralph-style operational loop, prompt refresh pattern, guide/sensor pairing, and entropy-management rules adopted from `deusyu/harness-engineering`.
+- `research/deusyu-harness-engineering-alignment.zh-TW.md` records the direct upstream scan and gap audit against `deusyu/harness-engineering`.
+- `reviews/ohm-full-reproduction-verification-2026-05-27.zh-TW.md` records the current gap audit showing that the generated runs are Ohm-like approximations, not a full Wang et al. 2020 reproduction.

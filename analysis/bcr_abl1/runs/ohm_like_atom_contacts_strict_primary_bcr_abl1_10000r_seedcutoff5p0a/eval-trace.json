@@ -1,0 +1,57 @@
+{
+  "run_id": "ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a",
+  "created_at": "2026-05-26T19:14:21.937419+00:00",
+  "dataset_slug": "bcr_abl1",
+  "input": {
+    "pdb_id": "1OPL",
+    "chain_id": "A",
+    "graph_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/connectivity-matrix.csv",
+    "metadata_paths": [
+      "data/bcr_abl1/rcsb/1opl/1OPL.pdb",
+      "data/bcr_abl1/rcsb/1opl/1OPL.cif",
+      "data/bcr_abl1/rcsb/1opl/1OPL_entry.json"
+    ],
+    "validation_paths_excluded_from_features": [
+      "data/bcr_abl1/rcsb/5mo4/5MO4.pdb",
+      "data/bcr_abl1/rcsb/5mo4/5MO4.cif",
+      "data/bcr_abl1/rcsb/5mo4/5MO4_entry.json",
+      "analysis/bcr_abl1/bcr_abl1-validation-ligand-contact-residues-8a.csv"
+    ]
+  },
+  "method": {
+    "name": "ohm_like_atom_contacts_strict",
+    "version": "0.1.0",
+    "random_seed": 20260525,
+    "parameters": {
+      "rounds": 10000,
+      "random_seed": 20260525,
+      "alpha": 1.0,
+      "atom_contact_cutoff_A": 3.4,
+      "seed_cutoff_A": 5.0,
+      "sequence_adjacent_backbone_contacts": "excluded",
+      "seed_ligands": [
+        "P16"
+      ]
+    },
+    "coarse_graining": "residue-level propagation probabilities from atom-wise contacts",
+    "hardware_assumption": "classical paper-reproduction baseline for later quantum-inspired comparison"
+  },
+  "outputs": {
+    "connectivity_matrix_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/connectivity-matrix.csv",
+    "hit_list_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/residue-hit-list.csv",
+    "report_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/method-metadata.json"
+  },
+  "metrics": {
+    "baseline_name": "ohm_like_atom_contacts_strict",
+    "scoring_status": "not_scored_prediction_stage_only",
+    "strict_scoring_ready": true
+  },
+  "verification": {
+    "command": "python3 scripts/pipeline/run_ohm_like_baseline.py --mode primary --rounds 10000",
+    "exit_code": 0,
+    "warnings": [
+      "Validation labels intentionally not read by this prediction runner."
+    ]
+  },
+  "git_commit": "d55edaff68cdd8cd3065e111fabd2a7052def1ff"
+}

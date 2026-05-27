@@ -25,6 +25,7 @@ Recommended Codex app actions:
 | Validate | `make validate` |
 | Analyze | `make analyze` |
 | Diff Check | `git diff --check` |
+| Install Hooks | `make install-hooks` |
 | Harness Orient | `sed -n '1,220p' docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md` |
 | Harness State | `sed -n '1,220p' docs/agent-harness/state/challenge-harness-state.md` |
 
@@ -35,3 +36,11 @@ python3 scripts/pipeline/download_allosteric_challenge_rcsb.py
 ```
 
 For long-running challenge-method work, use `docs/agent-harness/state/challenge-harness-state.md` as the handoff file and keep validation scoring separate from blind feature extraction.
+
+The repo-local pre-commit hook runs the cheap harness documentation gate when staged changes touch harness-controlled files:
+
+```sh
+make install-hooks
+```
+
+GitHub Actions runs `make validate` as the CI fallback.

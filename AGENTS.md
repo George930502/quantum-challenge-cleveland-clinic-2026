@@ -36,6 +36,7 @@ This repository supports the Cleveland Clinic 2026 quantum AI challenge research
 - Type check: `make typecheck`
 - Harness invariant check: `make harness-check`
 - Offline validation: `make validate`
+- Score current method runs: `make eval`
 - Regenerate analysis only: `make analyze`
 - Refresh RCSB data: `python3 scripts/pipeline/download_allosteric_challenge_rcsb.py`
 
@@ -55,3 +56,17 @@ This repository supports the Cleveland Clinic 2026 quantum AI challenge research
 - If changing downloader behavior, run the downloader only when network access is available and then run `make validate`.
 - For documentation-only edits, at minimum run `git diff --check`.
 - Review against `docs/agent-harness/reviews/code-review-checklist.md` before publishing.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs are tracked in GitHub Issues for `George930502/quantum-challenge-cleveland-clinic-2026`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default five-label triage vocabulary: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, and `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This is a single-context repo: use root `CONTEXT.md` for domain language and root `docs/adr/` for future ADRs. See `docs/agents/domain.md`.

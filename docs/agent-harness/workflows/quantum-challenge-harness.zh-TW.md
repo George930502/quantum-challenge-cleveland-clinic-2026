@@ -36,6 +36,7 @@
 | Eval trace schema | `docs/agent-harness/schemas/eval-trace.schema.json` | Minimal record format for method runs and agent-assisted experiments. |
 | Runtime commands | `Makefile`, `.codex/setup.sh`, `.codex/README.md` | Setup, typecheck, analysis, validation, and local environment actions. |
 | Harness invariant check | `scripts/harness/check_harness_docs.py`, `make harness-check` | Deterministic guard for required harness docs, schema shape, and internal links. |
+| Operations loop | `docs/agent-harness/workflows/harness-operations-loop.zh-TW.md` | Ralph-style planner/builder/critic/finalizer loop, prompt refresh, and entropy-management rules. |
 | Review gate | `docs/agent-harness/reviews/code-review-checklist.md` | Scientific, reproducibility, harness, and git hygiene checklist. |
 
 ## Recommended Work Packages
@@ -213,10 +214,12 @@ Add these only when the workflow needs them:
 - A `make eval` target after there is at least one deterministic method implementation.
 - A lightweight experiment registry under `analysis/<dataset_slug>/runs/`.
 - A repo-local skill for "add challenge dataset" after that workflow repeats at least twice.
+- A guide/sensor coverage matrix once more workflows exist, so every durable rule has either a deterministic check or an explicit human-review owner.
 
 ## References
 
 - `walkinglabs/awesome-harness-engineering`: <https://github.com/walkinglabs/awesome-harness-engineering>
+- `deusyu/harness-engineering`: <https://github.com/deusyu/harness-engineering>
 - OpenAI, "Harness engineering: leveraging Codex in an agent-first world": <https://openai.com/index/harness-engineering/>
 - Anthropic, "Effective harnesses for long-running agents": <https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents>
 - Martin Fowler / Thoughtworks, "Harness Engineering": <https://martinfowler.com/articles/exploring-gen-ai/harness-engineering.html>

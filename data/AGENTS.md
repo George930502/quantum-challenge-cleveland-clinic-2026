@@ -7,7 +7,7 @@
 ## Rules
 
 - Do not manually edit `.pdb`, `.cif`, validation XML, FASTA, PDF gzip, or RCSB JSON files.
-- Refresh data with `python3 scripts/download_allosteric_challenge_rcsb.py`.
+- Refresh data with `python3 scripts/pipeline/download_allosteric_challenge_rcsb.py`.
 - Keep each PDB entry under `data/<dataset_slug>/rcsb/<pdb_id_lower>/`.
 - Keep download manifests next to the downloaded artifacts.
 - Prefer reading manifests and JSON metadata before opening large coordinate files.

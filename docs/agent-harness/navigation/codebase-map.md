@@ -42,7 +42,11 @@ This map gives Codex and human reviewers a compact table of contents before open
 | `docs/agent-harness/README.md` | Index and placement rules for harness documentation. |
 | `docs/agent-harness/navigation/repository-structure-placement-guide.zh-TW.md` | File placement and naming rules for future repo changes. |
 | `docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md` | Challenge-specific harness architecture and work packages. |
+| `docs/agent-harness/workflows/harness-operations-loop.zh-TW.md` | Ralph-style operating loop for long tasks, guide/sensor pairing, prompt refresh, and entropy management. |
+| `docs/agent-harness/workflows/ohm-like-baseline-reproduction-plan.zh-TW.md` | Paper-aligned reproduction plan for the first Ohm-like residue propagation baseline. |
+| `docs/agent-harness/reviews/ohm-full-reproduction-verification-2026-05-27.zh-TW.md` | Audit showing the current Ohm-like runs are approximation baselines rather than a full Wang et al. 2020 reproduction. |
 | `docs/agent-harness/research/external-harness-resource-synthesis.zh-TW.md` | Synthesis of the external resources linked by `walkinglabs/awesome-harness-engineering`. |
+| `docs/agent-harness/research/deusyu-harness-engineering-alignment.zh-TW.md` | Direct gap audit against `deusyu/harness-engineering` best-practice docs. |
 | `docs/agent-harness/state/challenge-harness-state.md` | Durable working memory for long-running research tasks and handoffs. |
 | `docs/agent-harness/schemas/eval-trace.schema.json` | Minimal schema for future method-run records and scoring traces. |
 | `.codex/README.md` | Recommended Codex local environment actions. |

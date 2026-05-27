@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -eu
+
+changed_files="$(git diff --cached --name-only)"
+
+if printf '%s\n' "$changed_files" | grep -Eq '^(AGENTS\.md|README\.md|docs/|scripts/harness/|Makefile|\.codex/|\.github/workflows/harness\.yml)'; then
+  python3 scripts/harness/check_harness_docs.py
+  git diff --check --cached
+fi

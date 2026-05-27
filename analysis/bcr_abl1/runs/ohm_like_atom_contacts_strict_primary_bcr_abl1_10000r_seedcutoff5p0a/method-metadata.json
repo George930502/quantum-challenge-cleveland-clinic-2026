@@ -1,0 +1,113 @@
+{
+  "run_id": "ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a",
+  "created_at": "2026-05-26T19:14:21.937419+00:00",
+  "dataset_slug": "bcr_abl1",
+  "method": {
+    "name": "ohm_like_atom_contacts_strict",
+    "version": "0.1.0",
+    "paper": "Wang et al. 2020, Nature Communications, doi:10.1038/s41467-020-17618-2",
+    "formula_provenance": "official_code_unavailable_approximation",
+    "note": "BCR-ABL1 strict run uses input P16 ATP-site contacts and excludes input MYR from the primary benchmark."
+  },
+  "input": {
+    "pdb_id": "1OPL",
+    "chain_id": "A",
+    "pdb_path": "data/bcr_abl1/rcsb/1opl/1OPL.pdb",
+    "metadata_paths": [
+      "data/bcr_abl1/rcsb/1opl/1OPL.pdb",
+      "data/bcr_abl1/rcsb/1opl/1OPL.cif",
+      "data/bcr_abl1/rcsb/1opl/1OPL_entry.json"
+    ],
+    "validation_paths_excluded_from_features": [
+      "data/bcr_abl1/rcsb/5mo4/5MO4.pdb",
+      "data/bcr_abl1/rcsb/5mo4/5MO4.cif",
+      "data/bcr_abl1/rcsb/5mo4/5MO4_entry.json",
+      "analysis/bcr_abl1/bcr_abl1-validation-ligand-contact-residues-8a.csv"
+    ],
+    "excluded_input_ligands": [
+      "MYR"
+    ]
+  },
+  "parameters": {
+    "rounds": 10000,
+    "random_seed": 20260525,
+    "alpha": 1.0,
+    "atom_contact_cutoff_A": 3.4,
+    "seed_cutoff_A": 5.0,
+    "sequence_adjacent_backbone_contacts": "excluded",
+    "seed_ligands": [
+      "P16"
+    ]
+  },
+  "seed_residues": {
+    "all": [
+      267,
+      268,
+      272,
+      275,
+      277,
+      288,
+      289,
+      290,
+      305,
+      309,
+      318,
+      332,
+      334,
+      335,
+      336,
+      337,
+      338,
+      339,
+      340,
+      341,
+      389,
+      399,
+      400,
+      401
+    ],
+    "by_ligand": {
+      "P16": [
+        267,
+        268,
+        272,
+        275,
+        277,
+        288,
+        289,
+        290,
+        305,
+        309,
+        318,
+        332,
+        334,
+        335,
+        336,
+        337,
+        338,
+        339,
+        340,
+        341,
+        389,
+        399,
+        400,
+        401
+      ]
+    }
+  },
+  "graph": {
+    "residue_count": 451,
+    "directed_probability_edges": 2120,
+    "contact_stats": {
+      "raw_atom_contacts_within_cutoff": 4957,
+      "excluded_sequence_adjacent_backbone_contacts": 3265,
+      "retained_atom_contacts": 1692
+    }
+  },
+  "outputs": {
+    "connectivity_matrix_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/connectivity-matrix.csv",
+    "hit_list_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/residue-hit-list.csv",
+    "metadata_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/method-metadata.json",
+    "eval_trace_path": "analysis/bcr_abl1/runs/ohm_like_atom_contacts_strict_primary_bcr_abl1_10000r_seedcutoff5p0a/eval-trace.json"
+  }
+}

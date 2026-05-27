@@ -95,6 +95,12 @@
         },
         "report_path": {
           "type": "string"
+        },
+        "hotspots_path": {
+          "type": "string"
+        },
+        "hotspot_assignments_path": {
+          "type": "string"
         }
       }
     },
