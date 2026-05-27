@@ -40,6 +40,8 @@ METHOD_VERSION = "0.3.0"
 FORMULA_TAG = "wang_2020_eq_3"
 TRAVERSAL_TAG = "wang_2020_v_w_vectors"
 HOTSPOT_TAG = "wang_2020_4p5a_direction_to_higher_aci"
+PATHWAY_TAG = "wang_2020_path_stack_and_eq_4"
+PAIRWISE_TAG = "wang_2020_pairwise_aci_correlation"
 BACKBONE_ATOMS = {"N", "CA", "C", "O", "OXT"}
 
 
@@ -95,6 +97,24 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--atom-contact-cutoff-a", type=float, default=DEFAULT_ATOM_CONTACT_CUTOFF_A)
     parser.add_argument("--seed-cutoff-a", type=float, default=DEFAULT_SEED_CUTOFF_A)
     parser.add_argument("--hotspot-neighbor-cutoff-a", type=float, default=DEFAULT_HOTSPOT_NEIGHBOR_CUTOFF_A)
+    parser.add_argument(
+        "--pathway-rounds",
+        type=int,
+        default=None,
+        help="Rounds for active-site to selected-allosteric-site pathway histograms. Defaults to --rounds.",
+    )
+    parser.add_argument(
+        "--pairwise-correlation-rounds",
+        type=int,
+        default=0,
+        help="If >0, run unknown-site pairwise ACI correlation mode with this many rounds per source residue.",
+    )
+    parser.add_argument(
+        "--pairwise-top-n",
+        type=int,
+        default=200,
+        help="Number of strongest pairwise correlations to write when pairwise mode is enabled.",
+    )
     parser.add_argument("--mode", choices=["smoke", "primary", "custom"], default="primary")
     return parser.parse_args()
 
@@ -254,6 +274,136 @@ def propagate_aci(probabilities: np.ndarray, seed_indices: list[int], rounds: in
             frontier = next_frontier
         affected_counts += affected.astype(np.int64)
     return affected_counts / rounds
+
+
+def pathway_histogram(
+    probabilities: np.ndarray,
+    seed_indices: list[int],
+    target_index: int,
+    rounds: int,
+    random_seed: int,
+) -> tuple[dict[tuple[int, ...], int], int]:
+    rng = np.random.default_rng(random_seed)
+    neighbors = [np.flatnonzero(probabilities[row] > 0.0) for row in range(probabilities.shape[0])]
+    path_counts: dict[tuple[int, ...], int] = defaultdict(int)
+    target_affected_rounds = 0
+    for _round in range(rounds):
+        affected = np.zeros(probabilities.shape[0], dtype=bool)
+        visited = np.zeros(probabilities.shape[0], dtype=bool)
+        paths: dict[int, tuple[int, ...]] = {}
+        frontier = list(seed_indices)
+        for seed_index in seed_indices:
+            affected[seed_index] = True
+            visited[seed_index] = True
+            paths[seed_index] = (seed_index,)
+        while frontier:
+            next_frontier = []
+            for source in frontier:
+                candidates = [candidate for candidate in neighbors[source] if not visited[candidate]]
+                if not candidates:
+                    continue
+                draws = rng.random(len(candidates))
+                for candidate, draw in zip(candidates, draws):
+                    if affected[source] and draw < probabilities[source, candidate]:
+                        affected[candidate] = True
+                        paths[int(candidate)] = (*paths[source], int(candidate))
+                    visited[candidate] = True
+                    next_frontier.append(int(candidate))
+            frontier = next_frontier
+        if affected[target_index] and target_index in paths:
+            target_affected_rounds += 1
+            path_counts[paths[target_index]] += 1
+    return dict(path_counts), target_affected_rounds
+
+
+def pathway_rows(
+    path_counts: dict[tuple[int, ...], int],
+    residues: list[int],
+    names: dict[int, str],
+    rounds: int,
+) -> list[dict]:
+    rows = []
+    sorted_paths = sorted(path_counts.items(), key=lambda item: (-item[1], tuple(residues[index] for index in item[0])))
+    for rank, (path, count) in enumerate(sorted_paths, start=1):
+        residue_path = [residues[index] for index in path]
+        rows.append(
+            {
+                "pathway_rank": rank,
+                "round_count": count,
+                "weight": round(count / rounds, 8) if rounds else 0.0,
+                "path_length": len(path),
+                "residue_path": ";".join(str(residue) for residue in residue_path),
+                "resname_path": ";".join(names[residue] for residue in residue_path),
+            }
+        )
+    return rows
+
+
+def critical_residue_rows(path_counts: dict[tuple[int, ...], int], residues: list[int], names: dict[int, str], rounds: int) -> list[dict]:
+    importance: dict[int, float] = defaultdict(float)
+    appearances: dict[int, int] = defaultdict(int)
+    for path, count in sorted(path_counts.items(), key=lambda item: (-item[1], item[0])):
+        weight = count / rounds if rounds else 0.0
+        for residue_index in path:
+            residue = residues[residue_index]
+            appearances[residue] += count
+            current = importance[residue]
+            importance[residue] = current + weight - current * weight
+    rows = []
+    for rank, (residue, score) in enumerate(sorted(importance.items(), key=lambda item: (-item[1], item[0])), start=1):
+        rows.append(
+            {
+                "critical_rank": rank,
+                "residue": residue,
+                "resname": names[residue],
+                "importance": round(score, 8),
+                "pathway_round_appearances": appearances[residue],
+            }
+        )
+    return rows
+
+
+def pairwise_correlation_rows(
+    probabilities: np.ndarray,
+    residues: list[int],
+    names: dict[int, str],
+    rounds: int,
+    random_seed: int,
+    top_n: int,
+) -> tuple[list[dict], dict]:
+    if rounds <= 0:
+        return [], {"enabled": False, "rounds_per_source": 0}
+    aci_by_source = np.zeros_like(probabilities, dtype=np.float64)
+    for source_index in range(len(residues)):
+        aci_by_source[source_index, :] = propagate_aci(probabilities, [source_index], rounds, random_seed + source_index)
+    rows = []
+    for left_index, left_residue in enumerate(residues):
+        for right_index in range(left_index + 1, len(residues)):
+            right_residue = residues[right_index]
+            forward = float(aci_by_source[left_index, right_index])
+            reverse = float(aci_by_source[right_index, left_index])
+            score = (forward + reverse) / 2.0
+            rows.append(
+                {
+                    "pair_rank": 0,
+                    "residue_i": left_residue,
+                    "resname_i": names[left_residue],
+                    "residue_j": right_residue,
+                    "resname_j": names[right_residue],
+                    "correlation_score": round(score, 8),
+                    "aci_i_to_j": round(forward, 8),
+                    "aci_j_to_i": round(reverse, 8),
+                }
+            )
+    rows = sorted(rows, key=lambda row: (-float(row["correlation_score"]), int(row["residue_i"]), int(row["residue_j"])))[:top_n]
+    for rank, row in enumerate(rows, start=1):
+        row["pair_rank"] = rank
+    return rows, {
+        "enabled": True,
+        "rounds_per_source": rounds,
+        "top_n_written": len(rows),
+        "source_residue_count": len(residues),
+    }
 
 
 def selected_allosteric_residue(
@@ -469,6 +619,7 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
     residue_to_index = {residue: index for index, residue in enumerate(residues)}
     seed_indices = [residue_to_index[residue] for residue in seed_residues if residue in residue_to_index]
     aci_scores = propagate_aci(probabilities, seed_indices, args.rounds, args.seed)
+    selected_site = selected_allosteric_residue(residues, names, aci_scores, seed_residues)
     non_seed_residues = [residue for residue in residues if residue not in set(seed_residues)]
     non_seed_aci_scores = np.array([aci_scores[residue_to_index[residue]] for residue in non_seed_residues])
     hotspots = hotspot_assignments(
@@ -478,6 +629,27 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
         residue_atoms,
         args.hotspot_neighbor_cutoff_a,
     )
+    pathway_rounds = args.rounds if args.pathway_rounds is None else args.pathway_rounds
+    path_counts: dict[tuple[int, ...], int] = {}
+    target_affected_rounds = 0
+    if selected_site:
+        path_counts, target_affected_rounds = pathway_histogram(
+            probabilities,
+            seed_indices,
+            residue_to_index[int(selected_site["residue"])],
+            pathway_rounds,
+            args.seed + 101,
+        )
+    pathway_output_rows = pathway_rows(path_counts, residues, names, pathway_rounds)
+    critical_output_rows = critical_residue_rows(path_counts, residues, names, pathway_rounds)
+    pairwise_output_rows, pairwise_summary = pairwise_correlation_rows(
+        probabilities,
+        residues,
+        names,
+        args.pairwise_correlation_rounds,
+        args.seed + 10001,
+        args.pairwise_top_n,
+    )
 
     current_run_id = run_id(dataset_slug, args.mode, args.rounds, args.alpha, args.seed_cutoff_a)
     out_dir = ANALYSIS_ROOT / dataset_slug / "runs" / current_run_id
@@ -486,6 +658,9 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
     hit_list_path = out_dir / "residue-hit-list.csv"
     hotspots_path = out_dir / "hotspots.csv"
     hotspot_assignments_path = out_dir / "residue-hotspot-assignments.csv"
+    pathways_path = out_dir / "allosteric-pathways.csv"
+    critical_residues_path = out_dir / "critical-residues.csv"
+    pairwise_correlations_path = out_dir / "pairwise-correlations.csv"
     metadata_path = out_dir / "method-metadata.json"
     trace_path = out_dir / "eval-trace.json"
 
@@ -493,6 +668,12 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
     write_hit_list(hit_list_path, residues, names, aci_scores, seed_residues)
     write_rows(hotspots_path, hotspots["hotspot_rows"])
     write_rows(hotspot_assignments_path, hotspots["assignment_rows"])
+    if pathway_output_rows:
+        write_rows(pathways_path, pathway_output_rows)
+    if critical_output_rows:
+        write_rows(critical_residues_path, critical_output_rows)
+    if pairwise_output_rows:
+        write_rows(pairwise_correlations_path, pairwise_output_rows)
 
     validation_exclusions = validation_paths_for_metadata(dataset_slug)
     input_metadata_paths = [
@@ -511,6 +692,8 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
             "formula_provenance": FORMULA_TAG,
             "traversal_provenance": TRAVERSAL_TAG,
             "hotspot_provenance": HOTSPOT_TAG,
+            "pathway_provenance": PATHWAY_TAG,
+            "pairwise_correlation_provenance": PAIRWISE_TAG,
             "note": spec["note"],
         },
         "input": {
@@ -530,15 +713,21 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
             "sequence_adjacent_backbone_contacts": "excluded",
             "seed_ligands": spec["seed_ligands"],
             "hotspot_neighbor_cutoff_A": args.hotspot_neighbor_cutoff_a,
+            "pathway_rounds": pathway_rounds,
+            "pairwise_correlation_rounds_per_source": args.pairwise_correlation_rounds,
+            "pairwise_top_n": args.pairwise_top_n,
             "propagation_probability_formula": "P_ij = 1 - exp(-alpha * C_ij / atom_count_i)",
             "traversal_semantics": "separate V affected vector and W visited vector; failed propagation still marks the candidate visited",
             "hotspot_direction_rule": "exclude active-site seed residues, then assign each residue to the higher-ACI neighbor within the hotspot cutoff; tie-break by highest ACI then lowest residue number",
+            "pathway_rule": "record active-site-seed-to-selected-allosteric-site paths from stochastic propagations; pathway weight is count / pathway_rounds",
+            "critical_residue_importance_formula": "p_a = p_a + p_i - p_a * p_i for each pathway containing residue a",
+            "pairwise_correlation_rule": "unknown-site mode; each residue is used as a single source and pair score is mean(ACI_i_to_j, ACI_j_to_i)",
         },
         "seed_residues": {
             "all": seed_residues,
             "by_ligand": seed_by_ligand,
         },
-        "selected_allosteric_residue": selected_allosteric_residue(residues, names, aci_scores, seed_residues),
+        "selected_allosteric_residue": selected_site,
         "hotspots": {
             "count": hotspots["hotspot_count"],
             "clustered_residue_count": hotspots["clustered_residue_count"],
@@ -546,6 +735,18 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
             "hotspot_neighbor_cutoff_A": args.hotspot_neighbor_cutoff_a,
             "hotspots_path": rel(hotspots_path),
             "assignments_path": rel(hotspot_assignments_path),
+        },
+        "pathways": {
+            "target_selection": "selected_allosteric_residue",
+            "rounds": pathway_rounds,
+            "target_affected_rounds": target_affected_rounds,
+            "unique_pathway_count": len(pathway_output_rows),
+            "pathways_path": rel(pathways_path) if pathway_output_rows else None,
+            "critical_residues_path": rel(critical_residues_path) if critical_output_rows else None,
+        },
+        "pairwise_correlations": {
+            **pairwise_summary,
+            "pairwise_correlations_path": rel(pairwise_correlations_path) if pairwise_output_rows else None,
         },
         "graph": {
             "residue_count": len(residues),
@@ -557,6 +758,9 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
             "hit_list_path": rel(hit_list_path),
             "hotspots_path": rel(hotspots_path),
             "hotspot_assignments_path": rel(hotspot_assignments_path),
+            "pathways_path": rel(pathways_path) if pathway_output_rows else None,
+            "critical_residues_path": rel(critical_residues_path) if critical_output_rows else None,
+            "pairwise_correlations_path": rel(pairwise_correlations_path) if pairwise_output_rows else None,
             "metadata_path": rel(metadata_path),
             "eval_trace_path": rel(trace_path),
         },
@@ -587,6 +791,9 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
             "hit_list_path": rel(hit_list_path),
             "hotspots_path": rel(hotspots_path),
             "hotspot_assignments_path": rel(hotspot_assignments_path),
+            "pathways_path": rel(pathways_path) if pathway_output_rows else None,
+            "critical_residues_path": rel(critical_residues_path) if critical_output_rows else None,
+            "pairwise_correlations_path": rel(pairwise_correlations_path) if pairwise_output_rows else None,
             "report_path": rel(metadata_path),
         },
         "metrics": {

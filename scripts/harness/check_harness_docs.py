@@ -69,6 +69,9 @@ TRACE_OUTPUT_ALLOWED = {
     "report_path",
     "hotspots_path",
     "hotspot_assignments_path",
+    "pathways_path",
+    "critical_residues_path",
+    "pairwise_correlations_path",
 }
 TRACE_VERIFICATION_REQUIRED = {"command", "exit_code"}
 
@@ -211,6 +214,8 @@ def check_eval_trace_file(trace_path: Path) -> None:
     if not trace["input"]["validation_paths_excluded_from_features"]:
         fail(f"{label}.input.validation_paths_excluded_from_features must not be empty")
     for output_key, raw_path in trace["outputs"].items():
+        if raw_path is None:
+            continue
         output_path = ROOT / raw_path
         if not output_path.exists():
             fail(f"{label}.outputs.{output_key} target missing: {raw_path}")

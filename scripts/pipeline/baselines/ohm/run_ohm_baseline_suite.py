@@ -30,6 +30,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed-cutoffs-a", nargs="+", type=float, default=DEFAULT_SEED_CUTOFFS)
     parser.add_argument("--rounds", type=int, default=DEFAULT_ROUNDS)
     parser.add_argument("--seed", type=int, default=DEFAULT_RANDOM_SEED)
+    parser.add_argument("--pathway-rounds", type=int, default=None)
+    parser.add_argument("--pairwise-correlation-rounds", type=int, default=0)
+    parser.add_argument("--pairwise-top-n", type=int, default=200)
     parser.add_argument("--mode", choices=["custom", "smoke", "primary"], default="custom")
     parser.add_argument(
         "--skip-run",
@@ -110,6 +113,18 @@ def summary_row(dataset_slug: str, current_run_id: str, alpha: float, seed_cutof
         else hotspot_top_5["enrichment_vs_same_size_random"],
         "weighted_total_degree_top_10_hits": weighted_degree_top_10,
         "nearest_seed_distance_top_10_hits": seed_distance_top_10,
+        "pathway_top_10_validation_hits": metric_or_none(
+            metrics,
+            ["pathways", "top_k", "top_10", "covered_validation_residue_count"],
+        ),
+        "critical_residue_top_10_hits": metric_or_none(
+            metrics,
+            ["critical_residues", "top_k", "top_10", "hit_count"],
+        ),
+        "pairwise_top_10_pairs_with_any_validation_endpoint": metric_or_none(
+            metrics,
+            ["pairwise_correlations", "top_k", "top_10", "pairs_with_any_validation_endpoint"],
+        ),
         "score_report_path": rel(score_report_path(dataset_slug, current_run_id)),
     }
 
@@ -125,6 +140,9 @@ def write_summary(rows: list[dict[str, object]], args: argparse.Namespace) -> No
             "seed_cutoffs_A": args.seed_cutoffs_a,
             "rounds": args.rounds,
             "random_seed": args.seed,
+            "pathway_rounds": args.pathway_rounds,
+            "pairwise_correlation_rounds": args.pairwise_correlation_rounds,
+            "pairwise_top_n": args.pairwise_top_n,
             "mode": args.mode,
             "skip_run": args.skip_run,
         },
@@ -145,25 +163,30 @@ def main() -> None:
     for alpha in args.alphas:
         for seed_cutoff in args.seed_cutoffs_a:
             if not args.skip_run:
-                run_command(
-                    [
-                        "python3",
-                        "-m",
-                        "scripts.pipeline.baselines.ohm.run_ohm_like_baseline",
-                        "--datasets",
-                        *args.datasets,
-                        "--mode",
-                        args.mode,
-                        "--rounds",
-                        str(args.rounds),
-                        "--seed",
-                        str(args.seed),
-                        "--alpha",
-                        str(alpha),
-                        "--seed-cutoff-a",
-                        str(seed_cutoff),
-                    ]
-                )
+                command = [
+                    "python3",
+                    "-m",
+                    "scripts.pipeline.baselines.ohm.run_ohm_like_baseline",
+                    "--datasets",
+                    *args.datasets,
+                    "--mode",
+                    args.mode,
+                    "--rounds",
+                    str(args.rounds),
+                    "--seed",
+                    str(args.seed),
+                    "--alpha",
+                    str(alpha),
+                    "--seed-cutoff-a",
+                    str(seed_cutoff),
+                    "--pairwise-correlation-rounds",
+                    str(args.pairwise_correlation_rounds),
+                    "--pairwise-top-n",
+                    str(args.pairwise_top_n),
+                ]
+                if args.pathway_rounds is not None:
+                    command.extend(["--pathway-rounds", str(args.pathway_rounds)])
+                run_command(command)
             for dataset_slug in args.datasets:
                 current_run_id = run_id(dataset_slug, args.mode, args.rounds, alpha, seed_cutoff)
                 run_specs.append((dataset_slug, current_run_id, alpha, seed_cutoff))

@@ -101,6 +101,15 @@
         },
         "hotspot_assignments_path": {
           "type": "string"
+        },
+        "pathways_path": {
+          "type": ["string", "null"]
+        },
+        "critical_residues_path": {
+          "type": ["string", "null"]
+        },
+        "pairwise_correlations_path": {
+          "type": ["string", "null"]
         }
       }
     },

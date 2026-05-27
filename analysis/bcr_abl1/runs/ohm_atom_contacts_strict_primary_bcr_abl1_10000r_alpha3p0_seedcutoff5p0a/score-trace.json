@@ -1,6 +1,6 @@
 {
   "run_id": "ohm_atom_contacts_strict_primary_bcr_abl1_10000r_alpha3p0_seedcutoff5p0a__score",
-  "created_at": "2026-05-27T06:19:49.469493+00:00",
+  "created_at": "2026-05-27T11:19:41.964243+00:00",
   "dataset_slug": "bcr_abl1",
   "input": {
     "pdb_id": "1OPL",
@@ -33,6 +33,9 @@
       "validation_label_cutoff_A": 8.0,
       "includes_seed_label_overlap": true,
       "includes_hotspot_same_size_random_enrichment": true,
+      "includes_pathway_validation_coverage": true,
+      "includes_critical_residue_ranking": true,
+      "includes_pairwise_correlation_endpoint_scoring": true,
       "includes_graph_comparator_baselines": true
     },
     "coarse_graining": "post-prediction residue-level and hotspot-level validation scoring",
@@ -60,5 +63,5 @@
       "Validation labels are intentionally read only by this scorer."
     ]
   },
-  "git_commit": "2d1b82779cf6307fb333f504e41007b7e59b160b"
+  "git_commit": "c961470a5a4eea745d64d9f61d2e32d70cd54bf5"
 }

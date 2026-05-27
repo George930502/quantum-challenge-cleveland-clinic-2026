@@ -16,11 +16,11 @@
 | --- | --- | --- |
 | Structure-only input, no MD trajectory | Use checked-in challenge input structures only for feature construction. | Paper abstract/results; challenge harness leakage rule. |
 | Atom-wise contact extraction | Compute heavy-atom residue-residue contacts from input PDB with 3.4 A cutoff. | Paper Methods, average atom-contacts matrix. |
-| Propagation probability matrix | Current core runner converts atom contact counts with Wang et al. Eq. 3: `P_ij = 1 - exp(-alpha * C_ij / atom_count_i)`. Older `ohm_like_atom_contacts_strict_*` runs remain documented approximation baselines. | Paper Eq. 1-3 description; exact source code unavailable. |
+| Propagation probability matrix | Current core runner converts atom contact counts with Wang et al. Eq. 3: `P_ij = 1 - exp(-alpha * C_ij / atom_count_i)`. Legacy approximation outputs have been removed from the active artifact set. | Paper Eq. 1-3 description; exact source code unavailable. |
 | Active-site seeded allosteric-site prediction | Use permitted input active-site ligand contacts as perturbation seeds. | Paper active-site ACI workflow and seed-sensitivity discussion. |
 | Repeated stochastic propagation | Use 10,000 rounds for primary runs, fixed RNG seed for repo determinism, and the paper's separate `V`/`W` vector traversal semantics. | Paper perturbation propagation algorithm; repo reproducibility rule. |
 | ACI residue ranking | Rank residues by frequency of being affected by perturbation. | Paper ACI definition. |
-| Hotspot clustering/pathway analysis | Hotspot clustering now uses seed-excluded 4.5 A direction-to-higher-ACI assignments. Pathway and critical-residue analysis remain open. | Paper hotspot method; active-site exclusion for allosteric-site reporting. |
+| Hotspot clustering/pathway analysis | Hotspot clustering now uses seed-excluded 4.5 A direction-to-higher-ACI assignments. Pathway histograms, Eq. 4 critical residues, and pairwise-correlation artifacts are emitted by the current primary pipeline. | Paper hotspot method; active-site exclusion for allosteric-site reporting. |
 
 ## Resolved Challenge Policies
 

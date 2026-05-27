@@ -268,6 +268,106 @@ def hotspot_metrics(path: Path, positives: set[int], ranked_population: set[int]
     }
 
 
+def pathway_metrics(path: Path, positives: set[int], ranked_population: set[int], top_k_values: list[int]) -> dict | None:
+    if not path.exists():
+        return None
+    rows = read_csv_rows(path)
+    pathways = []
+    for row in rows:
+        residues = [int(value) for value in row["residue_path"].split(";") if value]
+        hit_residues = sorted(set(residues) & positives & ranked_population)
+        pathways.append(
+            {
+                "pathway_rank": int(row["pathway_rank"]),
+                "round_count": int(row["round_count"]),
+                "weight": float(row["weight"]),
+                "path_length": int(row["path_length"]),
+                "residue_path": residues,
+                "validation_hit_count": len(hit_residues),
+                "validation_hit_residues": hit_residues,
+            }
+        )
+    top_k = {}
+    positive_count = len(ranked_population & positives)
+    for cutoff in sorted(set(top_k_values)):
+        selected = pathways[: min(cutoff, len(pathways))]
+        selected_members = sorted({residue for pathway in selected for residue in pathway["residue_path"]} & ranked_population)
+        covered = sorted(set(selected_members) & positives)
+        recall = len(covered) / positive_count if positive_count else 0.0
+        precision = len(covered) / len(selected_members) if selected_members else 0.0
+        top_k[f"top_{cutoff}"] = {
+            "effective_k": min(cutoff, len(pathways)),
+            "covered_member_count": len(selected_members),
+            "covered_validation_residue_count": len(covered),
+            "covered_validation_residues": covered,
+            "member_precision": round(precision, 8),
+            "validation_recall": round(recall, 8),
+        }
+    return {
+        "pathway_count": len(pathways),
+        "top_k": top_k,
+        "pathways": pathways[: min(50, len(pathways))],
+    }
+
+
+def critical_residue_metrics(path: Path, positives: set[int], top_k_values: list[int]) -> dict | None:
+    if not path.exists():
+        return None
+    rows = read_csv_rows(path)
+    ranked = [
+        {
+            "rank": int(row["critical_rank"]),
+            "residue": int(row["residue"]),
+            "resname": row["resname"],
+            "score": float(row["importance"]),
+        }
+        for row in rows
+    ]
+    ranked = sorted(ranked, key=lambda item: (int(item["rank"]), int(item["residue"])))
+    summary = ranking_summary(ranked, positives, top_k_values)
+    summary["critical_residue_count"] = len(ranked)
+    return summary
+
+
+def pairwise_correlation_metrics(path: Path, positives: set[int], ranked_population: set[int], top_k_values: list[int]) -> dict | None:
+    if not path.exists():
+        return None
+    rows = read_csv_rows(path)
+    pairs = []
+    for row in rows:
+        left = int(row["residue_i"])
+        right = int(row["residue_j"])
+        endpoints = {left, right}
+        validation_endpoints = sorted(endpoints & positives & ranked_population)
+        pairs.append(
+            {
+                "pair_rank": int(row["pair_rank"]),
+                "residue_i": left,
+                "residue_j": right,
+                "correlation_score": float(row["correlation_score"]),
+                "validation_endpoint_count": len(validation_endpoints),
+                "validation_endpoints": validation_endpoints,
+                "both_endpoints_validation_contacts": len(validation_endpoints) == 2,
+            }
+        )
+    top_k = {}
+    for cutoff in sorted(set(top_k_values)):
+        selected = pairs[: min(cutoff, len(pairs))]
+        endpoint_hits = sorted({residue for pair in selected for residue in pair["validation_endpoints"]})
+        top_k[f"top_{cutoff}"] = {
+            "effective_k": min(cutoff, len(pairs)),
+            "pairs_with_any_validation_endpoint": sum(1 for pair in selected if pair["validation_endpoint_count"] > 0),
+            "pairs_with_both_validation_endpoints": sum(1 for pair in selected if pair["both_endpoints_validation_contacts"]),
+            "covered_validation_endpoint_count": len(endpoint_hits),
+            "covered_validation_endpoints": endpoint_hits,
+        }
+    return {
+        "pair_count_scored": len(pairs),
+        "top_k": top_k,
+        "pairs": pairs[: min(50, len(pairs))],
+    }
+
+
 def selected_residue_metric(metadata: dict, positives: set[int]) -> dict | None:
     selected = metadata.get("selected_allosteric_residue")
     if not selected:
@@ -405,6 +505,9 @@ def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) ->
     metadata_path = current_run_dir / "method-metadata.json"
     hit_list_path = current_run_dir / "residue-hit-list.csv"
     hotspots_path = current_run_dir / "hotspots.csv"
+    pathways_path = current_run_dir / "allosteric-pathways.csv"
+    critical_residues_path = current_run_dir / "critical-residues.csv"
+    pairwise_correlations_path = current_run_dir / "pairwise-correlations.csv"
     if not metadata_path.exists() or not hit_list_path.exists():
         raise SystemExit(f"missing run outputs under {current_run_dir}")
 
@@ -428,6 +531,9 @@ def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) ->
         "auroc": None if auroc_value is None else round(auroc_value, 8),
         "selected_allosteric_residue": selected_residue_metric(metadata, labels),
         "hotspots": hotspot_metrics(hotspots_path, labels, ranked_population, top_k_values),
+        "pathways": pathway_metrics(pathways_path, labels, ranked_population, top_k_values),
+        "critical_residues": critical_residue_metrics(critical_residues_path, labels, top_k_values),
+        "pairwise_correlations": pairwise_correlation_metrics(pairwise_correlations_path, labels, ranked_population, top_k_values),
         "graph_comparator_baselines": comparator_metrics(
             current_run_dir / "connectivity-matrix.csv",
             hit_rows,
@@ -467,6 +573,9 @@ def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) ->
                 "validation_label_cutoff_A": 8.0,
                 "includes_seed_label_overlap": True,
                 "includes_hotspot_same_size_random_enrichment": True,
+                "includes_pathway_validation_coverage": True,
+                "includes_critical_residue_ranking": True,
+                "includes_pairwise_correlation_endpoint_scoring": True,
                 "includes_graph_comparator_baselines": True,
             },
             "coarse_graining": "post-prediction residue-level and hotspot-level validation scoring",
