@@ -27,7 +27,7 @@ This repository supports the Cleveland Clinic 2026 quantum AI challenge research
 - The offline analysis dependency is `numpy`.
 - Install local LSP/type-check tooling with `make lsp`.
 - Python language-server support uses project-local Pyright (`node_modules/.bin/pyright-langserver`).
-- Network is only required for `scripts/pipeline/download_allosteric_challenge_rcsb.py`.
+- Network is only required for `python3 -m scripts.pipeline.data_refresh.download_allosteric_challenge_rcsb`.
 
 ## Commands
 
@@ -38,7 +38,7 @@ This repository supports the Cleveland Clinic 2026 quantum AI challenge research
 - Offline validation: `make validate`
 - Score current method runs: `make eval`
 - Regenerate analysis only: `make analyze`
-- Refresh RCSB data: `python3 scripts/pipeline/download_allosteric_challenge_rcsb.py`
+- Refresh RCSB data: `python3 -m scripts.pipeline.data_refresh.download_allosteric_challenge_rcsb`
 
 ## Working Rules
 

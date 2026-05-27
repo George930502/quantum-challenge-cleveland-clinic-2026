@@ -44,6 +44,19 @@ REQUIRED_BLUEPRINT_TERMS = [
     "harness-operations-loop.zh-TW.md",
 ]
 
+OBSOLETE_FILES = [
+    "docs/agent-harness/workflows/codex-large-project-harness.zh-TW.md",
+]
+
+STALE_PATH_TERMS = [
+    "scripts/pipeline/download_allosteric_challenge_rcsb.py",
+    "scripts/pipeline/analyze_allosteric_challenge_datasets.py",
+    "scripts/pipeline/run_ohm_like_baseline.py",
+    "scripts/pipeline/score_residue_hit_lists.py",
+    "python3 scripts/pipeline",
+    "scripts/download_allosteric_challenge_rcsb.py",
+]
+
 DATASET_SLUGS = ["kras_g12c", "bcr_abl1", "cardiac_myosin"]
 
 TRACE_TOP_LEVEL_REQUIRED = {"run_id", "created_at", "dataset_slug", "input", "method", "outputs", "metrics", "verification"}
@@ -72,6 +85,26 @@ def check_required_files() -> None:
     missing = [path for path in REQUIRED_FILES if not (ROOT / path).exists()]
     if missing:
         fail(f"missing required files: {', '.join(missing)}")
+
+
+def check_entropy_cleanup() -> None:
+    present = [path for path in OBSOLETE_FILES if (ROOT / path).exists()]
+    if present:
+        fail(f"obsolete harness docs should be removed: {', '.join(present)}")
+
+    scanned_paths = [
+        path
+        for path in list(ROOT.rglob("*.md")) + list(ROOT.rglob("*.py"))
+        if not any(part.startswith(".") for part in path.relative_to(ROOT).parts)
+        and "node_modules" not in path.parts
+        and "__pycache__" not in path.parts
+        and path != Path(__file__).resolve()
+    ]
+    for path in scanned_paths:
+        text = read_text(path)
+        for stale_term in STALE_PATH_TERMS:
+            if stale_term in text:
+                fail(f"{path.relative_to(ROOT)} contains stale path term: {stale_term}")
 
 
 def check_schema() -> None:
@@ -141,9 +174,9 @@ def check_hook_setup() -> None:
 
 def check_dataset_slug_consistency() -> None:
     for script_path in [
-        ROOT / "scripts/pipeline/download_allosteric_challenge_rcsb.py",
-        ROOT / "scripts/pipeline/analyze_allosteric_challenge_datasets.py",
-        ROOT / "scripts/pipeline/run_ohm_like_baseline.py",
+        ROOT / "scripts/pipeline/data_refresh/download_allosteric_challenge_rcsb.py",
+        ROOT / "scripts/pipeline/analysis/analyze_allosteric_challenge_datasets.py",
+        ROOT / "scripts/pipeline/baselines/ohm/run_ohm_like_baseline.py",
     ]:
         if not script_path.exists():
             continue
@@ -190,6 +223,7 @@ def check_eval_traces() -> None:
 
 def main() -> None:
     check_required_files()
+    check_entropy_cleanup()
     check_schema()
     check_state_markers()
     check_blueprint_terms()

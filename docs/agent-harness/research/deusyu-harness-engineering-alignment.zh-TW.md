@@ -21,6 +21,57 @@
 | `works/` | 12 篇翻譯與 1 篇中文詮釋, `AGENTS.md` | 可獨立理解的作品輸出；翻譯計數納入一致性檢查，避免展示層漂移。 |
 | Operational | `scripts/check-consistency.sh`, `.githooks/pre-commit`, `.github/workflows/consistency.yml` | 七層漂移檢查、本地 pre-commit、CI fallback。 |
 
+完整 Markdown inventory：
+
+```text
+AGENTS.md
+README.en.md
+README.md
+concepts/00-overview.md
+concepts/01-repo-as-source-of-truth.md
+concepts/02-mechanical-enforcement.md
+concepts/03-entropy-and-garbage-collection.md
+concepts/04-agent-readability.md
+concepts/05-throughput-changes-merge.md
+concepts/06-harness-definition.md
+concepts/07-spec-as-product.md
+concepts/AGENTS.md
+feedback/2026-04-14-translation-as-harness.md
+feedback/AGENTS.md
+practice/01-ralph-demo/README.md
+practice/AGENTS.md
+prompts/AGENTS.md
+prompts/deep-research-tracker.md
+references/AGENTS.md
+references/articles.md
+thinking/AGENTS.md
+thinking/cross-article-insights.md
+thinking/evaluation-elephant-in-the-room.md
+thinking/guides-sensors-meets-claude-code-harness.md
+thinking/harness-for-solo-developers.md
+thinking/harnessability-and-java.md
+thinking/meta-harness-tensions.md
+thinking/software-project-complexity-in-the-ai-era.md
+thinking/why-this-project-exists.md
+tools/00-overview.md
+tools/AGENTS.md
+works/AGENTS.md
+works/anthropic-managed-agents-translation.md
+works/dotey-pachaar-anatomy-zh-cn-repost.md
+works/fowler-encoding-team-standards-translation.md
+works/fowler-feedback-flywheel-translation.md
+works/fowler-harness-engineering-full-translation.md
+works/fowler-harness-engineering-memo-translation.md
+works/github-agent-driven-development-translation.md
+works/harness-engineering-chinese-interpretation.md
+works/inside-the-scaffold-paper-translation.md
+works/langchain-agent-evaluation-checklist-translation.md
+works/langchain-continual-learning-translation.md
+works/maganti-eight-years-building-ai-translation.md
+works/meta-harness-paper-translation.md
+works/openai-codex-symphony-translation.md
+```
+
 ## 抽取出的最佳實踐
 
 1. **Repo 是 agent 的系統記錄。** 規格、決策、狀態、任務描述、驗證結果都應版本化；聊天記憶與外部文件不能作為唯一來源。
@@ -39,7 +90,7 @@
 | Repo-local guidance | 已有 root/nested `AGENTS.md`、`README.md`、codebase map。 | 維持 root lean；細節留在 `docs/agent-harness/`。 |
 | Progressive disclosure | 已有 `docs/agent-harness/navigation/codebase-map.md` 與 placement guide。 | 新增本文件與 operation loop，避免把 upstream 掃描結果塞進 root。 |
 | Guide + sensor | 已有 blueprint、state、review checklist、schema、`make validate`。 | 將 operation loop 納入 required harness docs；新增 hook/CI fallback。 |
-| Mechanical drift checks | 已有 `scripts/harness/check_harness_docs.py`。 | 擴充 required files，檢查 CI workflow、pre-commit hook、Makefile hook target 與 run trace schema。 |
+| Mechanical drift checks | 已有 `scripts/harness/check_harness_docs.py`。 | 擴充 required files，檢查 CI workflow、pre-commit hook、Makefile hook target、dataset slug consistency 與 run trace schema。 |
 | Durable state | 已有 `challenge-harness-state.md`。 | Operation loop 明確規定何時更新 state、何時新增 review artifact。 |
 | Ralph loop | 尚未顯式落地。 | 新增 `harness-operations-loop.zh-TW.md`，用於長任務的 role split、backpressure 和 completion signal。 |
 | Prompt tracker | 尚未顯式落地。 | Operation loop 加入 harness research refresh prompt 形狀與收錄決策流程。 |
@@ -57,8 +108,8 @@
 
 ## Remaining Gaps
 
-- `make eval` 尚未存在；等 scoring harness 完成後再新增。
-- run trace JSONL registry 尚未聚合；目前只要求 per-run metadata 與 schema 相容。
+- `make eval` 已存在並納入 `make validate`；下一步是把 scorer trace schema 化到與 prediction eval trace 同等嚴格。
+- run trace JSONL registry 尚未聚合；目前只要求 per-run metadata、score report 與 schema 相容。
 - 行為 harness 仍是弱點：生物學正確性與競賽有效性需要 domain review，不應假裝 deterministic check 已覆蓋。
 - Harness coverage 尚未量化；後續可新增「哪些 guide 有對應 sensor」的矩陣檢查。
 

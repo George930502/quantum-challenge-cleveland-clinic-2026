@@ -37,13 +37,13 @@ Editors can use `node_modules/.bin/pyright-langserver --stdio`. VS Code users ca
 1. Download or refresh RCSB artifacts:
 
    ```sh
-   python3 scripts/pipeline/download_allosteric_challenge_rcsb.py
+   python3 -m scripts.pipeline.data_refresh.download_allosteric_challenge_rcsb
    ```
 
 2. Regenerate the derived analysis:
 
    ```sh
-   python3 scripts/pipeline/analyze_allosteric_challenge_datasets.py
+   python3 -m scripts.pipeline.analysis.analyze_allosteric_challenge_datasets
    ```
 
 3. Score current method runs against validation labels after prediction artifacts exist:
@@ -64,7 +64,8 @@ Relevant docs:
 - [docs/agent-harness/navigation/codebase-map.md](docs/agent-harness/navigation/codebase-map.md)
 - [docs/agent-harness/navigation/repository-structure-placement-guide.zh-TW.md](docs/agent-harness/navigation/repository-structure-placement-guide.zh-TW.md)
 - [docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md](docs/agent-harness/workflows/quantum-challenge-harness.zh-TW.md)
+- [docs/agent-harness/workflows/harness-operations-loop.zh-TW.md](docs/agent-harness/workflows/harness-operations-loop.zh-TW.md)
+- [docs/agent-harness/research/deusyu-harness-engineering-alignment.zh-TW.md](docs/agent-harness/research/deusyu-harness-engineering-alignment.zh-TW.md)
 - [docs/agent-harness/research/external-harness-resource-synthesis.zh-TW.md](docs/agent-harness/research/external-harness-resource-synthesis.zh-TW.md)
 - [docs/agent-harness/state/challenge-harness-state.md](docs/agent-harness/state/challenge-harness-state.md)
-- [docs/agent-harness/workflows/codex-large-project-harness.zh-TW.md](docs/agent-harness/workflows/codex-large-project-harness.zh-TW.md)
 - [docs/agent-harness/reviews/code-review-checklist.md](docs/agent-harness/reviews/code-review-checklist.md)

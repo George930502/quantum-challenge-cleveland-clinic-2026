@@ -61,7 +61,7 @@
 | Paper alignment | Every method parameter in metadata has provenance: paper, repo decision, or explicit approximation. |
 | Leakage guard | Prediction runner does not read validation structures, validation ligand-contact CSVs, or validation-derived labels. |
 | Determinism | Repeating a run with the same random seed produces identical hit list and eval trace metrics. |
-| Scoring separation | `scripts/pipeline/score_residue_hit_lists.py` runs after prediction generation and is the first stage allowed to read validation labels. |
+| Scoring separation | `scripts/pipeline/evaluation/score_residue_hit_lists.py` runs after prediction generation and is the first stage allowed to read validation labels. |
 | Benchmark scope | KRAS and BCR-ABL1 get strict scored runs; Cardiac Myosin is reported as exploratory unless validation is resolved. |
 
 ## Verification Status

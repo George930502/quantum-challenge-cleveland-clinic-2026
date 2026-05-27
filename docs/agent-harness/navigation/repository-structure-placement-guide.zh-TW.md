@@ -20,7 +20,7 @@
 | `docs/challenge/` | Challenge statements and challenge-specific constraints. | Agent workflow state. |
 | `docs/research/` | Scientific synthesis and dataset interpretation. | Harness implementation checks. |
 | `docs/agent-harness/` | Agent navigation, workflows, state, schemas, reviews, harness-source synthesis. | General research notes unrelated to agent operation. |
-| `scripts/pipeline/` | Downloader, analyzer, future model/eval pipeline entrypoints. | Harness doc checks. |
+| `scripts/pipeline/` | Grouped scientific workflow modules: data refresh, analysis, baselines, and evaluation. | Harness doc checks or ungrouped one-off scripts. |
 | `scripts/harness/` | Fast repo-maintenance and harness-invariant checks. | RCSB download or scientific analysis logic. |
 | `.codex/` | Codex local environment notes and setup shell. | General scripts or generated outputs. |
 
@@ -28,14 +28,14 @@
 
 | New file type | Location | Naming example |
 | --- | --- | --- |
-| RCSB/data refresh script | `scripts/pipeline/` | `download_allosteric_challenge_rcsb.py` |
-| Derived analysis generator | `scripts/pipeline/` | `analyze_allosteric_challenge_datasets.py` |
-| Future model runner | `scripts/pipeline/` | `run_quantum_walk_baseline.py` |
-| Future scorer/evaluator | `scripts/pipeline/` | `score_residue_hit_lists.py` |
+| RCSB/data refresh script | `scripts/pipeline/data_refresh/` | `download_allosteric_challenge_rcsb.py` |
+| Derived analysis generator | `scripts/pipeline/analysis/` | `analyze_allosteric_challenge_datasets.py` |
+| Future model runner | `scripts/pipeline/baselines/<method>/` | `run_quantum_walk_baseline.py` |
+| Future scorer/evaluator | `scripts/pipeline/evaluation/` | `score_residue_hit_lists.py` |
 | Harness documentation check | `scripts/harness/` | `check_harness_docs.py` |
 | Future repository structure check | `scripts/harness/` | `check_repository_structure.py` |
 
-If pipeline scripts grow shared code, create a package-like subdirectory under `scripts/pipeline/` or move importable code to a future `src/` package with explicit packaging config. Do not place importable libraries directly in repository root.
+Use `python3 -m scripts.pipeline.<group>.<module>` for pipeline entrypoints so subdirectories can import each other through package paths. If shared code grows beyond a few helper imports, create a dedicated `scripts/pipeline/common/` package or move importable code to a future `src/` package with explicit packaging config. Do not place importable libraries directly in repository root.
 
 ## Agent Harness Docs Placement
 

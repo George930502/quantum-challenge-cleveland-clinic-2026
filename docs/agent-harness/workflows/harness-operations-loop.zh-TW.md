@@ -72,10 +72,10 @@ Sensor：
 
 ```sh
 python3 scripts/harness/check_harness_docs.py
-python3 scripts/pipeline/analyze_allosteric_challenge_datasets.py
+python3 -m scripts.pipeline.analysis.analyze_allosteric_challenge_datasets
 ```
 
-後續 scoring harness 完成後，新增 `make eval` 並把它納入 `make validate` 或 release gate。
+`make eval` 已納入 `make validate`；後續若 scorer trace schema 穩定，將 score-report / score-trace 的欄位也納入 deterministic harness check。
 
 ## Loop 3: Harness Research Refresh
 

@@ -1,0 +1,64 @@
+{
+  "run_id": "ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff5p0a__score",
+  "created_at": "2026-05-27T06:11:49.661403+00:00",
+  "dataset_slug": "kras_g12c",
+  "input": {
+    "pdb_id": "4OBE",
+    "chain_id": "A",
+    "graph_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff5p0a/connectivity-matrix.csv",
+    "metadata_paths": [
+      "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff5p0a/method-metadata.json",
+      "analysis/kras_g12c/kras_g12c-validation-ligand-contact-residues-8a.csv"
+    ],
+    "validation_paths_excluded_from_features": [
+      "data/kras_g12c/rcsb/6oim/6OIM.pdb",
+      "data/kras_g12c/rcsb/6oim/6OIM.cif",
+      "data/kras_g12c/rcsb/6oim/6OIM_entry.json",
+      "analysis/kras_g12c/kras_g12c-validation-ligand-contact-residues-8a.csv"
+    ]
+  },
+  "method": {
+    "name": "ohm_atom_contacts_strict__validation_scorer",
+    "version": "0.2.0",
+    "random_seed": null,
+    "parameters": {
+      "top_k": [
+        1,
+        3,
+        5,
+        10,
+        20,
+        50
+      ],
+      "validation_label_cutoff_A": 8.0,
+      "includes_seed_label_overlap": true,
+      "includes_hotspot_same_size_random_enrichment": true,
+      "includes_graph_comparator_baselines": true
+    },
+    "coarse_graining": "post-prediction residue-level and hotspot-level validation scoring",
+    "hardware_assumption": "classical deterministic scorer; validation labels are read only at scoring time"
+  },
+  "outputs": {
+    "connectivity_matrix_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff5p0a/connectivity-matrix.csv",
+    "hit_list_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff5p0a/residue-hit-list.csv",
+    "report_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff5p0a/score-report.json"
+  },
+  "metrics": {
+    "baseline_name": "ohm_atom_contacts_strict",
+    "scoring_status": "scored_against_validation_labels",
+    "top_5_validation_contact_hits": 2,
+    "top_10_validation_contact_hits": 4,
+    "random_baseline_mean": 2.53521127,
+    "average_precision": 0.37763009,
+    "auroc": 0.67321803,
+    "seed_validation_label_overlap_count": 13
+  },
+  "verification": {
+    "command": "python3 -m scripts.pipeline.evaluation.score_residue_hit_lists --runs kras_g12c:ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha1p0_seedcutoff5p0a bcr_abl1:ohm_atom_contacts_strict_custom_bcr_abl1_1000r_alpha1p0_seedcutoff5p0a kras_g12c:ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha1p0_seedcutoff8p0a bcr_abl1:ohm_atom_contacts_strict_custom_bcr_abl1_1000r_alpha1p0_seedcutoff8p0a kras_g12c:ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a bcr_abl1:ohm_atom_contacts_strict_custom_bcr_abl1_1000r_alpha3p0_seedcutoff5p0a kras_g12c:ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff8p0a bcr_abl1:ohm_atom_contacts_strict_custom_bcr_abl1_1000r_alpha3p0_seedcutoff8p0a kras_g12c:ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff5p0a bcr_abl1:ohm_atom_contacts_strict_custom_bcr_abl1_1000r_alpha5p0_seedcutoff5p0a kras_g12c:ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha5p0_seedcutoff8p0a bcr_abl1:ohm_atom_contacts_strict_custom_bcr_abl1_1000r_alpha5p0_seedcutoff8p0a",
+    "exit_code": 0,
+    "warnings": [
+      "Validation labels are intentionally read only by this scorer."
+    ]
+  },
+  "git_commit": "2d1b82779cf6307fb333f504e41007b7e59b160b"
+}

@@ -2,7 +2,7 @@
 
 ## Scope
 
-`analysis/` contains generated outputs from `scripts/pipeline/analyze_allosteric_challenge_datasets.py`, method-run outputs from pipeline runners, plus dataset-specific interpretation notes.
+`analysis/` contains generated outputs from `python3 -m scripts.pipeline.analysis.analyze_allosteric_challenge_datasets`, method-run outputs from pipeline runners, plus dataset-specific interpretation notes.
 
 ## Rules
 
@@ -11,7 +11,7 @@
 - Keep method-run outputs under `analysis/<dataset_slug>/runs/<run_id>/`.
 - Keep cross-dataset summaries in `analysis/cross_dataset/`.
 - Keep filenames stable because docs may reference them.
-- Do not hand-edit method-run outputs; rerun the corresponding `scripts/pipeline/` entrypoint.
+- Do not hand-edit method-run outputs; rerun the corresponding `python3 -m scripts.pipeline...` entrypoint.
 - For scientific interpretation changes, cite the derived summary or source artifact that supports the claim.
 
 ## Verification

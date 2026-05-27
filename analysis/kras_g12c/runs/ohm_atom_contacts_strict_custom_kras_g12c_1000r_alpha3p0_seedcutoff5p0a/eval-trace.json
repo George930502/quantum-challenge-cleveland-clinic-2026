@@ -1,0 +1,64 @@
+{
+  "run_id": "ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a",
+  "created_at": "2026-05-27T06:01:15.107337+00:00",
+  "dataset_slug": "kras_g12c",
+  "input": {
+    "pdb_id": "4OBE",
+    "chain_id": "A",
+    "graph_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a/connectivity-matrix.csv",
+    "metadata_paths": [
+      "data/kras_g12c/rcsb/4obe/4OBE.pdb",
+      "data/kras_g12c/rcsb/4obe/4OBE.cif",
+      "data/kras_g12c/rcsb/4obe/4OBE_entry.json"
+    ],
+    "validation_paths_excluded_from_features": [
+      "data/kras_g12c/rcsb/6oim/6OIM.pdb",
+      "data/kras_g12c/rcsb/6oim/6OIM.cif",
+      "data/kras_g12c/rcsb/6oim/6OIM_entry.json",
+      "analysis/kras_g12c/kras_g12c-validation-ligand-contact-residues-8a.csv"
+    ]
+  },
+  "method": {
+    "name": "ohm_atom_contacts_strict",
+    "version": "0.3.0",
+    "random_seed": 20260525,
+    "parameters": {
+      "rounds": 1000,
+      "random_seed": 20260525,
+      "alpha": 3.0,
+      "atom_contact_cutoff_A": 3.4,
+      "seed_cutoff_A": 5.0,
+      "sequence_adjacent_backbone_contacts": "excluded",
+      "seed_ligands": [
+        "GDP",
+        "MG"
+      ],
+      "hotspot_neighbor_cutoff_A": 4.5,
+      "propagation_probability_formula": "P_ij = 1 - exp(-alpha * C_ij / atom_count_i)",
+      "traversal_semantics": "separate V affected vector and W visited vector; failed propagation still marks the candidate visited",
+      "hotspot_direction_rule": "exclude active-site seed residues, then assign each residue to the higher-ACI neighbor within the hotspot cutoff; tie-break by highest ACI then lowest residue number"
+    },
+    "coarse_graining": "residue-level propagation probabilities from atom-wise contacts using Wang et al. 2020 Eq. 3",
+    "hardware_assumption": "classical paper-reproduction baseline for later quantum-inspired comparison"
+  },
+  "outputs": {
+    "connectivity_matrix_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a/connectivity-matrix.csv",
+    "hit_list_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a/residue-hit-list.csv",
+    "hotspots_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a/hotspots.csv",
+    "hotspot_assignments_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a/residue-hotspot-assignments.csv",
+    "report_path": "analysis/kras_g12c/runs/ohm_atom_contacts_strict_custom_kras_g12c_1000r_alpha3p0_seedcutoff5p0a/method-metadata.json"
+  },
+  "metrics": {
+    "baseline_name": "ohm_atom_contacts_strict",
+    "scoring_status": "not_scored_prediction_stage_only",
+    "strict_scoring_ready": true
+  },
+  "verification": {
+    "command": "python3 scripts/pipeline/run_ohm_like_baseline.py --datasets kras_g12c bcr_abl1 --mode custom --rounds 1000 --seed 20260525 --alpha 3.0 --seed-cutoff-a 5.0",
+    "exit_code": 0,
+    "warnings": [
+      "Validation labels intentionally not read by this prediction runner."
+    ]
+  },
+  "git_commit": "2d1b82779cf6307fb333f504e41007b7e59b160b"
+}

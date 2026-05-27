@@ -27,16 +27,17 @@ Build a reproducible quantum or quantum-inspired allosteric-site discovery workf
 - Active-site seeds for primary Ohm-like runs use input heavy-atom ligand contacts within 5.0 A. KRAS uses `4OBE` chain A residues near `GDP` or `MG`; BCR-ABL1 uses `1OPL` chain A residues near `P16`. An 8.0 A seed cutoff is allowed only as a labeled sensitivity run. Validation labels keep their separate 8.0 A scoring cutoff.
 - Core Ohm propagation now uses Wang et al. Eq. 3: `P_ij = 1 - exp(-alpha * C_ij / atom_count_i)`, alpha 3.0, and separate `V`/`W` traversal semantics. Hotspot clustering uses 4.5 A minimum atom-distance neighbors, excludes active-site seeds for allosteric hotspot reporting, and assigns residues toward higher-ACI neighbors. Older `ohm_like_atom_contacts_strict_*` outputs remain approximation baselines for comparison.
 - 2026-05-27 Ohm full-reproduction verification status: not fully reproduced; current code is `challenge_baseline_scored__paper_pathway_and_correlation_open`. See `docs/agent-harness/reviews/ohm-full-reproduction-verification-2026-05-27.zh-TW.md`.
-- Current Ohm challenge scoring reads validation labels only after prediction artifacts exist. KRAS primary score: residue top-10 hits 4/10, AUROC 0.66850105, AP 0.27342268. BCR-ABL1 primary score: residue top-10 hits 0/10, AUROC 0.51717448, AP 0.10374819; hotspot top-5 covers 27/46 validation residues.
+- Current Ohm challenge scoring reads validation labels only after prediction artifacts exist. The scorer now reports seed-label overlap, non-seed AP/AUROC, hotspot same-size random enrichment, and graph comparator baselines. KRAS primary score: residue top-10 hits 4/10, AUROC 0.66850105, non-seed AP 0.37215865, with 13/49 validation labels overlapping seed residues. BCR-ABL1 primary score: residue top-10 hits 0/10, AUROC 0.51717448, non-seed AP 0.10374819, with 0/46 validation labels overlapping seed residues.
+- 2026-05-27 Ohm sensitivity suite is available through `make ohm-suite` / `scripts/pipeline/baselines/ohm/run_ohm_baseline_suite.py`. The first 1,000-round grid over alpha `{1,3,5}` and seed cutoff `{5,8}` wrote `analysis/cross_dataset/ohm-baseline-suite-summary.csv`; KRAS remains moderately positive, while BCR-ABL1 remains weak at residue top-10 across the grid.
 - 2026-05-27 `deusyu/harness-engineering` alignment: added direct upstream gap audit, Ralph-style operations loop, local pre-commit hook, GitHub Actions fallback, and eval-trace validation inside `make harness-check`.
 
 ## Open Work Packages
 
 | ID | Package | Status | Next action |
 | --- | --- | --- | --- |
-| WP-1 | Baseline graph metrics | In progress | Core Ohm propagation, hotspot clustering, and KRAS/BCR challenge scoring are implemented; BCR residue-ranking weakness requires sensitivity runs or comparator baselines. |
+| WP-1 | Baseline graph metrics | In progress | Core Ohm propagation, hotspot clustering, KRAS/BCR challenge scoring, sensitivity grid, and graph comparator summaries are implemented; BCR residue-ranking weakness remains unresolved. |
 | WP-2 | Quantum-inspired propagation | Not started | Define Hamiltonian or quantum walk over residue contact graph and output connectivity matrix plus hit list. |
-| WP-3 | Scoring harness | In progress | Current scorer emits per-run score reports and score traces; next add aggregate cross-run summary and comparator baselines. |
+| WP-3 | Scoring harness | In progress | Current scorer emits per-run score reports, score traces, seed-label diagnostics, hotspot enrichment, comparator baselines, and aggregate Ohm suite summaries. |
 | WP-4 | Cardiac myosin validation check | Open | Confirm whether 6C1H is accepted by challenge organizers as validation proxy. |
 | WP-5 | Run trace writer | In progress | Prediction-stage eval trace JSON and scoring-stage score trace JSON are emitted per run; next decide whether to aggregate JSONL. |
 

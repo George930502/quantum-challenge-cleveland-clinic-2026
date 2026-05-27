@@ -1,6 +1,6 @@
 {
   "run_id": "ohm_atom_contacts_strict_primary_bcr_abl1_10000r_alpha3p0_seedcutoff5p0a__score",
-  "created_at": "2026-05-27T05:43:59.994698+00:00",
+  "created_at": "2026-05-27T06:19:49.469493+00:00",
   "dataset_slug": "bcr_abl1",
   "input": {
     "pdb_id": "1OPL",
@@ -19,7 +19,7 @@
   },
   "method": {
     "name": "ohm_atom_contacts_strict__validation_scorer",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "random_seed": null,
     "parameters": {
       "top_k": [
@@ -30,7 +30,10 @@
         20,
         50
       ],
-      "validation_label_cutoff_A": 8.0
+      "validation_label_cutoff_A": 8.0,
+      "includes_seed_label_overlap": true,
+      "includes_hotspot_same_size_random_enrichment": true,
+      "includes_graph_comparator_baselines": true
     },
     "coarse_graining": "post-prediction residue-level and hotspot-level validation scoring",
     "hardware_assumption": "classical deterministic scorer; validation labels are read only at scoring time"
@@ -47,14 +50,15 @@
     "top_10_validation_contact_hits": 0,
     "random_baseline_mean": 1.07728337,
     "average_precision": 0.10374819,
-    "auroc": 0.51717448
+    "auroc": 0.51717448,
+    "seed_validation_label_overlap_count": 0
   },
   "verification": {
-    "command": "python3 scripts/pipeline/score_residue_hit_lists.py",
+    "command": "python3 -m scripts.pipeline.evaluation.score_residue_hit_lists",
     "exit_code": 0,
     "warnings": [
       "Validation labels are intentionally read only by this scorer."
     ]
   },
-  "git_commit": "d55edaff68cdd8cd3065e111fabd2a7052def1ff"
+  "git_commit": "2d1b82779cf6307fb333f504e41007b7e59b160b"
 }

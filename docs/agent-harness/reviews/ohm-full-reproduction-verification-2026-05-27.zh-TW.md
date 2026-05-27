@@ -2,13 +2,13 @@
 
 日期：2026-05-27
 
-範圍：比對 `docs/literature/classical-baselines/papers/01_wang_2020_ohm_mapping_allosteric_communications.pdf` 的完整 Ohm 方法，與目前 codespace 中 `scripts/pipeline/run_ohm_like_baseline.py` 及已產生的 KRAS/BCR-ABL1 run outputs。
+範圍：比對 `docs/literature/classical-baselines/papers/01_wang_2020_ohm_mapping_allosteric_communications.pdf` 的完整 Ohm 方法，與目前 codespace 中 `scripts/pipeline/baselines/ohm/run_ohm_like_baseline.py` 及已產生的 KRAS/BCR-ABL1 run outputs。
 
 ## Verdict
 
 目前 codespace **尚未 fully reproduce** Wang et al. 2020 Ohm 的完整方法。
 
-2026-05-27 更新：`scripts/pipeline/run_ohm_like_baseline.py` 已完成核心 paper-alignment slices，將 probability formula 改為 Wang et al. Eq. 3、alpha primary default 改為 3.0，改用 separate `V`/`W` traversal semantics，並加入 4.5 A direction-to-higher-ACI hotspot clustering。`scripts/pipeline/score_residue_hit_lists.py` 已加入挑戰賽 validation-label scorer。新的 primary outputs 使用 `ohm_atom_contacts_strict_*_alpha3p0_*` run id。完整 paper reproduction 仍缺 pathway/critical-residue analysis、pairwise allosteric correlations 與 paper benchmark datasets。
+2026-05-27 更新：`scripts/pipeline/baselines/ohm/run_ohm_like_baseline.py` 已完成核心 paper-alignment slices，將 probability formula 改為 Wang et al. Eq. 3、alpha primary default 改為 3.0，改用 separate `V`/`W` traversal semantics，並加入 4.5 A direction-to-higher-ACI hotspot clustering。`scripts/pipeline/evaluation/score_residue_hit_lists.py` 已加入挑戰賽 validation-label scorer。新的 primary outputs 使用 `ohm_atom_contacts_strict_*_alpha3p0_*` run id。完整 paper reproduction 仍缺 pathway/critical-residue analysis、pairwise allosteric correlations 與 paper benchmark datasets。
 
 ## Paper Method Requirements
 

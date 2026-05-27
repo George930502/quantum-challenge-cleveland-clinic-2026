@@ -22,4 +22,4 @@
 ## Verification
 
 - Run `make typecheck` and `make validate` after script changes.
-- If downloader behavior changes, run `python3 scripts/pipeline/download_allosteric_challenge_rcsb.py` when network access is available, then run `make validate`.
+- If downloader behavior changes, run `python3 -m scripts.pipeline.data_refresh.download_allosteric_challenge_rcsb` when network access is available, then run `make validate`.

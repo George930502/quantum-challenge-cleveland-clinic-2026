@@ -65,8 +65,8 @@ Use when changing downloader/analyzer behavior or adding a dataset.
 Inputs:
 
 - `scripts/AGENTS.md`
-- `scripts/pipeline/analyze_allosteric_challenge_datasets.py`
-- `scripts/pipeline/download_allosteric_challenge_rcsb.py`
+- `scripts/pipeline/analysis/analyze_allosteric_challenge_datasets.py`
+- `scripts/pipeline/data_refresh/download_allosteric_challenge_rcsb.py`
 - `data/<dataset_slug>/rcsb/**/_download_manifest.json`
 
 Required outputs:
@@ -200,7 +200,7 @@ Recommended Codex actions:
 Network-enabled action:
 
 ```sh
-python3 scripts/pipeline/download_allosteric_challenge_rcsb.py
+python3 -m scripts.pipeline.data_refresh.download_allosteric_challenge_rcsb
 ```
 
 Keep this separate from default setup because it refreshes external scientific source artifacts.
@@ -211,7 +211,7 @@ Add these only when the workflow needs them:
 
 - `pytest` tests around graph construction and scoring once modeling scripts exist.
 - A method-run writer that emits JSONL records matching `eval-trace.schema.json`.
-- A `make eval` target after there is at least one deterministic method implementation.
+- Score trace schema validation after scoring outputs stabilize beyond the current `make eval` gate.
 - A lightweight experiment registry under `analysis/<dataset_slug>/runs/`.
 - A repo-local skill for "add challenge dataset" after that workflow repeats at least twice.
 - A guide/sensor coverage matrix once more workflows exist, so every durable rule has either a deterministic check or an explicit human-review owner.

@@ -13,14 +13,24 @@ from pathlib import Path
 from typing import TypedDict
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 ANALYSIS_ROOT = ROOT / "analysis"
 DEFAULT_TOP_K = [1, 3, 5, 10, 20, 50]
+SCORER_VERSION = "0.2.0"
 
 
 class RunSpec(TypedDict):
     dataset_slug: str
     run_id: str
+
+
+class HitRow(TypedDict):
+    rank_all: int
+    rank_non_seed: int | None
+    residue: int
+    resname: str
+    score: float
+    is_seed: bool
 
 
 DEFAULT_RUNS: list[RunSpec] = [
@@ -127,8 +137,41 @@ def ranked_predictions(path: Path) -> list[dict[str, int | str | float]]:
     return sorted(ranked, key=lambda item: (int(item["rank"]), int(item["residue"])))
 
 
+def hit_list_rows(path: Path) -> list[HitRow]:
+    rows: list[HitRow] = []
+    for row in read_csv_rows(path):
+        rows.append(
+            {
+                "rank_all": int(row["rank_all"]),
+                "rank_non_seed": None if row["rank_non_seed"] == "" else int(row["rank_non_seed"]),
+                "residue": int(row["residue"]),
+                "resname": row["resname"],
+                "score": float(row["aci_score"]),
+                "is_seed": row["is_seed"] == "yes",
+            }
+        )
+    return rows
+
+
+def seed_label_metrics(hit_rows: list[HitRow], labels: set[int]) -> dict:
+    seed_residues = sorted(int(row["residue"]) for row in hit_rows if row["is_seed"])
+    seed_label_overlap = sorted(set(seed_residues) & labels)
+    non_seed_residues = sorted(int(row["residue"]) for row in hit_rows if not row["is_seed"])
+    non_seed_labels = sorted(set(non_seed_residues) & labels)
+    return {
+        "seed_residue_count": len(seed_residues),
+        "seed_residues": seed_residues,
+        "seed_validation_label_overlap_count": len(seed_label_overlap),
+        "seed_validation_label_overlap_residues": seed_label_overlap,
+        "non_seed_validation_label_count": len(non_seed_labels),
+        "non_seed_validation_label_residues": non_seed_labels,
+        "validation_labels_excluded_by_seed_fraction": round(len(seed_label_overlap) / len(labels), 8) if labels else 0.0,
+    }
+
+
 def average_precision(ranked: list[dict[str, int | str | float]], positives: set[int]) -> float:
-    if not positives:
+    positive_count = sum(1 for row in ranked if int(row["residue"]) in positives)
+    if positive_count == 0:
         return 0.0
     hits = 0
     precision_sum = 0.0
@@ -137,7 +180,7 @@ def average_precision(ranked: list[dict[str, int | str | float]], positives: set
             continue
         hits += 1
         precision_sum += hits / index
-    return precision_sum / len(positives)
+    return precision_sum / positive_count
 
 
 def auroc(ranked: list[dict[str, int | str | float]], positives: set[int]) -> float | None:
@@ -173,7 +216,7 @@ def top_k_metrics(ranked: list[dict[str, int | str | float]], positives: set[int
     return metrics
 
 
-def hotspot_metrics(path: Path, positives: set[int], top_k_values: list[int]) -> dict | None:
+def hotspot_metrics(path: Path, positives: set[int], ranked_population: set[int], top_k_values: list[int]) -> dict | None:
     if not path.exists():
         return None
     rows = read_csv_rows(path)
@@ -187,19 +230,36 @@ def hotspot_metrics(path: Path, positives: set[int], top_k_values: list[int]) ->
                 "center_residue": int(row["center_residue"]),
                 "center_resname": row["center_resname"],
                 "member_count": int(row["member_count"]),
+                "member_residues": members,
                 "validation_hit_count": len(hit_residues),
                 "validation_hit_residues": hit_residues,
             }
         )
     top_k = {}
+    population_size = len(ranked_population)
+    positive_count = len(ranked_population & positives)
     for cutoff in sorted(set(top_k_values)):
         selected = hotspots[: min(cutoff, len(hotspots))]
-        covered = sorted({residue for hotspot in selected for residue in hotspot["validation_hit_residues"]})
+        covered_members = sorted({residue for hotspot in selected for residue in hotspot["validation_hit_residues"]} & ranked_population)
+        selected_members = sorted({residue for hotspot in selected for residue in hotspot["member_residues"]} & ranked_population)
+        member_count = len(selected_members)
+        expected_random_hits = member_count * positive_count / population_size if population_size else 0.0
+        enrichment = len(covered_members) / expected_random_hits if expected_random_hits > 0.0 else None
+        precision = len(covered_members) / member_count if member_count else 0.0
+        recall = len(covered_members) / positive_count if positive_count else 0.0
+        union_count = len(set(selected_members) | (ranked_population & positives))
+        jaccard = len(covered_members) / union_count if union_count else 0.0
         top_k[f"top_{cutoff}"] = {
             "effective_k": min(cutoff, len(hotspots)),
             "hotspots_with_hits": sum(1 for hotspot in selected if hotspot["validation_hit_count"] > 0),
-            "covered_validation_residue_count": len(covered),
-            "covered_validation_residues": covered,
+            "covered_member_count": member_count,
+            "covered_validation_residue_count": len(covered_members),
+            "covered_validation_residues": covered_members,
+            "expected_random_hits_same_member_count": round(expected_random_hits, 8),
+            "enrichment_vs_same_size_random": None if enrichment is None else round(enrichment, 8),
+            "member_precision": round(precision, 8),
+            "validation_recall": round(recall, 8),
+            "jaccard_vs_validation_labels": round(jaccard, 8),
         }
     return {
         "hotspot_count": len(hotspots),
@@ -221,6 +281,124 @@ def selected_residue_metric(metadata: dict, positives: set[int]) -> dict | None:
     }
 
 
+def read_connectivity(path: Path) -> dict[int, dict[str, float | int]]:
+    metrics: dict[int, dict[str, float | int]] = {}
+    for row in read_csv_rows(path):
+        left = int(row["residue_i"])
+        right = int(row["residue_j"])
+        probability = float(row["propagation_probability"])
+        left_metrics = metrics.setdefault(
+            left,
+            {
+                "weighted_out_degree": 0.0,
+                "weighted_in_degree": 0.0,
+                "unweighted_out_degree": 0,
+                "unweighted_in_degree": 0,
+            },
+        )
+        right_metrics = metrics.setdefault(
+            right,
+            {
+                "weighted_out_degree": 0.0,
+                "weighted_in_degree": 0.0,
+                "unweighted_out_degree": 0,
+                "unweighted_in_degree": 0,
+            },
+        )
+        left_metrics["weighted_out_degree"] = float(left_metrics["weighted_out_degree"]) + probability
+        left_metrics["unweighted_out_degree"] = int(left_metrics["unweighted_out_degree"]) + 1
+        right_metrics["weighted_in_degree"] = float(right_metrics["weighted_in_degree"]) + probability
+        right_metrics["unweighted_in_degree"] = int(right_metrics["unweighted_in_degree"]) + 1
+    return metrics
+
+
+def graph_neighbors(path: Path) -> dict[int, set[int]]:
+    neighbors: dict[int, set[int]] = {}
+    for row in read_csv_rows(path):
+        left = int(row["residue_i"])
+        right = int(row["residue_j"])
+        neighbors.setdefault(left, set()).add(right)
+        neighbors.setdefault(right, set()).add(left)
+    return neighbors
+
+
+def shortest_seed_distances(neighbors: dict[int, set[int]], seeds: set[int]) -> dict[int, int]:
+    distances: dict[int, int] = {}
+    frontier = sorted(seed for seed in seeds if seed in neighbors)
+    for seed in frontier:
+        distances[seed] = 0
+    distance = 0
+    while frontier:
+        distance += 1
+        next_frontier: list[int] = []
+        for residue in frontier:
+            for neighbor in sorted(neighbors.get(residue, set())):
+                if neighbor in distances:
+                    continue
+                distances[neighbor] = distance
+                next_frontier.append(neighbor)
+        frontier = next_frontier
+    return distances
+
+
+def ranked_from_scores(scores: dict[int, float], names: dict[int, str], reverse: bool = True) -> list[dict[str, int | str | float]]:
+    ranked = []
+    key = (lambda item: (-item[1], item[0])) if reverse else (lambda item: (item[1], item[0]))
+    for rank, (residue, score) in enumerate(sorted(scores.items(), key=key), start=1):
+        ranked.append(
+            {
+                "rank": rank,
+                "residue": residue,
+                "resname": names[residue],
+                "score": score,
+            }
+        )
+    return ranked
+
+
+def ranking_summary(ranked: list[dict[str, int | str | float]], positives: set[int], top_k_values: list[int]) -> dict:
+    auroc_value = auroc(ranked, positives)
+    return {
+        "top_k": top_k_metrics(ranked, positives, top_k_values),
+        "average_precision": round(average_precision(ranked, positives), 8),
+        "auroc": None if auroc_value is None else round(auroc_value, 8),
+    }
+
+
+def comparator_metrics(
+    connectivity_path: Path,
+    hit_rows: list[HitRow],
+    positives: set[int],
+    top_k_values: list[int],
+) -> dict:
+    names = {int(row["residue"]): str(row["resname"]) for row in hit_rows if not row["is_seed"]}
+    non_seed_residues = set(names)
+    seeds = {int(row["residue"]) for row in hit_rows if row["is_seed"]}
+    connectivity_metrics = read_connectivity(connectivity_path)
+    neighbors = graph_neighbors(connectivity_path)
+    seed_distances = shortest_seed_distances(neighbors, seeds)
+
+    weighted_out = {residue: float(connectivity_metrics.get(residue, {}).get("weighted_out_degree", 0.0)) for residue in non_seed_residues}
+    weighted_in = {residue: float(connectivity_metrics.get(residue, {}).get("weighted_in_degree", 0.0)) for residue in non_seed_residues}
+    weighted_total = {residue: weighted_out[residue] + weighted_in[residue] for residue in non_seed_residues}
+    unweighted_total = {
+        residue: float(
+            int(connectivity_metrics.get(residue, {}).get("unweighted_out_degree", 0))
+            + int(connectivity_metrics.get(residue, {}).get("unweighted_in_degree", 0))
+        )
+        for residue in non_seed_residues
+    }
+    max_distance = max(seed_distances.values()) if seed_distances else 0
+    seed_distance = {residue: float(seed_distances.get(residue, max_distance + 1)) for residue in non_seed_residues}
+    return {
+        "weighted_out_degree": ranking_summary(ranked_from_scores(weighted_out, names), positives, top_k_values),
+        "weighted_in_degree": ranking_summary(ranked_from_scores(weighted_in, names), positives, top_k_values),
+        "weighted_total_degree": ranking_summary(ranked_from_scores(weighted_total, names), positives, top_k_values),
+        "unweighted_total_degree": ranking_summary(ranked_from_scores(unweighted_total, names), positives, top_k_values),
+        "nearest_seed_graph_distance": ranking_summary(ranked_from_scores(seed_distance, names, reverse=False), positives, top_k_values),
+    }
+
+
 def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) -> dict:
     dataset_slug = spec["dataset_slug"]
     current_run_dir = run_dir(dataset_slug, spec["run_id"])
@@ -233,6 +411,8 @@ def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) ->
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
     labels, labels_by_ligand = validation_residues(dataset_slug)
     ranked = ranked_predictions(hit_list_path)
+    hit_rows = hit_list_rows(hit_list_path)
+    ranked_population = {int(row["residue"]) for row in ranked}
     positive_count_in_ranked = sum(1 for row in ranked if int(row["residue"]) in labels)
     auroc_value = auroc(ranked, labels)
     metrics = {
@@ -240,13 +420,20 @@ def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) ->
         "validation_label_cutoff_A": 8.0,
         "validation_label_count": len(labels),
         "validation_label_residues_by_ligand": labels_by_ligand,
+        "seed_label_overlap": seed_label_metrics(hit_rows, labels),
         "ranked_non_seed_residue_count": len(ranked),
         "positive_count_in_ranked_non_seed": positive_count_in_ranked,
         "top_k": top_k_metrics(ranked, labels, top_k_values),
         "average_precision": round(average_precision(ranked, labels), 8),
         "auroc": None if auroc_value is None else round(auroc_value, 8),
         "selected_allosteric_residue": selected_residue_metric(metadata, labels),
-        "hotspots": hotspot_metrics(hotspots_path, labels, top_k_values),
+        "hotspots": hotspot_metrics(hotspots_path, labels, ranked_population, top_k_values),
+        "graph_comparator_baselines": comparator_metrics(
+            current_run_dir / "connectivity-matrix.csv",
+            hit_rows,
+            labels,
+            top_k_values,
+        ),
     }
     report = {
         "run_id": spec["run_id"],
@@ -273,11 +460,14 @@ def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) ->
         },
         "method": {
             "name": f"{metadata['method']['name']}__validation_scorer",
-            "version": "0.1.0",
+            "version": SCORER_VERSION,
             "random_seed": None,
             "parameters": {
                 "top_k": sorted(set(top_k_values)),
                 "validation_label_cutoff_A": 8.0,
+                "includes_seed_label_overlap": True,
+                "includes_hotspot_same_size_random_enrichment": True,
+                "includes_graph_comparator_baselines": True,
             },
             "coarse_graining": "post-prediction residue-level and hotspot-level validation scoring",
             "hardware_assumption": "classical deterministic scorer; validation labels are read only at scoring time",
@@ -295,9 +485,10 @@ def score_run(spec: RunSpec, top_k_values: list[int], git_commit: str | None) ->
             "random_baseline_mean": metrics["top_k"]["top_10"]["expected_random_hits"] if "top_10" in metrics["top_k"] else 0.0,
             "average_precision": metrics["average_precision"],
             "auroc": metrics["auroc"],
+            "seed_validation_label_overlap_count": metrics["seed_label_overlap"]["seed_validation_label_overlap_count"],
         },
         "verification": {
-            "command": " ".join(["python3", "scripts/pipeline/score_residue_hit_lists.py", *sys.argv[1:]]),
+            "command": " ".join(["python3", "-m", "scripts.pipeline.evaluation.score_residue_hit_lists", *sys.argv[1:]]),
             "exit_code": 0,
             "warnings": ["Validation labels are intentionally read only by this scorer."],
         },

@@ -15,10 +15,17 @@ from typing import Iterable, TypedDict
 
 import numpy as np
 
-from analyze_allosteric_challenge_datasets import DATASETS, heavy_atoms, min_distance, parse_pdb, protein_atoms, rel
+from scripts.pipeline.analysis.analyze_allosteric_challenge_datasets import (
+    DATASETS,
+    heavy_atoms,
+    min_distance,
+    parse_pdb,
+    protein_atoms,
+    rel,
+)
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[4]
 ANALYSIS_ROOT = ROOT / "analysis"
 DATA_ROOT = ROOT / "data"
 
@@ -588,7 +595,7 @@ def dataset_run(dataset_slug: str, args: argparse.Namespace, git_commit: str | N
             "strict_scoring_ready": spec["strict_scoring_ready"],
         },
         "verification": {
-            "command": " ".join(["python3", "scripts/pipeline/run_ohm_like_baseline.py", *sys.argv[1:]]),
+            "command": " ".join(["python3", "-m", "scripts.pipeline.baselines.ohm.run_ohm_like_baseline", *sys.argv[1:]]),
             "exit_code": 0,
             "warnings": ["Validation labels intentionally not read by this prediction runner."],
         },

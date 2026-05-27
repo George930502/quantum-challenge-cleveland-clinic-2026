@@ -14,7 +14,7 @@ from typing import TypedDict, Iterable
 import numpy as np
 
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 ANALYSIS_ROOT = ROOT / "analysis"
 DOCS_ROOT = ROOT / "docs"
 
@@ -908,7 +908,7 @@ def render_cross_report(summaries: list[dict]) -> str:
 
 這份文件是 repo 的資料集入口文件。它整合三個 challenge dataset 的下載來源、檔案維度、結構維度、配體標記、validation contact、residue contact graph，以及資料集之間的比較。
 
-資料由 `scripts/pipeline/download_allosteric_challenge_rcsb.py` 下載，並由 `scripts/pipeline/analyze_allosteric_challenge_datasets.py` 產生分析輸出。
+資料由 `scripts/pipeline/data_refresh/download_allosteric_challenge_rcsb.py` 下載，並由 `scripts/pipeline/analysis/analyze_allosteric_challenge_datasets.py` 產生分析輸出。
 
 ## Dataset Scope
 

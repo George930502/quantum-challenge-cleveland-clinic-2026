@@ -133,8 +133,8 @@ flowchart TD
 
 ### Add Later
 
-- `make eval` once a prediction/scoring script exists.
-- `analysis/<dataset_slug>/runs/*.jsonl` run traces matching `eval-trace.schema.json`.
+- Score trace schema validation once `score-report.json` and `score-trace.json` fields stabilize beyond the current `make eval` gate.
+- Optional `analysis/<dataset_slug>/runs/*.jsonl` aggregation if per-run eval traces become too fragmented.
 - `docs/agent-harness/eval_task_bank.md` with 20-50 concrete tasks after the first method failures are observed.
 - Optional OpenTelemetry-compatible trace fields if method execution starts calling external LLM/agent tools.
 - Optional sandboxed runtime only if batch experiments or agent-created method variants become risky.
